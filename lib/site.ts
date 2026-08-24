@@ -1,6 +1,7 @@
 export const siteConfig = {
   name: "Watt & Wall",
   domain: "wattandwall.com",
+  url: "https://wattandwall.com",
   description:
     "Practical home energy and renovation calculators with transparent formulas and clear assumptions.",
 } as const;

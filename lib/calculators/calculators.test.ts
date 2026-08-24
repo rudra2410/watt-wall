@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { calculateApplianceRunningCost, validateApplianceRunningCostInput } from "./appliance-running-cost";
 import { calculateElectricityCost, validateElectricityCostInput } from "./electricity-cost";
-import { calculateFlooringTile } from "./flooring-tile";
+import { calculateFlooringTile, validateFlooringTileInput } from "./flooring-tile";
 import { formatDecimal, formatUsd, formatUsdRate } from "./formatting";
 import { calculatePaintQuantity, validatePaintQuantityInput } from "./paint-quantity";
 import { CalculatorValidationError } from "./validation";
@@ -76,6 +76,15 @@ describe("renovation formulas", () => {
       adjustedAreaSquareFeet: 132,
       unitsNeeded: 6,
     });
+  });
+
+  it("returns every flooring field error from one shared validator", () => {
+    expect(validateFlooringTileInput({ floorLengthFeet: Number.NaN, floorWidthFeet: -1, coveragePerUnitSquareFeet: 0, wastePercent: 101 })).toEqual([
+      { field: "floorLengthFeet", message: "Enter a number." },
+      { field: "floorWidthFeet", message: "Enter a value greater than zero." },
+      { field: "coveragePerUnitSquareFeet", message: "Enter a value greater than zero." },
+      { field: "wastePercent", message: "Enter a value no greater than 100." },
+    ]);
   });
 });
 

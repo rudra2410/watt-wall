@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CalculatorShell } from "@/components/calculators/calculator-shell";
@@ -6,11 +5,13 @@ import { PaintQuantityCalculator } from "@/components/calculators/paint-quantity
 import { calculators } from "@/data/calculators";
 import { paintQuantityAssumptions, paintQuantityDefaults, paintQuantityExample, paintQuantityFaqs } from "@/data/paint-quantity";
 import { formatDecimal } from "@/lib/calculators/formatting";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Paint Quantity Calculator",
   description: "Estimate wall paint in US gallons and litres from room dimensions, openings, coats, product coverage, and a visible waste allowance.",
-};
+  path: "/calculators/paint-quantity",
+});
 
 const sourceLinkClassName = "rounded-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
@@ -21,6 +22,7 @@ export default function PaintQuantityPage() {
     <CalculatorShell
       category="Renovation calculator"
       description="Estimate wall paint from room dimensions, unpainted doors and windows, number of coats, product coverage, and your chosen waste allowance."
+      path="/calculators/paint-quantity"
       title="Paint Quantity Calculator"
     >
       <PaintQuantityCalculator />

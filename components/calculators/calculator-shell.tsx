@@ -2,17 +2,21 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Container } from "@/components/layout/container";
+import { BreadcrumbJsonLd } from "@/components/seo/structured-data";
+import { siteConfig } from "@/lib/site";
 
 type CalculatorShellProps = {
   category: string;
   title: string;
   description: string;
+  path: string;
   children: ReactNode;
 };
 
-export function CalculatorShell({ category, title, description, children }: CalculatorShellProps) {
+export function CalculatorShell({ category, title, description, path, children }: CalculatorShellProps) {
   return (
     <main id="main-content">
+      <BreadcrumbJsonLd items={[{ name: "Home", url: siteConfig.url }, { name: "Calculators", url: `${siteConfig.url}/calculators` }, { name: title, url: `${siteConfig.url}${path}` }]} />
       <Container className="py-12 sm:py-16 lg:py-20">
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">

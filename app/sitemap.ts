@@ -1,0 +1,24 @@
+import type { MetadataRoute } from "next";
+
+import { calculators } from "@/data/calculators";
+import { siteConfig } from "@/lib/site";
+
+const lastModified = new Date("2026-08-24T00:00:00.000Z");
+const staticPaths = ["/", "/calculators", "/methodology", "/about", "/contact", "/privacy", "/terms", "/disclaimer"] as const;
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    ...staticPaths.map((path) => ({
+      url: `${siteConfig.url}${path === "/" ? "" : path}`,
+      lastModified,
+      changeFrequency: path === "/" ? "weekly" as const : "monthly" as const,
+      priority: path === "/" ? 1 : 0.7,
+    })),
+    ...calculators.map((calculator) => ({
+      url: `${siteConfig.url}${calculator.href}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+  ];
+}

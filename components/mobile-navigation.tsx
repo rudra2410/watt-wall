@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { NavigationLinks } from "@/components/navigation-links";
-import { ThemeSelect } from "@/components/theme-select";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +79,7 @@ export function MobileNavigation() {
               />
             </nav>
             <div className="flex flex-wrap items-end justify-between gap-4 border-t border-border pt-5">
-              <ThemeSelect compact id="theme-preference-mobile" />
+              <ThemeToggle />
               <Link
                 className={cn(buttonVariants(), "grow sm:grow-0")}
                 href="/calculators"

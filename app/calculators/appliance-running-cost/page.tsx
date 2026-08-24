@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ApplianceRunningCostCalculator } from "@/components/calculators/appliance-running-cost-calculator";
@@ -6,11 +5,13 @@ import { CalculatorShell } from "@/components/calculators/calculator-shell";
 import { applianceRunningCostAssumptions, applianceRunningCostDefaults, applianceRunningCostExample, applianceRunningCostFaqs } from "@/data/appliance-running-cost";
 import { calculators } from "@/data/calculators";
 import { formatDecimal, formatUsd, formatUsdRate } from "@/lib/calculators/formatting";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Appliance Running Cost Calculator",
   description: "Estimate one appliance's monthly and annual electricity use and running cost from wattage, active time, and your local USD price per kWh.",
-};
+  path: "/calculators/appliance-running-cost",
+});
 
 const sourceLinkClassName = "rounded-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
@@ -21,6 +22,7 @@ export default function ApplianceRunningCostPage() {
     <CalculatorShell
       category="Energy calculator"
       description="Estimate the monthly and annual electricity cost of one appliance using its wattage, your active-use schedule, and your local electricity price."
+      path="/calculators/appliance-running-cost"
       title="Appliance Running Cost Calculator"
     >
       <ApplianceRunningCostCalculator />

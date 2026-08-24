@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-
 import { CalculatorCard } from "@/components/calculators/calculator-card";
 import { Container } from "@/components/layout/container";
 import { calculatorCategories, calculators } from "@/data/calculators";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Home Energy and Renovation Calculators",
   description: "Browse transparent calculators for electricity costs, appliance running costs, paint quantities, flooring, and tile.",
-};
+  path: "/calculators",
+});
 
 export default function CalculatorsPage() {
   return (

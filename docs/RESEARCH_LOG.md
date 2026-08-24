@@ -536,6 +536,183 @@ Status: Complete.
 - Light and Dark Mode preserve questions, answers, layout, and disclosure state while applying the correct semantic colors. The browser console reported no warnings or errors.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test` (7/7), `pnpm build`, and `git diff --check` passed. `/` remains statically prerendered.
 
+## Stage 15 — Flooring/Tile Calculator (August 24, 2026)
+
+### Existing-file and component audit
+
+- Reviewed the shared `CalculatorShell`, `CalculatorPageIntro`, `CalculatorDetails`, `CalculatorFaq`, `RelatedCalculators`, `SiteHeader`, `SiteFooter`, theme controls, form primitives, calculator formatting helpers, shared validation errors, route metadata, and the existing Electricity, Appliance, and Paint calculator patterns before implementation.
+- Reviewed the current calculator test conventions and confirmed the new route can remain server-rendered with a small client-only widget for controlled inputs, live results, reset, and clipboard feedback.
+
+### Focused research sequence
+
+1. Home Depot tile backsplash guide: https://www.homedepot.com/c/ah/how-to-install-a-tile-backsplash/9ba683603be9fa5395fab9046ad9c25 — measure area and add 10%.
+2. Home Depot tile layout guide: https://www.homedepot.com/c/ah/how-to-lay-out-tile/9ba683603be9fa5395fab9035335ddf — length × width, split L-shapes into rectangles, and plan waste.
+3. Lowe's project planner: https://www.lowes.com/pdf/project-planner.pdf — multiply dimensions, add 10%, then divide by coverage per carton.
+4. Lowe's luxury vinyl guide: https://www.lowes.com/n/how-to/install-luxury-vinyl-tile-flooring — use product/carton coverage and buy extra material.
+5. Lowe's flooring Q&A: https://www.lowes.com/questions/natural-floors-609ln-hardwood-flooring/1135393/88dbf022-c79f-5719-b6dd-fd31a4d76720 — diagonal layouts can require more waste.
+6. Lowe's product coverage Q&A: https://www.lowes.com/questions/style-selections-lwd21615rc7-vinyl-plank/5016711589/3de34bc7-b09e-5415-8f5b-7f184980f6b8 — carton coverage varies by product.
+7. Home Depot installation PDF: https://www.homedepot.com/catalog/pdfImages/4c/4c4e55bb-3792-4c1b-a74a-c95fcd9a33e3.pdf — minimum extra material guidance.
+8. Home Depot pattern PDF: https://www.homedepot.com/catalog/pdfImages/26/26f0afe6-b7f6-49bf-a1c1-63a5785d7f97.pdf — pattern overage can exceed straight-layout waste.
+9. Mullican flooring guide: https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf — straight and diagonal waste ranges plus repair cartons.
+10. Lowe's installation guide: https://pdf.lowes.com/installationguides/1003073996_install.pdf — 10% standard and 15% diagonal example.
+11. W3C form labels: https://www.w3.org/WAI/tutorials/forms/labels/ — every numeric control receives a programmatic label.
+12. W3C form validation and notifications: https://www.w3.org/WAI/tutorials/forms/validation/ and https://www.w3.org/WAI/tutorials/forms/notifications/ — inline errors and polite result/status announcements.
+
+### Chosen approach
+
+- Support a simple rectangular estimate with length, width, product coverage per unit, and an editable 0–100% waste allowance (default 10%). Calculate required area, waste area, adjusted area, then `Math.ceil(adjusted area / coverage per unit)`.
+- Keep coverage as a user-entered product value because cartons, packs, sheets, and tiles vary. Show units as a generic purchase unit and state that the product listing is authoritative.
+- Keep the estimate transparent: formula, worked example, assumptions, source links, visible waste/rounding, and a limitation for L-shaped, diagonal, fixture-heavy, or otherwise complex layouts.
+- Use semantic fieldsets/legends, visible labels, inline errors with `aria-describedby`, a polite live output, and a small client component inside a server-rendered route. Defer SoftwareApplication structured data to Stage 17 after the page family and metadata audit.
+
+### Rejected alternatives
+
+- **Fixed 10% only:** rejected because official retailer/manufacturer guidance varies by product and layout.
+- **Hidden waste or a single “boxes” input:** rejected because users need to inspect and adjust the assumption and coverage value.
+- **L-shaped/diagonal geometry in v1:** rejected because it would add complexity and false precision; the page instead explains how to split complex areas and consult product instructions.
+- **Client-rendering the whole route or adding schema immediately:** rejected to preserve crawlable content and keep structured-data work consistent with the later SEO audit.
+
+### Implementation and verification evidence
+
+- Added `lib/calculators/flooring-tile.ts` validation/math, data copy in `data/flooring-tile.ts`, the accessible client widget, and `/calculators/flooring-tile` with metadata, formula, example, assumptions, FAQs, sources, limitations, and related calculators.
+- Added a regression test covering all four field-level validation errors; the full suite now passes 26/26 tests.
+- Browser interaction checks confirmed default 6-unit output, live updates after edits, invalid-field hiding, reset, clipboard feedback, and disabled copy when invalid.
+- Light and Dark Mode produced distinct body surfaces with identical live estimate content. Responsive checks at 1440×900, 768×900, and 320×800 showed the two-column-to-stacked layout and zero horizontal overflow. Mobile full-page visual review covered the complete route through the footer. No browser warning/error logs were reported.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` passed; the route is statically generated. `git diff --check` was run for tracked edits.
+
+## Stage 16 — Trust, legal, and company pages (August 24, 2026)
+
+### Existing-file and behavior audit
+
+- Audited the PRD route map and AdSense-readiness requirements, the shared root layout, header/footer navigation, site configuration, calculator registry, existing trust section, calculator disclaimer links, theme persistence, and the absence of a server/API/contact-form layer.
+- Confirmed the current prototype has no database, account system, analytics package, advertising tag, contact submission endpoint, or server-side calculator input handling. The theme preference may be kept in browser local storage by the existing theme library, and Copy Result uses the browser clipboard only after a user action.
+- Confirmed `/methodology`, `/about`, `/contact`, `/privacy`, `/terms`, and `/disclaimer` were approved in the PRD and already discoverable from shared navigation, but had no route files.
+
+### Focused research sequence
+
+1. Google Publisher Policies: https://support.google.com/adsense/answer/10502938 — privacy policy must disclose data collection, sharing, usage, and advertising technologies; avoid deceptive claims.
+2. Google AdSense cookie guidance: https://support.google.com/adsense/answer/7549925 — publishers must clearly display a privacy policy explaining cookies when ads are used.
+3. Google CMP setup: https://support.google.com/adsense/answer/7670013 — EEA, UK, and Swiss traffic requires appropriate disclosures and consent for cookies/local storage and personalized advertising where applicable.
+4. Google European regulations messages: https://support.google.com/adsense/answer/10961068 — users need a way to revisit and adjust consent choices.
+5. Google certified CMP requirements: https://support.google.com/adsense/answer/13554116 — personalized ads in covered regions require a Google-certified TCF CMP.
+6. Google helpful content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content — explain who created content and provide background about the site.
+7. ICO informed-rights checklist: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/the-right-to-be-informed/checklists/ — identify the organization, purposes, recipients, retention, rights, and complaint route in clear language when applicable.
+8. ICO privacy notice checklist: https://ico.org.uk/media/for-organisations/documents/1625126/privacy-notice-checklist.pdf — map actual data flows before promising what a privacy notice says.
+9. ICO cookies guidance: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/ — non-essential cookies require clear information and valid consent; advertising cookies are not strictly necessary.
+10. FTC privacy and security: https://consumer.ftc.gov/business-guidance/privacy-security — privacy promises must match the business’s actual handling.
+11. FTC clear privacy claims: https://search.ftc.gov/business-guidance/blog/2011/12/lessons-facebook-settlement-even-if-youre-not-facebook — keep privacy language clear, direct, and evidence-backed.
+12. W3C forms tutorial: https://www.w3.org/WAI/tutorials/forms/ — use labels, grouping, instructions, and feedback if a form is introduced.
+13. W3C accessible labels: https://www.w3.org/WAI/tutorials/forms/labels/ — controls need explicit, meaningful labels.
+14. W3C page headings: https://www.w3.org/WAI/tutorials/page-structure/headings/ — use a clear H1/H2 structure and labelled regions.
+15. W3C link purpose: https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html — links should identify their destination from text or context.
+16. Google crawlable links and internal structure: https://developers.google.com/search/docs/crawling-indexing/links-crawlable — use real anchors with `href` and ensure every important page has an internal link.
+
+### Chosen approach
+
+- Add one shared server-rendered `TrustPageShell` with breadcrumb, one H1, readable `max-w-3xl` content, semantic H2 sections, theme tokens, and the project’s existing focus treatment.
+- Implement six original pages: Methodology, About, Contact, Privacy Policy, Terms of Use, and Estimate Disclaimer. Keep page copy specific to actual site behavior and avoid unsupported author, legal, security, accuracy, approval, revenue, or professional-endorsement claims.
+- Use an email link to `hello@wattandwall.com` as the honest static-prototype contact mechanism. Do not add a form, claim delivery, promise a response time, or imply that the mailbox was tested from the website.
+- State current behavior separately from future advertising behavior: no advertising or analytics tag is installed in the prototype; before AdSense or other non-essential tracking is added, the privacy notice and required consent flow must be updated to match the actual vendors and regions.
+- Use visible effective/review dates, source links where relevant, plain-language limitations, and cross-links among Methodology, Privacy, Terms, Disclaimer, About, and Contact. Keep pages crawlable and fully server-rendered.
+
+### Rejected alternatives
+
+- **A contact form or Server Action:** rejected because no backend, mailbox integration, validation, spam handling, retention process, or tested delivery path exists.
+- **Claiming “we never collect data” or “completely secure”:** rejected because browser requests, theme local storage, email providers, and future third-party services make those absolute claims too broad.
+- **Publishing a generic copied legal template:** rejected because privacy and terms must describe actual behavior and future changes rather than create false legal certainty.
+- **Adding an ad/cookie banner before ads or a consent vendor exists:** rejected because the prototype does not currently set advertising cookies and a non-functional consent control would be misleading.
+- **Inventing an individual author, qualifications, testimonials, ratings, or company registration:** rejected because the project has no verified evidence for those claims.
+
+### Implementation and verification evidence
+
+- Added `components/trust-page-shell.tsx` plus the six route pages with unique metadata, descriptive H1s, breadcrumbs, readable sections, factual notes, internal links, source links, and no placeholders.
+- Browser checks returned HTTP-rendered page state for all six routes: one `main`, one H1, unique titles, expected links, and zero horizontal overflow. The contact and privacy pages expose the intended `mailto:hello@wattandwall.com` link without a form submission path.
+- Light and Dark Mode produced distinct body surfaces while preserving the same content. Responsive checks at 1440×900, 768×900, and 320×800 kept readable widths and zero overflow; a full-page 320px visual review covered Methodology through the shared footer. Browser warning/error logs were empty.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (26/26), and `pnpm build` passed. The production build statically prerendered all 15 application routes.
+
+## Stage 17 — SEO, social metadata, and structured data (August 24, 2026)
+
+### Existing-file and framework audit
+
+- Audited the root layout metadata, all route-level titles/descriptions, `siteConfig`, calculator registry, visible breadcrumbs, favicon, public assets, and the absence of robots, sitemap, Open Graph, Twitter, canonical, and JSON-LD files.
+- Read the installed Next.js metadata, sitemap, robots, JSON-LD, icon, and Open Graph image guides before implementation. The app uses Server Components for metadata and static content, so no client boundary is needed for this stage.
+- Confirmed the approved domain in the project configuration is `https://wattandwall.com`; the production hostname must be confirmed again before launch if the custom domain changes.
+
+### Focused research sequence
+
+1. Google title links: https://developers.google.com/search/docs/appearance/title-link — every page needs a concise, descriptive, distinct title.
+2. Google snippets/meta descriptions: https://developers.google.com/search/docs/appearance/snippet — descriptions should be unique, relevant summaries; Google may choose page content instead.
+3. Google canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization — canonical URLs are hints that should agree with the preferred site version.
+4. Google canonical methods: https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls — `rel=canonical`, redirects, and sitemap inclusion can reinforce the preferred URL.
+5. Google sitemap build guide: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap — use absolute URLs, root placement, and only URLs intended for search.
+6. Google site names: https://developers.google.com/search/docs/appearance/site-names — keep the Watt & Wall name consistent and non-misleading across page content and metadata.
+7. Google Organization structured data: https://developers.google.com/search/docs/appearance/structured-data/organization — organization markup belongs on the home/about context and should include only applicable details.
+8. Google structured-data policies: https://developers.google.com/search/docs/appearance/structured-data/sd-policies — JSON-LD must represent visible, complete, original content and does not guarantee a rich result.
+9. Google structured-data introduction: https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data — JSON-LD is the recommended maintainable format.
+10. Google business details: https://developers.google.com/search/docs/appearance/establish-business-details — official site, logo, Search Console, and breadcrumb signals help disambiguate an organization.
+11. Open Graph protocol: https://ogp.me/ — share cards need consistent title, type, URL, and representative image properties.
+12. Next.js metadata and OG guide: https://nextjs.org/docs/app/getting-started/metadata-and-og-images — use metadata APIs and file conventions for head tags and generated share images.
+
+### Chosen approach
+
+- Add `createPageMetadata` so every indexable route has a unique description, relative canonical, Open Graph title/description/URL/site name/image, and Twitter `summary_large_image` data while inheriting the configured HTTPS metadata base.
+- Add cached Next.js `robots.ts`, `sitemap.ts`, generated `opengraph-image.tsx`, `twitter-image.tsx`, and a branded `icon.svg`. The sitemap includes only the home, directory, four calculators, and six trust/company routes with absolute URLs and a fixed review date.
+- Add visible-content-aligned Organization and WebSite JSON-LD to the home page, and BreadcrumbList JSON-LD to calculator and trust pages. Do not add SoftwareApplication or FAQ schema because the current pages do not need unsupported rich-result expectations and the content should remain the source of truth.
+- Use escaped JSON-LD (`<` replaced with `\\u003c`) and no unverified social profiles, physical address, registration number, ratings, reviews, or claims of Google approval.
+
+### Rejected alternatives
+
+- **One generic title/description on every route:** rejected because Google recommends distinct page-specific titles and descriptions.
+- **Relative URLs in sitemap or a guessed production hostname:** rejected because sitemap entries should be absolute and the custom domain must be verified before launch.
+- **Fake Organization address, sameAs profiles, phone number, or logo claims:** rejected because no verified public business details were supplied.
+- **SoftwareApplication JSON-LD on every calculator:** rejected because Google’s feature has required properties and structured data must reflect the visible page; the current planning tools do not need app-rich-result markup.
+- **Keyword-stuffed metadata or hidden schema:** rejected because it would be misleading and conflict with people-first and structured-data policies.
+
+### Implementation and verification evidence
+
+- Added `lib/seo.ts`, `components/seo/structured-data.tsx`, `app/robots.ts`, `app/sitemap.ts`, `app/opengraph-image.tsx`, `app/twitter-image.tsx`, and `app/icon.svg`; updated root and all route metadata to use canonical/share metadata.
+- Browser head inspection on `/` confirmed the expected title, description, HTTPS canonical, Open Graph fields, Twitter card fields, branded icon links, and Organization/WebSite JSON-LD. Calculator inspection confirmed its route-specific canonical, share URL/title, and BreadcrumbList JSON-LD; privacy inspection confirmed its own canonical.
+- Browser endpoint checks returned HTTP 200 and correct content types for `/robots.txt`, `/sitemap.xml`, `/opengraph-image`, `/twitter-image`, and `/icon.svg`. The browser console reported no warnings or errors.
+- Added metadata and site-configuration regression tests; the suite now passes 27/27 tests. `pnpm lint`, `pnpm typecheck`, and `pnpm build` pass, with 20 static build outputs including metadata endpoints.
+
+## Stage 18 — Final quality and AdSense-readiness audit (August 24, 2026)
+
+### Final audit research sequence
+
+1. Google AdSense ad placement: https://support.google.com/adsense/answer/1346295 — future ads must remain distinguishable from navigation, buttons, and content to avoid accidental clicks.
+2. Google Publisher Policies: https://support.google.com/adsense/answer/10502938 — do not serve ads on low-value, under-construction, navigation-only, or misleading screens.
+3. Google low-value inventory guidance: https://support.google.com/publisherpolicies/answer/11112688 — useful publisher content must remain the focal point.
+4. Google people-first content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content — original, complete, useful explanations are preferred over search-first filler.
+5. Google AdSense program policies: https://support.google.com/adsense/answer/48182 — do not use deceptive navigation, false claims, or ad layouts that imitate actions.
+6. Google site approval guidance: https://support.google.com/adsense/answer/81904 — launch with sufficient text, complete navigation, original content, and no under-construction/template-only experience.
+7. Google page experience: https://developers.google.com/search/docs/appearance/page-experience — review mobile usability, secure delivery, intrusive interstitials, ads, and overall page experience.
+8. Core Web Vitals: https://web.dev/articles/vitals — target LCP ≤2.5s, INP ≤200ms, and CLS ≤0.1 at the 75th percentile; local checks do not replace field data.
+9. WCAG reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow — preserve information and functionality at a 320 CSS-pixel equivalent without two-dimensional scrolling.
+10. WCAG 2.2: https://www.w3.org/TR/wcag/ — retain meaningful headings, visible focus, reflow, contrast, and keyboard access.
+11. MDN reduced motion: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion — honor a user’s reduced-motion preference for non-essential transitions.
+12. Google consent requirements: https://support.google.com/adsense/answer/13554020 — configure a certified TCF CMP before personalized ads serve to EEA, UK, or Swiss visitors.
+
+### Audit findings and decisions
+
+- All current public pages contain publisher content, explanatory paragraphs, formulas/assumptions where relevant, and crawlable internal navigation. No ad code, ads.txt, ad labels, interstitials, or ad-like placeholder exists in the prototype.
+- Keep the current “no ads before approval” state. When ads are introduced, reserve fixed-size slots, label them only as permitted, keep distance from controls/navigation, and implement the actual privacy/CMP behavior before serving covered traffic.
+- Treat current Core Web Vitals as unverified field metrics: the static build, minimal client boundaries, `next/font`, no analytics, and no images on content pages are favorable implementation signals, but production HTTPS and PageSpeed/Search Console measurements remain launch checks.
+- The quality target in the PRD calls for at least eight high-quality calculators or equivalent depth before an AdSense application; the prototype currently has four complete calculator pages. This is a launch-readiness gap, not something to conceal with thin generated pages.
+
+### Verification evidence
+
+- Browser-audited all 12 public content routes at 320×800: each returned one `main`, exactly one H1, a unique title, a route-specific HTTPS canonical, meaningful rendered body text, and zero horizontal overflow.
+- Desktop and Dark Mode spot checks at 1440×900 for home, Electricity, and Privacy preserved content, H1s, semantic surfaces, and zero overflow. The browser console reported no warnings or errors after the full route run.
+- Browser endpoint checks returned 200 for `/robots.txt`, `/sitemap.xml`, `/opengraph-image`, `/twitter-image`, and `/icon.svg`; sitemap URLs are absolute and limited to current public content routes.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (27/27), `pnpm build`, and `git diff --check` passed. The production build statically prerendered the content routes and metadata endpoints.
+
+### Remaining pre-launch actions (not falsely claimed as complete)
+
+- Provision and verify the custom-domain mailbox represented by `hello@wattandwall.com` before publishing the contact address as an operational support channel.
+- Deploy to the verified HTTPS custom domain and re-check metadata, robots, sitemap, canonical URLs, and generated images from production.
+- Add only the exact AdSense verification/ad code and `ads.txt` values from the approved account; configure the required certified CMP and update Privacy Policy before ads serve.
+- Expand to the PRD’s internal eight-calculator quality target or document an equivalent depth of original useful content before requesting AdSense review.
+
 ## Stage 12 — Electricity Cost Calculator
 
 Date: 2026-08-22  

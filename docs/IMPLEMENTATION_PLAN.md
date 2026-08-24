@@ -280,7 +280,7 @@ The work flows in one direction:
 | 12. Electricity Cost Calculator | Complete | 15 focused searches; shared formula-backed validation, live accessible results, copy/reset, original sourced guidance, both themes, three viewports, and all engineering gates pass |
 | 13. Appliance Running Cost Calculator | Complete | 12 focused searches; watts-only formula-backed form, precise rate display, plain-English interpretation, accessible states/actions, both themes, three viewports, and all engineering gates pass |
 | 14. Paint Quantity Calculator | Complete | 12 focused searches; grouped formula-backed inputs, sourced opening/coverage assumptions, transparent waste and rounding, both themes, three viewports, and all engineering gates pass |
-| 15. Flooring/Tile Calculator | Pending | — |
-| 16. Trust/legal/company pages | Pending | — |
-| 17. SEO/social metadata | Pending | — |
-| 18. Final audit | Pending | — |
+| 15. Flooring/Tile Calculator | Complete | 12 focused searches; rectangle formula with editable coverage and waste, visible rounding/limitations, both themes, three viewports, and all engineering gates pass |
+| 16. Trust/legal/company pages | Complete | 16 focused searches; six original server-rendered pages, factual privacy/contact behavior, accessible readable layout, both themes, responsive browser QA, and production build pass |
+| 17. SEO/social metadata | Complete | 12 focused searches; metadata helper, canonical URLs, Open Graph/Twitter images, branded icon, robots, sitemap, Organization/WebSite/Breadcrumb JSON-LD, browser head checks, and production build pass |
+| 18. Final audit | Complete | 12 focused searches; 12-route mobile audit, desktop/dark-mode spot checks, zero overflow, unique H1/canonicals, empty browser error logs, and final engineering gates pass |

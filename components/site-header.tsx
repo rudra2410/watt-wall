@@ -4,7 +4,7 @@ import { Container } from "@/components/layout/container";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { NavigationLinks } from "@/components/navigation-links";
 import { SiteLogo } from "@/components/site-logo";
-import { ThemeSelect } from "@/components/theme-select";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 
 export function SiteHeader() {
@@ -17,7 +17,7 @@ export function SiteHeader() {
           <nav aria-label="Primary">
             <NavigationLinks className="items-center gap-1" />
           </nav>
-          <ThemeSelect compact id="theme-preference-desktop" />
+          <ThemeToggle />
           <Link className={buttonVariants()} href="/calculators">
             Browse calculators
           </Link>

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ElectricityCostCalculator } from "@/components/calculators/electricity-cost-calculator";
@@ -6,13 +5,15 @@ import { CalculatorShell } from "@/components/calculators/calculator-shell";
 import { electricityCostAssumptions, electricityCostDefaults, electricityCostExample, electricityCostFaqs } from "@/data/electricity-cost";
 import { calculators } from "@/data/calculators";
 import { formatDecimal, formatUsd, formatUsdRate } from "@/lib/calculators/formatting";
+import { createPageMetadata } from "@/lib/seo";
 
 const sourceLinkClassName = "rounded-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Electricity Cost Calculator",
   description: "Estimate daily, monthly, and annual electricity use and cost from power, active hours, days, and your local USD price per kWh.",
-};
+  path: "/calculators/electricity-cost",
+});
 
 export default function ElectricityCostPage() {
   const relatedCalculators = calculators.filter((calculator) => calculator.slug === "appliance-running-cost" || calculator.slug === "paint-quantity");
@@ -21,6 +22,7 @@ export default function ElectricityCostPage() {
     <CalculatorShell
       category="Energy calculator"
       description="Estimate how much electricity a device uses and what that usage could cost over an active day, month, and year using your own schedule and local rate."
+      path="/calculators/electricity-cost"
       title="Electricity Cost Calculator"
     >
       <ElectricityCostCalculator />
