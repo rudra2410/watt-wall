@@ -4,6 +4,7 @@ export type IconName =
   | "arrow-right"
   | "bolt"
   | "check"
+  | "chevron-down"
   | "close"
   | "grid"
   | "mail"
@@ -34,6 +35,7 @@ export function Icon({ name, className }: IconProps) {
       {name === "arrow-right" ? <path d="M5 12h13m-6-6 6 6-6 6" /> : null}
       {name === "bolt" ? <path d="m13 2-8 11h7l-1 9 8-11h-7l1-9Z" /> : null}
       {name === "check" ? <path d="m5 12 4 4L19 6" /> : null}
+      {name === "chevron-down" ? <path d="m6 9 6 6 6-6" /> : null}
       {name === "close" ? <path d="m6 6 12 12M18 6 6 18" /> : null}
       {name === "grid" ? <><rect height="18" rx="1.5" width="18" x="3" y="3" /><path d="M12 3v18M3 12h18" /></> : null}
       {name === "mail" ? <><rect height="14" rx="2" width="18" x="3" y="5" /><path d="m4 7 8 6 8-6" /></> : null}

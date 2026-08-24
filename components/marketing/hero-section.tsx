@@ -26,7 +26,6 @@ export function HeroSection() {
       className="relative isolate overflow-hidden bg-background py-14 sm:py-20 lg:py-24"
     >
       <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-44 size-[34rem] rounded-full bg-primary/5 blur-3xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-52 left-1/3 size-[28rem] rounded-full border border-primary/10" />
       <Container className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(23rem,0.92fr)] lg:gap-16">
         <div className="relative max-w-[44rem]">
           <p className="mb-5 flex items-center gap-2 text-sm leading-5 font-semibold tracking-[0.14em] text-primary uppercase">

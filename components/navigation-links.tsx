@@ -32,8 +32,8 @@ export function NavigationLinks({
             <Link
               aria-current={isCurrent ? "page" : undefined}
               className={cn(
-                "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-muted-foreground outline-none transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none",
-                isCurrent && "bg-accent text-accent-foreground",
+                "inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-muted-foreground outline-none transition-colors duration-150 hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none",
+                isCurrent && "text-accent-foreground",
                 linkClassName,
               )}
               href={item.href}
