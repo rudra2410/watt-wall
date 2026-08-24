@@ -3,11 +3,12 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { CalculatorIcon } from "@/components/marketing/calculator-icon";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { Icon } from "@/components/ui/icon";
 import { calculatorCategories, calculators } from "@/data/calculators";
 
 export function CalculatorCategoriesSection() {
   return (
-    <nav aria-labelledby="calculator-categories-title" className="py-16 sm:py-20 lg:py-24">
+    <nav aria-labelledby="calculator-categories-title" className="bg-card-section py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeading
           description="Start with the kind of decision you are making, then choose a focused calculator for the values you already know."
@@ -37,9 +38,7 @@ export function CalculatorCategoriesSection() {
                         href={calculator.href}
                       >
                         <span>{calculator.name}</span>
-                        <svg aria-hidden="true" className="size-4 shrink-0 text-primary" fill="none" viewBox="0 0 24 24">
-                          <path d="m9 18 6-6-6-6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-                        </svg>
+                        <Icon className="size-4 text-primary" name="arrow-right" />
                       </Link>
                     </li>
                   ))}

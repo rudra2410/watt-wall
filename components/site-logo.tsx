@@ -16,7 +16,7 @@ export function SiteLogo() {
         height={144}
         priority
       />
-      <span className="text-lg">Watt &amp; Wall</span>
+      <span className="text-lg">Watt and Wall</span>
     </Link>
   );
 }

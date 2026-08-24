@@ -31,7 +31,7 @@ export default function TermsPage() {
       </TrustSection>
 
       <TrustSection title="Questions and changes">
-        <p>Questions or correction requests can be sent to <TrustLink href="mailto:hello@wattandwall.com">hello@wattandwall.com</TrustLink>. We may update these terms when the site’s behavior or scope changes. The effective date at the top identifies the current version.</p>
+        <p>Questions or correction requests can be sent to <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink>. We may update these terms when the site’s behavior or scope changes. The effective date at the top identifies the current version.</p>
       </TrustSection>
     </TrustPageShell>
   );

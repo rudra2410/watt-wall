@@ -5,7 +5,7 @@ import { calculators } from "@/data/calculators";
 
 export function FeaturedCalculatorsSection() {
   return (
-    <section aria-labelledby="featured-calculators-title" className="py-16 sm:py-20 lg:py-24">
+    <section aria-labelledby="featured-calculators-title" className="bg-card-section py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeading
           description="Start with a focused estimate for energy use or renovation materials. Every tool will show the formula, assumptions, and values behind its result."

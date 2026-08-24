@@ -12,7 +12,7 @@ export const metadata = createPageMetadata({
 export default function CalculatorsPage() {
   return (
     <main id="main-content">
-      <section className="border-b border-border py-14 sm:py-18 lg:py-22">
+      <section className="bg-background py-14 sm:py-18 lg:py-22">
         <Container>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Calculator directory</p>
           <h1 className="mt-4 max-w-4xl text-4xl leading-[1.08] font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
@@ -29,7 +29,7 @@ export default function CalculatorsPage() {
         const headingId = `calculator-category-${category.name.toLowerCase()}`;
 
         return (
-          <section aria-labelledby={headingId} className={index === 1 ? "border-t border-border bg-card py-16 sm:py-20" : "py-16 sm:py-20"} key={category.name}>
+          <section aria-labelledby={headingId} className={index % 2 === 0 ? "bg-card-section py-16 sm:py-20" : "bg-background py-16 sm:py-20"} key={category.name}>
             <Container>
               <div className="max-w-2xl">
                 <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">{category.name}</p>

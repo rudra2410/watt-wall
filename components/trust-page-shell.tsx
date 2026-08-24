@@ -15,7 +15,7 @@ type TrustPageShellProps = {
 
 export function TrustPageShell({ category, title, description, path, children }: TrustPageShellProps) {
   return (
-    <main id="main-content">
+    <main className="bg-background" id="main-content">
       <BreadcrumbJsonLd items={[{ name: "Home", url: siteConfig.url }, { name: title, url: `${siteConfig.url}${path}` }]} />
       <Container className="py-12 sm:py-16 lg:py-20">
         <nav aria-label="Breadcrumb">

@@ -4,7 +4,7 @@ import { howItWorksSteps } from "@/data/home";
 
 export function HowItWorksSection() {
   return (
-    <section aria-labelledby="how-it-works-title" className="border-y border-border bg-muted py-16 sm:py-20 lg:py-24">
+    <section aria-labelledby="how-it-works-title" className="bg-background py-16 sm:py-20 lg:py-24">
       <Container>
         <SectionHeading
           description="A useful estimate should be easy to create and easy to inspect. Each calculator follows the same clear path."
@@ -15,7 +15,7 @@ export function HowItWorksSection() {
 
         <ol className="mt-10 grid list-none gap-8 p-0 lg:grid-cols-3 lg:gap-10">
           {howItWorksSteps.map((step) => (
-            <li className="border-t border-border pt-6" key={step.number}>
+            <li className="pt-6" key={step.number}>
               <span aria-hidden="true" className="grid size-11 place-items-center rounded-lg border border-primary/20 bg-primary/10 font-mono text-sm font-semibold text-primary">
                 {step.number}
               </span>

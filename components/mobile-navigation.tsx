@@ -4,49 +4,116 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { NavigationLinks } from "@/components/navigation-links";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Icon } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const mobileNavigationId = "mobile-primary-navigation";
+const mobileNavigationTitleId = "mobile-primary-navigation-title";
+const focusableSelector = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled]):not([type='hidden'])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])",
+].join(",");
 
 export function MobileNavigation() {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
-    const desktopQuery = window.matchMedia("(min-width: 64rem)");
+    const desktopQuery = window.matchMedia("(min-width: 80rem)");
+    const html = document.documentElement;
+    const { body } = document;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyPosition = body.style.position;
+    const previousBodyTop = body.style.top;
+    const previousBodyLeft = body.style.left;
+    const previousBodyPaddingRight = body.style.paddingRight;
+    const previousBodyWidth = body.style.width;
+    const scrollbarWidth = window.innerWidth - html.clientWidth;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = `-${scrollX}px`;
+    body.style.width = "100%";
+
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
 
     function closeForDesktop(event: MediaQueryListEvent) {
       if (event.matches) setOpen(false);
     }
 
-    function closeFromOutside(event: PointerEvent) {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
-    }
-
     function closeFromEscape(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
+
+      event.preventDefault();
       setOpen(false);
       buttonRef.current?.focus();
     }
 
+    function keepFocusInDialog(event: KeyboardEvent) {
+      if (event.key !== "Tab") return;
+
+      const focusableElements = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ?? [],
+      );
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements.at(-1);
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement?.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+
+    const focusMenu = window.requestAnimationFrame(() => {
+      dialogRef.current?.querySelector<HTMLElement>(focusableSelector)?.focus();
+    });
+
     desktopQuery.addEventListener("change", closeForDesktop);
-    document.addEventListener("pointerdown", closeFromOutside);
     document.addEventListener("keydown", closeFromEscape);
+    document.addEventListener("keydown", keepFocusInDialog);
 
     return () => {
+      window.cancelAnimationFrame(focusMenu);
       desktopQuery.removeEventListener("change", closeForDesktop);
-      document.removeEventListener("pointerdown", closeFromOutside);
       document.removeEventListener("keydown", closeFromEscape);
+      document.removeEventListener("keydown", keepFocusInDialog);
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.position = previousBodyPosition;
+      body.style.top = previousBodyTop;
+      body.style.left = previousBodyLeft;
+      body.style.paddingRight = previousBodyPaddingRight;
+      body.style.width = previousBodyWidth;
+      window.scrollTo(scrollX, scrollY);
     };
   }, [open]);
 
   return (
-    <div ref={rootRef} className="lg:hidden">
+    <div className="xl:hidden">
       <button
         ref={buttonRef}
         aria-controls={mobileNavigationId}
@@ -56,21 +123,40 @@ export function MobileNavigation() {
         onClick={() => setOpen((current) => !current)}
       >
         <span>{open ? "Close" : "Menu"}</span>
-        <svg aria-hidden="true" className="size-5" fill="none" viewBox="0 0 24 24">
-          {open ? (
-            <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-          ) : (
-            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-          )}
-        </svg>
+        <Icon className="size-5" name={open ? "close" : "menu"} />
       </button>
 
       {open ? (
-        <div
-          id={mobileNavigationId}
-          className="absolute inset-x-0 top-full z-50 border-y border-border bg-background shadow-sm"
-        >
-          <div className="mx-auto grid w-full max-w-[75rem] gap-5 px-4 py-5 sm:px-6">
+        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain p-3 sm:p-6">
+          <button
+            aria-label="Close menu"
+            className="mobile-navigation-backdrop absolute inset-0 bg-foreground/20"
+            type="button"
+            onClick={() => setOpen(false)}
+          />
+
+          <div
+            ref={dialogRef}
+            aria-labelledby={mobileNavigationTitleId}
+            aria-modal="true"
+            className="mobile-navigation-panel relative mx-auto grid w-full max-w-lg gap-5 rounded-2xl bg-background p-4 shadow-lg sm:p-6"
+            id={mobileNavigationId}
+            role="dialog"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-semibold text-foreground" id={mobileNavigationTitleId}>
+                Menu
+              </p>
+              <button
+                aria-label="Close menu"
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+                type="button"
+                onClick={() => setOpen(false)}
+              >
+                <Icon className="size-5" name="close" />
+              </button>
+            </div>
+
             <nav aria-label="Mobile primary">
               <NavigationLinks
                 className="grid gap-1"
@@ -78,16 +164,14 @@ export function MobileNavigation() {
                 onNavigate={() => setOpen(false)}
               />
             </nav>
-            <div className="flex flex-wrap items-end justify-between gap-4 border-t border-border pt-5">
-              <ThemeToggle />
-              <Link
-                className={cn(buttonVariants(), "grow sm:grow-0")}
-                href="/calculators"
-                onClick={() => setOpen(false)}
-              >
-                Browse calculators
-              </Link>
-            </div>
+
+            <Link
+              className={cn(buttonVariants(), "w-full")}
+              href="/calculators"
+              onClick={() => setOpen(false)}
+            >
+              Browse calculators
+            </Link>
           </div>
         </div>
       ) : null}

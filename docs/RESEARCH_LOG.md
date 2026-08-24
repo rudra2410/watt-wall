@@ -611,7 +611,7 @@ Status: Complete.
 
 - Add one shared server-rendered `TrustPageShell` with breadcrumb, one H1, readable `max-w-3xl` content, semantic H2 sections, theme tokens, and the project’s existing focus treatment.
 - Implement six original pages: Methodology, About, Contact, Privacy Policy, Terms of Use, and Estimate Disclaimer. Keep page copy specific to actual site behavior and avoid unsupported author, legal, security, accuracy, approval, revenue, or professional-endorsement claims.
-- Use an email link to `hello@wattandwall.com` as the honest static-prototype contact mechanism. Do not add a form, claim delivery, promise a response time, or imply that the mailbox was tested from the website.
+- Use an email link to `wattandwall@gmail.com` as the honest static-prototype contact mechanism. Do not add a form, claim delivery, promise a response time, or imply that the mailbox was tested from the website.
 - State current behavior separately from future advertising behavior: no advertising or analytics tag is installed in the prototype; before AdSense or other non-essential tracking is added, the privacy notice and required consent flow must be updated to match the actual vendors and regions.
 - Use visible effective/review dates, source links where relevant, plain-language limitations, and cross-links among Methodology, Privacy, Terms, Disclaimer, About, and Contact. Keep pages crawlable and fully server-rendered.
 
@@ -626,7 +626,7 @@ Status: Complete.
 ### Implementation and verification evidence
 
 - Added `components/trust-page-shell.tsx` plus the six route pages with unique metadata, descriptive H1s, breadcrumbs, readable sections, factual notes, internal links, source links, and no placeholders.
-- Browser checks returned HTTP-rendered page state for all six routes: one `main`, one H1, unique titles, expected links, and zero horizontal overflow. The contact and privacy pages expose the intended `mailto:hello@wattandwall.com` link without a form submission path.
+- Browser checks returned HTTP-rendered page state for all six routes: one `main`, one H1, unique titles, expected links, and zero horizontal overflow. The contact and privacy pages expose the intended `mailto:wattandwall@gmail.com` link without a form submission path.
 - Light and Dark Mode produced distinct body surfaces while preserving the same content. Responsive checks at 1440×900, 768×900, and 320×800 kept readable widths and zero overflow; a full-page 320px visual review covered Methodology through the shared footer. Browser warning/error logs were empty.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test` (26/26), and `pnpm build` passed. The production build statically prerendered all 15 application routes.
 
@@ -708,7 +708,7 @@ Status: Complete.
 
 ### Remaining pre-launch actions (not falsely claimed as complete)
 
-- Provision and verify the custom-domain mailbox represented by `hello@wattandwall.com` before publishing the contact address as an operational support channel.
+- Provision and verify the Gmail mailbox represented by `wattandwall@gmail.com` before publishing the contact address as an operational support channel.
 - Deploy to the verified HTTPS custom domain and re-check metadata, robots, sitemap, canonical URLs, and generated images from production.
 - Add only the exact AdSense verification/ad code and `ads.txt` values from the approved account; configure the required certified CMP and update Privacy Policy before ads serve.
 - Expand to the PRD’s internal eight-calculator quality target or document an equivalent depth of original useful content before requesting AdSense review.

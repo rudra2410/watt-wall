@@ -3,7 +3,6 @@ import { Geist_Mono, Outfit } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
   referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false },
-  icons: { icon: "/icon.svg" },
+  icons: { icon: "/icon.png" },
   openGraph: {
     siteName: siteConfig.name,
     type: "website",
@@ -46,16 +45,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${outfit.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${outfit.variable} ${geistMono.variable} light`}>
       <body>
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableColorScheme disableTransitionOnChange>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </ThemeProvider>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
       </body>
     </html>
   );

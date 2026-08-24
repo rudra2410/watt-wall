@@ -17,7 +17,7 @@ export default function AboutPage() {
       </TrustSection>
 
       <TrustSection title="How the site is maintained">
-        <p>The Watt & Wall project team maintains the calculator code, explanatory pages, source notes, and review dates. The team uses typed calculation modules and regression tests for formulas, then checks the rendered pages for keyboard access, responsive layout, and Light/Dark Mode consistency.</p>
+        <p>The Watt & Wall project team maintains the calculator code, explanatory pages, source notes, and review dates. The team uses typed calculation modules and regression tests for formulas, then checks the rendered pages for keyboard access, responsive layout, and consistent light-theme rendering.</p>
         <TrustList>
           <li>Calculator pages explain their scope before asking for values.</li>
           <li>Sources and assumptions are shown near the result, not hidden in a separate technical document.</li>

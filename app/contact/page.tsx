@@ -10,13 +10,13 @@ export const metadata = createPageMetadata({
 export default function ContactPage() {
   return (
     <TrustPageShell category="Get in touch" path="/contact" title="Contact Watt & Wall" description="Send a clear note about a source, formula, accessibility issue, or piece of site content that needs attention.">
-      <TrustNote><strong>Email:</strong> <TrustLink href="mailto:hello@wattandwall.com">hello@wattandwall.com</TrustLink><br />This link opens your email application. The current prototype has no contact form, account system, or message-processing backend.</TrustNote>
+      <TrustNote><strong>Email:</strong> <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink><br />This link opens your email application. The current prototype has no contact form, account system, or message-processing backend.</TrustNote>
 
       <TrustSection title="Useful reasons to write">
         <TrustList>
           <li>Point out a source link that has moved or no longer supports the stated assumption.</li>
           <li>Explain a calculation or unit issue with the values you entered and the result you saw.</li>
-          <li>Report a keyboard, focus, contrast, responsive, or Light/Dark Mode problem.</li>
+          <li>Report a keyboard, focus, contrast, responsive, or visual display problem.</li>
           <li>Suggest a narrow calculator topic with a clear formula and reliable source.</li>
         </TrustList>
       </TrustSection>

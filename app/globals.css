@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --background: oklch(0.9818 0.0054 95.0986);
   --foreground: oklch(0.3438 0.0269 95.7226);
   --card: oklch(0.9665 0.0067 97.3521);
   --card-foreground: oklch(0.3438 0.0269 95.7226);
+  --card-section: oklch(0.9341 0.0153 90.239);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2671 0.0196 98.939);
   --primary: oklch(0.6171 0.1375 39.0427);
@@ -15,7 +14,7 @@
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.9245 0.0138 92.9892);
   --secondary-foreground: oklch(0.4334 0.0177 98.6048);
-  --muted: oklch(0.9341 0.0153 90.239);
+  --muted: oklch(0.9505 0.0105 94.5);
   --muted-foreground: oklch(0.5341 0.0078 97.4503);
   --accent: oklch(0.9245 0.0138 92.9892);
   --accent-foreground: oklch(0.2671 0.0196 98.939);
@@ -28,35 +27,12 @@
   --shadow-color: oklch(0 0 0);
 }
 
-.dark {
-  --background: oklch(0.2679 0.0036 106.6427);
-  --foreground: oklch(0.9576 0.0027 106.4494);
-  --card: oklch(0.2928 0.0018 106.5092);
-  --card-foreground: oklch(0.9576 0.0027 106.4494);
-  --popover: oklch(0.3085 0.0035 106.6039);
-  --popover-foreground: oklch(0.9211 0.004 106.4781);
-  --primary: oklch(0.6724 0.1308 38.7559);
-  --primary-strong: oklch(0.58 0.1375 39.0427);
-  --primary-strong-hover: oklch(0.62 0.1375 39.0427);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.3618 0.0101 106.8928);
-  --secondary-foreground: oklch(0.9576 0.0027 106.4494);
-  --muted: oklch(0.2213 0.0038 106.707);
-  --muted-foreground: oklch(0.7713 0.0169 99.0657);
-  --accent: oklch(0.36 0.008 95.4245);
-  --accent-foreground: oklch(0.9663 0.008 98.8792);
-  --destructive: oklch(0.58 0.2 25.3313);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.3618 0.0101 106.8928);
-  --input: oklch(0.4336 0.0113 100.2195);
-  --ring: oklch(0.6724 0.1308 38.7559);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-card-section: var(--card-section);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
@@ -86,7 +62,7 @@
 
 * { box-sizing: border-box; border-color: var(--border); }
 
-html { min-height: 100%; scroll-behavior: smooth; }
+html { min-height: 100%; color-scheme: light; scroll-behavior: smooth; }
 
 body {
   min-height: 100svh;
@@ -101,8 +77,25 @@ body {
 }
 
 button, input, select, textarea { font: inherit; }
-a { color: inherit; text-decoration: none; }
 ::selection { background: var(--primary); color: var(--primary-foreground); }
+
+@keyframes mobile-navigation-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mobile-navigation-panel-in {
+  from { opacity: 0; transform: translateY(-0.75rem) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.mobile-navigation-backdrop {
+  animation: mobile-navigation-backdrop-in 160ms ease-out both;
+}
+
+.mobile-navigation-panel {
+  animation: mobile-navigation-panel-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
 .skip-link {
   position: fixed;

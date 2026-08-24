@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CalculatorIcon } from "@/components/marketing/calculator-icon";
+import { Icon } from "@/components/ui/icon";
 import type { CalculatorDefinition } from "@/data/calculators";
 
 export function CalculatorCard({ calculator }: { calculator: CalculatorDefinition }) {
@@ -21,9 +22,7 @@ export function CalculatorCard({ calculator }: { calculator: CalculatorDefinitio
       <p className="mt-3 text-sm leading-6 text-muted-foreground">{calculator.description}</p>
       <span aria-hidden="true" className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-primary">
         Open calculator
-        <svg className="size-4" fill="none" viewBox="0 0 24 24">
-          <path d="m9 18 6-6-6-6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-        </svg>
+        <Icon className="size-4" name="arrow-right" />
       </span>
     </article>
   );

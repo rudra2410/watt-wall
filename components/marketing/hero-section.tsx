@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
+import { Icon } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { heroElectricityExample } from "@/lib/home-hero-example";
 import { cn } from "@/lib/utils";
@@ -22,14 +23,12 @@ export function HeroSection() {
   return (
     <section
       aria-labelledby="home-hero-title"
-      className="relative isolate overflow-hidden border-b border-border py-14 sm:py-20 lg:py-24"
+      className="relative isolate overflow-hidden bg-background py-14 sm:py-20 lg:py-24"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-[42%] bg-muted lg:block"
-      />
+      <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-44 size-[34rem] rounded-full bg-primary/5 blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-52 left-1/3 size-[28rem] rounded-full border border-primary/10" />
       <Container className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(23rem,0.92fr)] lg:gap-16">
-        <div className="max-w-[44rem]">
+        <div className="relative max-w-[44rem]">
           <p className="mb-5 flex items-center gap-2 text-sm leading-5 font-semibold tracking-[0.14em] text-primary uppercase">
             <span aria-hidden="true" className="size-2 rounded-full bg-primary" />
             Practical home planning tools
@@ -46,9 +45,7 @@ export function HeroSection() {
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link className={cn(buttonVariants(), "group sm:min-w-44")} href="/calculators">
               Browse calculators
-              <svg aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" fill="none" viewBox="0 0 24 24">
-                <path d="m9 18 6-6-6-6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-              </svg>
+              <Icon className="size-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" name="arrow-right" />
             </Link>
             <Link className={cn(buttonVariants({ variant: "secondary" }), "sm:min-w-44")} href="/methodology">
               See our methodology
@@ -57,18 +54,36 @@ export function HeroSection() {
           <p className="mt-5 max-w-[38rem] text-sm leading-5 text-muted-foreground">
             Planning estimates—not quotes. Your usage, measurements, and local prices determine the result.
           </p>
+          <ul className="mt-6 grid max-w-[38rem] gap-3 text-sm text-muted-foreground sm:grid-cols-3 sm:gap-4">
+            <li className="flex items-center gap-2">
+              <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                <Icon className="size-3.5" name="check" />
+              </span>
+              Use local values
+            </li>
+            <li className="flex items-center gap-2">
+              <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                <Icon className="size-3.5" name="check" />
+              </span>
+              See each formula
+            </li>
+            <li className="flex items-center gap-2">
+              <span aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                <Icon className="size-3.5" name="check" />
+              </span>
+              No account needed
+            </li>
+          </ul>
         </div>
 
-        <aside aria-label="Illustrative electricity cost example" className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-7">
+        <aside aria-label="Illustrative electricity cost example" className="relative rounded-2xl border border-border bg-card p-5 text-card-foreground shadow-md sm:p-7">
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="text-sm leading-5 font-semibold text-primary">Illustrative estimate</p>
               <p className="mt-1 text-xl leading-7 font-semibold tracking-tight">A 1.5 kW appliance</p>
             </div>
             <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
-              <svg className="size-5" fill="none" viewBox="0 0 24 24">
-                <path d="m13 2-8 12h7l-1 8 8-12h-7l1-8Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
-              </svg>
+              <Icon className="size-5" name="bolt" />
             </span>
           </div>
 

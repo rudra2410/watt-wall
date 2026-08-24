@@ -21,7 +21,7 @@ export function SiteStructuredData() {
     name: siteConfig.name,
     url: siteConfig.url,
     logo: `${siteConfig.url}/icon.svg`,
-    email: "hello@wattandwall.com",
+    email: "wattandwall@gmail.com",
   };
 
   const website = {
@@ -29,7 +29,7 @@ export function SiteStructuredData() {
     "@type": "WebSite",
     "@id": `${siteConfig.url}/#website`,
     name: siteConfig.name,
-    alternateName: "Watt and Wall",
+    alternateName: "WattandWall",
     url: siteConfig.url,
     description: siteConfig.description,
     publisher: { "@id": `${siteConfig.url}/#organization` },

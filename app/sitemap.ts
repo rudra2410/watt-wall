@@ -4,7 +4,7 @@ import { calculators } from "@/data/calculators";
 import { siteConfig } from "@/lib/site";
 
 const lastModified = new Date("2026-08-24T00:00:00.000Z");
-const staticPaths = ["/", "/calculators", "/methodology", "/about", "/contact", "/privacy", "/terms", "/disclaimer"] as const;
+const staticPaths = ["/", "/calculators", "/how-it-works", "/methodology", "/about", "/contact", "/privacy", "/terms", "/disclaimer"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

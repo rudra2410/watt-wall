@@ -80,8 +80,8 @@ export function FlooringTileCalculator() {
     : `Result unavailable. ${errors.length} ${errors.length === 1 ? "field needs" : "fields need"} attention.`;
 
   return (
-    <section aria-labelledby="flooring-input-title" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.82fr)] lg:items-start">
-      <form className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-7" noValidate onSubmit={handleSubmit}>
+    <section aria-labelledby="flooring-input-title" className="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(21rem,0.9fr)] xl:items-start xl:gap-8">
+      <form className="rounded-2xl bg-card p-5 text-card-foreground shadow-sm sm:p-7 lg:p-8" noValidate onSubmit={handleSubmit}>
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your floor and product</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="flooring-input-title">Estimate flooring or tile quantity</h2>
@@ -111,7 +111,7 @@ export function FlooringTileCalculator() {
         <p aria-atomic="true" className="mt-3 min-h-5 text-sm text-muted-foreground" role="status">{copyStatus}</p>
       </form>
 
-      <section aria-labelledby="flooring-result-title" className="rounded-xl border border-primary/20 bg-primary/10 p-5 shadow-sm sm:p-7 lg:sticky lg:top-6">
+      <section aria-labelledby="flooring-result-title" className="rounded-2xl bg-card-section p-5 shadow-sm sm:p-7 lg:p-8 xl:sticky xl:top-6">
         <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Live estimate</p>
         <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="flooring-result-title">Estimated flooring quantity</h2>
         <output aria-atomic="true" aria-live="polite" className="sr-only">{liveSummary}</output>
