@@ -18,10 +18,10 @@ export function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
           <div className="max-w-sm sm:col-span-2 lg:col-span-1">
             <SiteLogo />
-            <p className="mt-4 text-sm leading-6 text-muted-foreground">{siteConfig.footerDescription}</p>
+            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">{siteConfig.footerDescription}</p>
             <div className="mt-5 grid gap-1 text-sm">
               <a
-                className={footerLinkClassName}
+                className={`${footerLinkClassName} gap-2`}
                 href={`mailto:${siteConfig.contactEmail}`}
                 aria-label={`Email ${siteConfig.contactEmail}`}
               >
@@ -29,7 +29,7 @@ export function SiteFooter() {
                 <span>{siteConfig.contactEmail}</span>
               </a>
               <a
-                className={footerLinkClassName}
+                className={`${footerLinkClassName} gap-2`}
                 href="tel:+15550140199"
                 aria-label={`Call ${siteConfig.contactPhone}`}
               >

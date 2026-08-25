@@ -160,7 +160,7 @@ export function MobileNavigation() {
             <nav aria-label="Mobile primary">
               <NavigationLinks
                 className="grid gap-1"
-                linkClassName="w-full justify-start px-4"
+                linkClassName="w-full justify-start px-0 lg:px-3"
                 onNavigate={() => setOpen(false)}
               />
             </nav>

@@ -5,6 +5,7 @@ import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
 import { electricityCostDefaults } from "@/data/electricity-cost";
 import {
   calculateElectricityCost,
@@ -114,19 +115,19 @@ export function ElectricityCostCalculator() {
 
           <div>
             <Label htmlFor="electricity-power-unit">Power unit</Label>
-            <select
-              className="mt-2 min-h-11 w-full rounded-lg border border-input bg-background px-3 text-base text-foreground shadow-xs outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/35 sm:text-sm"
+            <Select
+              className="mt-2"
               id="electricity-power-unit"
               name="powerUnit"
-              onChange={(event) => {
-                setRawInput((current) => ({ ...current, powerUnit: event.target.value as PowerUnit }));
+              onValueChange={(nextValue) => {
+                setRawInput((current) => ({ ...current, powerUnit: nextValue as PowerUnit }));
                 setCopyStatus("");
               }}
               value={rawInput.powerUnit}
             >
               <option value="W">Watts (W)</option>
               <option value="kW">Kilowatts (kW)</option>
-            </select>
+            </Select>
             <p className="mt-2 text-xs leading-5 text-muted-foreground">1 kW equals 1,000 W.</p>
           </div>
 

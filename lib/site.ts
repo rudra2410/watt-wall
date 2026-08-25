@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "Practical home energy and renovation calculators with transparent formulas and clear assumptions.",
   footerDescription:
-    "Watt & Wall helps homeowners make better-informed energy and renovation decisions with practical calculators, transparent formulas, and clear explanations. Use your own local values to plan with confidence while understanding the assumptions behind every estimate.",
+    "Plan smarter with Watt & Wall—practical calculators that turn energy costs and renovation measurements into clear, transparent estimates you can understand and use with confidence.",
   contactEmail: "wattandwall@gmail.com",
   contactPhone: "+1 (555) 014-0199",
 } as const;
