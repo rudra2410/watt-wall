@@ -1,3 +1,5 @@
+export const dynamic = 'force-static'
+
 import type { MetadataRoute } from "next";
 
 import { calculators } from "@/data/calculators";
@@ -22,3 +24,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 }
+

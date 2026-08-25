@@ -1,3 +1,5 @@
+export const dynamic = 'force-static'
+
 import { ImageResponse } from "next/og";
 
 export const alt = "Watt & Wall — practical home energy and renovation calculators";
@@ -17,3 +19,4 @@ export default function OpenGraphImage() {
     size,
   );
 }
+
