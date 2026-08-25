@@ -3,14 +3,18 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "About Watt & Wall",
-  description: "Learn who Watt & Wall is for, how the site is maintained, and what the calculators are designed to help with.",
+  description: "Meet Rudra Sutariya, the creator of Watt & Wall, and learn how this SEO-focused Next.js and React website helps homeowners plan with clearer numbers.",
   path: "/about",
 });
 
 export default function AboutPage() {
   return (
     <TrustPageShell category="About the site" path="/about" title="About Watt & Wall" description="Practical home energy and renovation tools for people who want to understand a number before making a decision.">
-      <TrustNote><strong>Publisher: Watt & Wall.</strong> The current site is a focused, independent prototype. It does not present itself as a utility, manufacturer, contractor, government service, or professional adviser.</TrustNote>
+      <TrustNote><strong>Created by Rudra Sutariya.</strong> Watt & Wall is an independent educational website and does not present itself as a utility, manufacturer, contractor, government service, or professional adviser.</TrustNote>
+
+      <TrustSection title="About the creator">
+        <p>My name is Rudra Sutariya, and I built Watt & Wall to make everyday home energy and renovation planning easier to understand. The website is developed with Next.js and React, with a strong focus on clear content, accessible interactions, responsive design, and SEO best practices so useful information can reach the people who need it.</p>
+      </TrustSection>
 
       <TrustSection title="What we are building">
         <p>Watt & Wall brings small, useful calculations and their explanations into one calm place. The goal is not to produce the biggest possible answer or hide a formula behind a result. The goal is to help a homeowner check inputs, understand units, compare scenarios, and know when a professional or product document should take over.</p>
@@ -31,7 +35,7 @@ export default function AboutPage() {
       </TrustSection>
 
       <TrustSection title="Keep reading">
-        <p>For the calculation process, visit <TrustLink href="/methodology">Methodology</TrustLink>. For questions, source corrections, or accessibility feedback, use the <TrustLink href="/contact">Contact page</TrustLink>. The <TrustLink href="/privacy">Privacy policy</TrustLink> explains what the current prototype does and does not collect.</p>
+        <p>For the calculation process, visit <TrustLink href="/methodology">Methodology</TrustLink>. For questions, source corrections, or accessibility feedback, use the <TrustLink href="/contact">Contact page</TrustLink>. The <TrustLink href="/privacy">Privacy policy</TrustLink> explains what the website does and does not collect.</p>
       </TrustSection>
     </TrustPageShell>
   );

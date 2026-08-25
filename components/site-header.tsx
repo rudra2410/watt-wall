@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   return (
-    <header className="relative z-40 bg-card-section">
+    <header className="sticky top-0 z-[100] bg-card-section/95 shadow-sm backdrop-blur-sm transition-[background-color,box-shadow] duration-300 ease-out motion-reduce:transition-none">
       <Container className="grid min-h-[5rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
         <SiteLogo />
 

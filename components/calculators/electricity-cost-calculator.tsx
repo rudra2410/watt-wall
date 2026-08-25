@@ -119,8 +119,8 @@ export function ElectricityCostCalculator() {
               className="mt-2"
               id="electricity-power-unit"
               name="powerUnit"
-              onChange={(event) => {
-                setRawInput((current) => ({ ...current, powerUnit: event.target.value as PowerUnit }));
+              onValueChange={(nextValue) => {
+                setRawInput((current) => ({ ...current, powerUnit: nextValue as PowerUnit }));
                 setCopyStatus("");
               }}
               value={rawInput.powerUnit}

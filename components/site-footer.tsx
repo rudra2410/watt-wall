@@ -16,27 +16,19 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-muted">
-      <Container className="pt-12 pb-8 sm:pt-14 sm:pb-9">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_repeat(3,minmax(0,1fr))] lg:gap-12">
+      <Container className="py-12 sm:py-14">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_repeat(4,minmax(0,1fr))] lg:gap-12">
           <div className="max-w-sm sm:col-span-2 lg:col-span-1">
             <SiteLogo />
-            <p className="mt-4 text-sm leading-6 text-muted-foreground">{siteConfig.footerDescription}</p>
+            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">{siteConfig.footerDescription}</p>
             <div className="mt-5 grid gap-1 text-sm">
               <a
-                className={footerContactClassName}
+                className={`${footerLinkClassName} gap-2`}
                 href={`mailto:${siteConfig.contactEmail}`}
                 aria-label={`Email ${siteConfig.contactEmail}`}
               >
                 <Icon className="size-4 shrink-0" name="mail" />
                 <span>{siteConfig.contactEmail}</span>
-              </a>
-              <a
-                className={footerContactClassName}
-                href="tel:+15550140199"
-                aria-label={`Call ${siteConfig.contactPhone}`}
-              >
-                <Icon className="size-4 shrink-0" name="phone" />
-                <span>{siteConfig.contactPhone}</span>
               </a>
             </div>
           </div>
