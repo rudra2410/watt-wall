@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 
 import { NavigationLinks } from "@/components/navigation-links";
@@ -23,6 +24,54 @@ export function MobileNavigation() {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  const mobileMenu = open ? (
+    <div className="fixed inset-0 z-[110] overflow-y-auto overscroll-contain p-3 sm:p-6">
+      <button
+        aria-label="Close menu"
+        className="mobile-navigation-backdrop absolute inset-0 bg-foreground/20"
+        type="button"
+        onClick={() => setOpen(false)}
+      />
+
+      <div
+        ref={dialogRef}
+        aria-labelledby={mobileNavigationTitleId}
+        aria-modal="true"
+        className="mobile-navigation-panel relative z-[111] mx-auto grid w-full max-w-lg gap-5 rounded-2xl bg-background p-4 shadow-lg sm:p-6"
+        id={mobileNavigationId}
+        role="dialog"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-sm font-semibold text-foreground" id={mobileNavigationTitleId}>Menu</p>
+          <button
+            aria-label="Close menu"
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+            type="button"
+            onClick={() => setOpen(false)}
+          >
+            <Icon className="size-5" name="close" />
+          </button>
+        </div>
+
+        <nav aria-label="Mobile primary">
+          <NavigationLinks
+            className="grid gap-1"
+            linkClassName="w-full justify-start px-0 lg:px-3"
+            onNavigate={() => setOpen(false)}
+          />
+        </nav>
+
+        <Link
+          className={cn(buttonVariants(), "w-full")}
+          href="/calculators"
+          onClick={() => setOpen(false)}
+        >
+          Browse calculators
+        </Link>
+      </div>
+    </div>
+  ) : null;
 
   useEffect(() => {
     if (!open) return;
@@ -126,55 +175,7 @@ export function MobileNavigation() {
         <Icon className="size-5" name={open ? "close" : "menu"} />
       </button>
 
-      {open ? (
-        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain p-3 sm:p-6">
-          <button
-            aria-label="Close menu"
-            className="mobile-navigation-backdrop absolute inset-0 bg-foreground/20"
-            type="button"
-            onClick={() => setOpen(false)}
-          />
-
-          <div
-            ref={dialogRef}
-            aria-labelledby={mobileNavigationTitleId}
-            aria-modal="true"
-            className="mobile-navigation-panel relative mx-auto grid w-full max-w-lg gap-5 rounded-2xl bg-background p-4 shadow-lg sm:p-6"
-            id={mobileNavigationId}
-            role="dialog"
-          >
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm font-semibold text-foreground" id={mobileNavigationTitleId}>
-                Menu
-              </p>
-              <button
-                aria-label="Close menu"
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-150 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
-                type="button"
-                onClick={() => setOpen(false)}
-              >
-                <Icon className="size-5" name="close" />
-              </button>
-            </div>
-
-            <nav aria-label="Mobile primary">
-              <NavigationLinks
-                className="grid gap-1"
-                linkClassName="w-full justify-start px-0 lg:px-3"
-                onNavigate={() => setOpen(false)}
-              />
-            </nav>
-
-            <Link
-              className={cn(buttonVariants(), "w-full")}
-              href="/calculators"
-              onClick={() => setOpen(false)}
-            >
-              Browse calculators
-            </Link>
-          </div>
-        </div>
-      ) : null}
+      {typeof document !== "undefined" && mobileMenu ? createPortal(mobileMenu, document.body) : null}
     </div>
   );
 }

@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 import { Container } from "@/components/layout/container";
 import { MobileNavigation } from "@/components/mobile-navigation";
@@ -11,26 +8,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
-  const [hasScrolled, setHasScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setHasScrolled(window.scrollY > 40);
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className={hasScrolled ? "min-h-20" : undefined}>
-      <header
-        className={cn(
-          "z-40 bg-card-section transition-[background-color,box-shadow,transform] duration-300 ease-out motion-reduce:transition-none",
-          hasScrolled
-            ? "fixed inset-x-0 top-0 -translate-y-2 bg-card-section/95 shadow-sm backdrop-blur-sm motion-safe:translate-y-0"
-            : "relative",
-        )}
-      >
+    <header className="sticky top-0 z-[100] bg-card-section/95 shadow-sm backdrop-blur-sm transition-[background-color,box-shadow] duration-300 ease-out motion-reduce:transition-none">
       <Container className="grid min-h-[5rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
         <SiteLogo />
 
@@ -47,7 +26,6 @@ export function SiteHeader() {
 
         <MobileNavigation />
       </Container>
-      </header>
-    </div>
+    </header>
   );
 }

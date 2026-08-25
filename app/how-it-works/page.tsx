@@ -64,7 +64,7 @@ export default function HowItWorksPage() {
     <main className="bg-background" id="main-content">
       <BreadcrumbJsonLd items={[{ name: "Home", url: siteConfig.url }, { name: "How it works", url: `${siteConfig.url}/how-it-works` }]} />
 
-      <section className="bg-card-section">
+      <section className="bg-background">
         <Container className="py-8 sm:py-10 lg:py-12">
           <nav aria-label="Breadcrumb">
             <ol className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
