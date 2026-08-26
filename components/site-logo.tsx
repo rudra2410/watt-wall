@@ -8,7 +8,7 @@ export function SiteLogo() {
       href="/"
     >
       <Image
-        src="/watt-wall-logo.png"
+        src="/watt-wall-logo.webp"
         alt=""
         aria-hidden="true"
         className="size-9 object-contain"
@@ -20,5 +20,4 @@ export function SiteLogo() {
     </Link>
   );
 }
-
 

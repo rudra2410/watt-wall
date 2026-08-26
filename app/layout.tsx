@@ -29,7 +29,11 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
   referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false },
-  icons: { icon: "/icon.png" },
+  icons: {
+    icon: "/watt-wall-logo.webp",
+    shortcut: "/watt-wall-logo.webp",
+    apple: "/watt-wall-logo.webp",
+  },
   openGraph: {
     siteName: siteConfig.name,
     type: "website",
