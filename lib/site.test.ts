@@ -10,15 +10,24 @@ describe("siteConfig", () => {
   });
 
   it("keeps every approved trust and company route discoverable", () => {
-    expect(footerNavigation.map((group) => group.label)).toEqual(["Trust", "Company"]);
+    expect(footerNavigation.map((group) => group.label)).toEqual(["Trust", "Company", "Guides"]);
     expect(footerNavigation.flatMap((group) => group.links.map((link) => link.href))).toEqual([
       "/how-it-works",
       "/methodology",
+      "/editorial-policy",
       "/privacy",
       "/terms",
       "/disclaimer",
       "/about",
       "/contact",
+      "/guides/electricity-costs",
+      "/guides/appliance-energy-use",
+      "/guides/paint-and-flooring-measurements",
+      "/guides/home-energy-audit",
+      "/guides/energyguide-labels",
+      "/guides/measuring-rooms-and-furniture",
+      "/guides/choosing-rug-size",
+      "/guides/measuring-curtains",
     ]);
   });
 
@@ -26,6 +35,7 @@ describe("siteConfig", () => {
     expect(primaryNavigation).toEqual([
       { label: "Home", href: "/" },
       { label: "Calculators", href: "/calculators" },
+      { label: "Guides", href: "/guides" },
       { label: "How it works", href: "/how-it-works" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },

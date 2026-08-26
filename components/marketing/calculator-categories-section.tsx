@@ -13,11 +13,11 @@ export function CalculatorCategoriesSection() {
         <SectionHeading
           description="Start with the kind of decision you are making, then choose a focused calculator for the values you already know."
           eyebrow="Browse by category"
-          title="Energy costs and renovation materials"
+          title="Energy, renovation, furniture, and decor"
           titleId="calculator-categories-title"
         />
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
+        <div className="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
           {calculatorCategories.map((category) => {
             const categoryCalculators = calculators.filter((calculator) => calculator.category === category.name);
 

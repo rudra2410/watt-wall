@@ -1,4 +1,5 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,7 +10,7 @@ export const metadata = createPageMetadata({
 
 export default function ApplianceEnergyGuide() {
   return (
-    <TrustPageShell category="Planning guide" path="/guides/appliance-energy-use" title="How to estimate appliance energy use" description="Learn which appliance values matter, how to build a realistic usage schedule, and why measured power can be better than a label rating.">
+    <><ArticleJsonLd title="How to Estimate Appliance Energy Use" description="A clear guide to reading appliance power information, estimating usage schedules, and checking the limits of running-cost estimates." path="/guides/appliance-energy-use" /><TrustPageShell category="Planning guide" path="/guides/appliance-energy-use" title="How to estimate appliance energy use" description="Learn which appliance values matter, how to build a realistic usage schedule, and why measured power can be better than a label rating.">
       <TrustNote><strong>Start with the product label or manual.</strong> A nameplate rating is a useful starting point, but actual draw can change with settings, cycling, temperature, load, and the age or condition of the appliance.</TrustNote>
 
       <TrustSection title="Find the right power value">
@@ -35,6 +36,6 @@ export default function ApplianceEnergyGuide() {
       <TrustSection title="Try the appliance calculator">
         <p>Enter the appliance’s wattage, your realistic usage schedule, and the all-in price from your bill in the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink>. For a broader household view, use the <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> and compare scenarios rather than relying on one default.</p>
       </TrustSection>
-    </TrustPageShell>
+    </TrustPageShell></>
   );
 }

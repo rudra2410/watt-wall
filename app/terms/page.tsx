@@ -10,7 +10,7 @@ export const metadata = createPageMetadata({
 export default function TermsPage() {
   return (
     <TrustPageShell category="Site terms" path="/terms" title="Terms of Use" description="These plain-language terms explain the intended use and limits of the Watt & Wall website and calculators.">
-      <TrustNote><strong>Effective date: August 24, 2026.</strong> These terms describe the current prototype. The site owner should obtain jurisdiction-specific legal review before commercial launch or adding paid, user-account, or advertising features.</TrustNote>
+      <TrustNote><strong>Effective date: August 24, 2026.</strong> These terms describe the current public website. They are plain-language product information, not jurisdiction-specific legal advice; the site owner should review them before adding paid, account, or advertising features.</TrustNote>
 
       <TrustSection title="Use the site for planning">
         <p>You may use the public pages and calculators for personal, educational, and early project-planning purposes. Enter values you are comfortable processing in your browser, check the assumptions, and verify important decisions against the relevant bill, tariff, product document, site conditions, or qualified professional.</p>

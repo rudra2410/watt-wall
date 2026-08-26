@@ -19,7 +19,7 @@ export const flooringTileAssumptions = [
 export const flooringTileFaqs = [
   {
     question: "What should I enter for coverage per unit?",
-    answer: "Enter the square feet covered by one carton, pack, sheet, or individual tile as shown on the product listing or carton. Do not enter the total coverage of several cartons.",
+    answer: "Enter the area covered by one carton, pack, sheet, or individual tile as shown on the product listing or carton, using the same unit system as the room dimensions. Do not enter the total coverage of several cartons.",
   },
   {
     question: "Why is waste added before the unit count is rounded?",

@@ -12,7 +12,7 @@ export const applianceRunningCostExample = calculateApplianceRunningCost(applian
 export const applianceRunningCostAssumptions = [
   "The appliance draws the entered wattage during every active hour.",
   "The entered active-day schedule repeats each month, and the annual estimate repeats that monthly schedule 12 times.",
-  "The electricity price is a flat USD rate per kWh and excludes separate fixed fees, demand charges, taxes, tiers, and time-of-use changes.",
+  "The starting rate is a local-currency example per kWh and excludes separate fixed fees, demand charges, taxes, tiers, and time-of-use changes. Replace it with your own all-in rate.",
   "Standby, sleep, startup, and cycling energy are excluded unless the wattage you enter already represents an average that includes them.",
 ] as const;
 

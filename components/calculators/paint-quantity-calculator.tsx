@@ -71,8 +71,8 @@ export function PaintQuantityCalculator() {
 
     const summary = [
       "Watt & Wall paint quantity estimate",
-      `${formatDecimal(result.wholeGallonsToBuy)} whole US gallons suggested for purchase`,
-      `${formatDecimal(result.gallonsWithWaste)} US gallons (${formatDecimal(result.litresWithWaste)} litres) calculated after ${formatDecimal(parsedInput.wastePercent)}% waste`,
+      `${formatDecimal(result.wholeGallonsToBuy)} whole U.S. gallons suggested for purchase (convert to your local container size)`,
+      `${formatDecimal(result.gallonsWithWaste)} U.S. gallons (${formatDecimal(result.litresWithWaste)} litres) calculated after ${formatDecimal(parsedInput.wastePercent)}% waste`,
       `${formatDecimal(result.paintableAreaSquareFeet)} sq ft of paintable wall area and ${formatDecimal(result.coatedAreaSquareFeet)} sq ft across ${formatDecimal(parsedInput.coats)} coats.`,
     ].join("\n");
 
@@ -85,7 +85,7 @@ export function PaintQuantityCalculator() {
   }
 
   const liveSummary = result
-    ? `Updated estimate: ${formatDecimal(result.wholeGallonsToBuy)} whole US gallons suggested; calculated need ${formatDecimal(result.gallonsWithWaste)} US gallons, or ${formatDecimal(result.litresWithWaste)} litres.`
+    ? `Updated estimate: ${formatDecimal(result.wholeGallonsToBuy)} whole U.S. gallons suggested; calculated need ${formatDecimal(result.gallonsWithWaste)} U.S. gallons, or ${formatDecimal(result.litresWithWaste)} litres.`
     : `Result unavailable. ${errors.length} ${errors.length === 1 ? "field needs" : "fields need"} attention.`;
 
   return (
@@ -94,7 +94,7 @@ export function PaintQuantityCalculator() {
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your room and paint</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="paint-input-title">Estimate wall paint quantity</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Measurements use feet and US gallons; values stay in this browser.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. The starting example uses feet and U.S. gallons; convert your local measurements and product coverage consistently.</p>
         </div>
 
         <fieldset className="mt-7">
@@ -140,7 +140,7 @@ export function PaintQuantityCalculator() {
         {result ? (
           <>
             <div className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-5">
-              <p className="text-sm leading-5 text-muted-foreground">Suggested whole US gallons to buy</p>
+              <p className="text-sm leading-5 text-muted-foreground">Suggested whole U.S. gallons to buy</p>
               <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatDecimal(result.wholeGallonsToBuy)} US gal</p>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">Rounded up after {formatDecimal(parsedInput.wastePercent)}% waste</p>
             </div>

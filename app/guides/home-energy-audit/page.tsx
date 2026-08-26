@@ -1,4 +1,5 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,7 +10,7 @@ export const metadata = createPageMetadata({
 
 export default function HomeEnergyAuditGuide() {
   return (
-    <TrustPageShell category="Energy guide" path="/guides/home-energy-audit" title="Home energy audit checklist" description="A simple starting point for understanding where a home uses energy before choosing an improvement project.">
+    <><ArticleJsonLd title="Home Energy Audit Checklist" description="Use a practical home energy audit checklist to inspect common energy-loss areas and decide when professional assessment can help." path="/guides/home-energy-audit" /><TrustPageShell category="Energy guide" path="/guides/home-energy-audit" title="Home energy audit checklist" description="A simple starting point for understanding where a home uses energy before choosing an improvement project.">
       <TrustNote><strong>A walkthrough is not a certification.</strong> A DIY check can reveal questions and low-cost opportunities, but a professional assessment is better for a whole-home diagnosis or safety-sensitive work.</TrustNote>
 
       <TrustSection title="Start with your energy story">
@@ -30,6 +31,6 @@ export default function HomeEnergyAuditGuide() {
       <TrustSection title="Turn observations into a plan">
         <p>Prioritize actions by comfort, safety, expected impact, cost, and how easy they are to verify. Use Watt & Wall calculators to quantify individual loads or material quantities, then ask a qualified contractor or energy auditor to review complex changes.</p>
       </TrustSection>
-    </TrustPageShell>
+    </TrustPageShell></>
   );
 }

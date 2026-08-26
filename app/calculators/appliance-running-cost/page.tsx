@@ -10,7 +10,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Appliance Running Cost Calculator",
-  description: "Estimate one appliance's monthly and annual electricity use and running cost from wattage, active time, and your local USD price per kWh.",
+  description: "Use an appliance running cost calculator to estimate monthly and annual energy use from wattage, active time, and a local electricity rate.",
   path: "/calculators/appliance-running-cost",
 });
 

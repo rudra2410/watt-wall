@@ -9,20 +9,21 @@ export const metadata = createPageMetadata({
 
 export default function PrivacyPage() {
   return (
-    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="This plain-language notice describes the current Watt & Wall prototype and the choices you should expect as the site evolves.">
-      <TrustNote><strong>Last reviewed: August 24, 2026.</strong> This is product information, not legal advice. Before publishing ads or serving visitors in regulated regions, the site owner should review the notice for the operating jurisdictions and actual vendors in use.</TrustNote>
+    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="A plain-language explanation of calculator inputs, email enquiries, cookies, and the advertising choices Watt & Wall will provide before ads are enabled.">
+      <TrustNote><strong>Last reviewed: August 24, 2026.</strong> This is product information, not legal advice. The notice must be reviewed against the actual vendors and jurisdictions before advertising or analytics are enabled.</TrustNote>
 
-      <TrustSection title="What the current prototype does">
-        <p>The calculator widgets process the values you enter in your browser for the current estimate. The prototype has no account, database, calculator submission endpoint, analytics product, newsletter, or advertising tag. Calculator inputs are not uploaded to or stored by Watt & Wall.</p>
+      <TrustSection title="What the website currently does">
+        <p>The calculator widgets process the values you enter in your browser for the current estimate. The site currently has no account, database, calculator submission endpoint, analytics product, newsletter, or advertising tag. Calculator inputs are not uploaded to or stored by Watt & Wall.</p>
       </TrustSection>
 
       <TrustSection title="Information you choose to send by email">
-        <p>If you email <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink>, your email provider and the receiving mailbox may process your address, message, attachments, and any information you include. Please do not send sensitive personal, financial, utility-account, or property documents. We use an email only to read and respond to the enquiry when appropriate; there is no website form or automatic response system in this prototype.</p>
+        <p>If you email <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink>, your email provider and the receiving mailbox may process your address, message, attachments, and any information you include. Please do not send sensitive personal, financial, utility-account, or property documents. We use an email only to read and respond to the enquiry when appropriate; there is no website form or automatic response system.</p>
       </TrustSection>
 
-      <TrustSection title="Cookies, local storage, and future ads">
+      <TrustSection title="Cookies, local storage, and advertising readiness">
         <p>The current interface does not install an analytics or advertising cookie or intentionally store a display preference. A browser may still make ordinary technical requests needed to load the site, fonts, and static assets.</p>
-        <p>If Google AdSense, analytics, a consent tool, or another third-party service is added, this notice must be updated to identify the actual technology, purposes, providers, and controls before that service is used. Google requires publishers to disclose data use and third-party advertising cookies in a privacy policy; see <TrustLink external href="https://support.google.com/adsense/answer/10502938">Google Publisher Policies</TrustLink> and <TrustLink external href="https://support.google.com/adsense/answer/7549925">Google’s AdSense cookie guidance</TrustLink>. Where required for EEA, UK, or Swiss traffic, a certified consent management solution must be configured before personalized ads are served.</p>
+        <p>Before Google AdSense or another advertising service is enabled, this page will identify the actual providers, cookie purposes, personalized and non-personalized ad choices, and opt-out controls. For EEA, UK, and Swiss visitors, a Google-certified consent management platform configured for the IAB Transparency and Consent Framework must be in place before personalized ads are served. No placeholder publisher ID or advertising tag is used today.</p>
+        <p>See <TrustLink external href="https://support.google.com/adsense/answer/10502938">Google Publisher Policies</TrustLink>, <TrustLink external href="https://support.google.com/adsense/answer/7549925">Google’s AdSense cookie guidance</TrustLink>, and <TrustLink external href="https://support.google.com/adsense/answer/13554116">Google CMP requirements</TrustLink> for the requirements that apply when advertising is configured.</p>
       </TrustSection>
 
       <TrustSection title="Retention, sharing, and your choices">

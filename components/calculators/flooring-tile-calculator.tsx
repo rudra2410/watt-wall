@@ -85,7 +85,7 @@ export function FlooringTileCalculator() {
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your floor and product</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="flooring-input-title">Estimate flooring or tile quantity</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Measurements use feet and square feet; values stay in this browser.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. The starting example uses feet and square feet; keep room and product coverage in the same unit system.</p>
         </div>
 
         <fieldset className="mt-7">

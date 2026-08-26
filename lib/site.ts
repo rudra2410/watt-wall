@@ -3,11 +3,10 @@ export const siteConfig = {
   domain: "wattandwall.com",
   url: "https://wattandwall.com",
   description:
-    "Practical home energy and renovation calculators with transparent formulas and clear assumptions.",
+    "Independent home energy, renovation, furniture, and decoration planning calculators with transparent formulas, local inputs, and clear assumptions.",
   footerDescription:
     "Plan smarter with Watt & Wall—practical calculators that turn energy costs and renovation measurements into clear, transparent estimates you can understand and use with confidence.",
   contactEmail: "wattandwall@gmail.com",
-  contactPhone: "+1 (555) 014-0199",
 } as const;
 
 export const primaryNavigation = [
@@ -25,6 +24,9 @@ export const guideNavigation = [
   { label: "Paint and flooring", href: "/guides/paint-and-flooring-measurements", description: "Measure rooms, openings, coverage, and material waste with confidence." },
   { label: "Home energy audit", href: "/guides/home-energy-audit", description: "Spot common energy questions and decide when an assessment can help." },
   { label: "EnergyGuide labels", href: "/guides/energyguide-labels", description: "Compare appliance energy information without confusing estimates for bills." },
+  { label: "Room and furniture measuring", href: "/guides/measuring-rooms-and-furniture", description: "Measure rooms, furniture, obstacles, and delivery openings before ordering." },
+  { label: "Choosing a rug size", href: "/guides/choosing-rug-size", description: "Size a rug around living, dining, or bedroom furniture and available floor space." },
+  { label: "Measuring curtains", href: "/guides/measuring-curtains", description: "Plan rod width, fullness, finished drop, and ready-made panel quantities." },
 ] as const;
 
 export const footerNavigation = [
@@ -33,6 +35,7 @@ export const footerNavigation = [
     links: [
       { label: "How it works", href: "/how-it-works" },
       { label: "Methodology", href: "/methodology" },
+      { label: "Editorial policy", href: "/editorial-policy" },
       { label: "Privacy policy", href: "/privacy" },
       { label: "Terms of use", href: "/terms" },
       { label: "Disclaimer", href: "/disclaimer" },

@@ -10,7 +10,7 @@ export const metadata = createPageMetadata({
 export default function ContactPage() {
   return (
     <TrustPageShell category="Get in touch" path="/contact" title="Contact Watt & Wall" description="Send a clear note about a source, formula, accessibility issue, or piece of site content that needs attention.">
-      <TrustNote><strong>Email:</strong> <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink><br />This link opens your email application. The current prototype has no contact form, account system, or message-processing backend.</TrustNote>
+      <TrustNote><strong>Email:</strong> <TrustLink href="mailto:wattandwall@gmail.com">wattandwall@gmail.com</TrustLink><br />This link opens your email application. The website currently has no account system or automated message-processing backend.</TrustNote>
 
       <TrustSection title="Useful reasons to write">
         <TrustList>

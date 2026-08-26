@@ -9,8 +9,6 @@ import { footerNavigation, siteConfig } from "@/lib/site";
 const footerLinkClassName =
   "inline-flex min-h-11 items-center rounded-md px-1 text-sm font-medium text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-muted motion-reduce:transition-none";
 
-const footerContactClassName = `${footerLinkClassName} gap-2`;
-
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 

@@ -1,0 +1,17 @@
+import Link from "next/link";
+import { CalculatorShell } from "@/components/calculators/calculator-shell";
+import { RugSizeCalculator } from "@/components/calculators/decor-calculators";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({ title: "Rug Size Calculator", description: "Use a rug size calculator to estimate minimum dimensions around a sofa, dining table, or bed in metric or imperial units.", path: "/calculators/rug-size" });
+const sourceClass = "font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
+export default function RugSizePage() {
+  return <CalculatorShell category="Home decoration calculator" title="Rug Size Calculator" description="Estimate a minimum rug size around a sofa, dining table, or bed, then check whether that footprint fits within your room." path="/calculators/rug-size">
+    <RugSizeCalculator />
+    <article className="mt-14 grid gap-10 rounded-2xl bg-card-section p-5 sm:mt-16 sm:p-8 lg:p-10 xl:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] xl:gap-12">
+      <div className="space-y-10"><section><p className="text-xs font-bold tracking-[0.14em] text-primary uppercase">Placement-based estimate</p><h2 className="mt-3 text-3xl font-semibold tracking-tight">Rug size formula</h2><p className="mt-4 leading-7 text-muted-foreground">The result starts with the furniture group rather than a fixed product size. The editable extension represents the rug visible beyond the sofa, dining table and pulled-out chairs, or bed.</p><div className="mt-6 rounded-xl bg-card p-5 font-mono text-sm leading-6 shadow-sm"><p>Rug dimension = furniture dimension + (extension × 2)</p></div></section><section><h2 className="text-3xl font-semibold tracking-tight">Choose by layout, not label</h2><p className="mt-4 leading-7 text-muted-foreground">Dining layouts need enough rug beyond the table for chairs to move without catching an edge. Bedroom and living-room choices depend on which furniture legs should sit on the rug. Use painter&apos;s tape to test the calculated outline.</p><p className="mt-4"><Link className={sourceClass} href="/guides/choosing-rug-size">Read the rug placement guide</Link>.</p></section></div>
+      <aside className="space-y-5"><section className="rounded-xl bg-card p-5 shadow-sm"><h2 className="text-xl font-semibold">Sources and defaults</h2><ul className="mt-4 space-y-3 text-sm leading-6"><li><a className={sourceClass} href="https://www.ikea.com/ca/en/product-guides/how-to-choose-the-right-rug-size-pub2e7f9fb0/">IKEA: Rug sizing by room</a></li><li><a className={sourceClass} href="https://www.homedepot.com/c/ai/rug-sizes-for-your-space/9ba683603be9fa5395fab901838423fe">Home Depot: Rug sizes for your space</a></li></ul><p className="mt-4 text-sm leading-6 text-muted-foreground">Dining starts at 70 cm, within IKEA&apos;s 60–80 cm guidance. Other starting extensions remain editable and should be checked against the intended placement.</p></section><section className="rounded-xl bg-primary/10 p-5"><h2 className="text-xl font-semibold">No forced product size</h2><p className="mt-3 text-sm leading-6 text-muted-foreground">Standard sizes vary by country and seller. The calculator gives a minimum footprint, not a product SKU or guarantee of visual preference.</p></section></aside>
+    </article>
+  </CalculatorShell>;
+}
