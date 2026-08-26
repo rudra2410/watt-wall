@@ -3,7 +3,7 @@ import { Geist_Mono, Outfit } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { siteConfig } from "@/lib/site";
+import { adsenseConfig, adsenseScriptSrc, siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -45,6 +45,7 @@ export const metadata: Metadata = {
     images: ["/twitter-image"],
   },
   robots: { index: true, follow: true },
+  other: { "google-adsense-account": adsenseConfig.publisherId },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -54,6 +55,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
+        {/*
+          * AdSense requires its loader between <head> and </head>. React hoists
+          * this async script into <head>, so every exported page ships the tag
+          * in its HTML instead of waiting for hydration to inject it.
+          */}
+        <script async crossOrigin="anonymous" src={adsenseScriptSrc} />
         <SiteHeader />
         {children}
         <SiteFooter />

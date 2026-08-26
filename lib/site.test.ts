@@ -1,6 +1,8 @@
+import { readFileSync } from "node:fs";
+
 import { describe, expect, it } from "vitest";
 
-import { footerNavigation, primaryNavigation, siteConfig } from "./site";
+import { adsenseConfig, adsenseScriptSrc, footerNavigation, primaryNavigation, siteConfig } from "./site";
 
 describe("siteConfig", () => {
   it("uses the approved Watt & Wall brand and domain", () => {
@@ -40,5 +42,15 @@ describe("siteConfig", () => {
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ]);
+  });
+});
+
+describe("adsenseConfig", () => {
+  it("uses the same publisher id for the meta tag, the loader script, and ads.txt", () => {
+    const adsTxt = readFileSync(new URL("../public/ads.txt", import.meta.url), "utf8").trim();
+
+    expect(adsenseConfig.publisherId).toMatch(/^ca-pub-\d{16}$/);
+    expect(adsenseScriptSrc).toBe(`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseConfig.publisherId}`);
+    expect(adsTxt).toBe(`google.com, ${adsenseConfig.publisherId.replace("ca-", "")}, DIRECT, f08c47fec0942fa0`);
   });
 });
