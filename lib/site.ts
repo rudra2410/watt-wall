@@ -9,6 +9,18 @@ export const siteConfig = {
   contactEmail: "wattandwall@gmail.com",
 } as const;
 
+/*
+ * Google AdSense identifies the publisher three ways, and all three must agree:
+ * the `google-adsense-account` meta tag, the `client` parameter on the loader
+ * script, and the `pub-` id in /ads.txt. Keep the id here so the tag and the
+ * script stay in sync; public/ads.txt is a static file and is covered by a test.
+ */
+export const adsenseConfig = {
+  publisherId: "ca-pub-1759137058910390",
+} as const;
+
+export const adsenseScriptSrc = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseConfig.publisherId}`;
+
 export const primaryNavigation = [
   { label: "Home", href: "/" },
   { label: "Calculators", href: "/calculators" },
