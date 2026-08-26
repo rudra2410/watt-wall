@@ -3,11 +3,10 @@ export const siteConfig = {
   domain: "wattandwall.com",
   url: "https://wattandwall.com",
   description:
-    "Practical home energy and renovation calculators with transparent formulas and clear assumptions.",
+    "Independent home energy and renovation planning calculators with transparent formulas, local inputs, and clear assumptions.",
   footerDescription:
     "Plan smarter with Watt & Wall—practical calculators that turn energy costs and renovation measurements into clear, transparent estimates you can understand and use with confidence.",
   contactEmail: "wattandwall@gmail.com",
-  contactPhone: "+1 (555) 014-0199",
 } as const;
 
 export const primaryNavigation = [
@@ -33,6 +32,7 @@ export const footerNavigation = [
     links: [
       { label: "How it works", href: "/how-it-works" },
       { label: "Methodology", href: "/methodology" },
+      { label: "Editorial policy", href: "/editorial-policy" },
       { label: "Privacy policy", href: "/privacy" },
       { label: "Terms of use", href: "/terms" },
       { label: "Disclaimer", href: "/disclaimer" },

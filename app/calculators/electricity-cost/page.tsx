@@ -12,7 +12,7 @@ const sourceLinkClassName = "rounded-sm font-semibold text-primary underline dec
 
 export const metadata = createPageMetadata({
   title: "Electricity Cost Calculator",
-  description: "Estimate daily, monthly, and annual electricity use and cost from power, active hours, days, and your local USD price per kWh.",
+  description: "Use an electricity cost calculator to estimate daily, monthly, and annual kWh and cost from power, active hours, days, and a local rate.",
   path: "/calculators/electricity-cost",
 });
 

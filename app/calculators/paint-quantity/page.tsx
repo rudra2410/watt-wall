@@ -10,7 +10,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Paint Quantity Calculator",
-  description: "Estimate wall paint in US gallons and litres from room dimensions, openings, coats, product coverage, and a visible waste allowance.",
+  description: "Estimate paint quantity from room dimensions, openings, coats, product coverage, and a visible waste allowance, with U.S.-gallon and litre views.",
   path: "/calculators/paint-quantity",
 });
 

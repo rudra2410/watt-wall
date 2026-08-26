@@ -6,7 +6,7 @@ import { calculators } from "@/data/calculators";
 import { siteConfig } from "@/lib/site";
 
 const lastModified = new Date("2026-08-24T00:00:00.000Z");
-const staticPaths = ["/", "/calculators", "/guides", "/how-it-works", "/methodology", "/about", "/contact", "/privacy", "/terms", "/disclaimer", "/guides/electricity-costs", "/guides/appliance-energy-use", "/guides/paint-and-flooring-measurements", "/guides/home-energy-audit", "/guides/energyguide-labels"] as const;
+const staticPaths = ["/", "/calculators", "/guides", "/how-it-works", "/methodology", "/editorial-policy", "/about", "/contact", "/privacy", "/terms", "/disclaimer", "/guides/electricity-costs", "/guides/appliance-energy-use", "/guides/paint-and-flooring-measurements", "/guides/home-energy-audit", "/guides/energyguide-labels"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

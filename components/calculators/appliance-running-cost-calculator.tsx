@@ -5,6 +5,7 @@ import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
 import { applianceRunningCostDefaults } from "@/data/appliance-running-cost";
 import {
   calculateApplianceRunningCost,
@@ -12,7 +13,9 @@ import {
   type ApplianceRunningCostFieldError,
   type ApplianceRunningCostInput,
 } from "@/lib/calculators/appliance-running-cost";
-import { formatDecimal, formatUsd, formatUsdRate } from "@/lib/calculators/formatting";
+import { formatCurrency, formatCurrencyRate, formatDecimal } from "@/lib/calculators/formatting";
+
+const currencyOptions = ["USD", "CAD", "GBP", "EUR", "INR", "AUD"] as const;
 
 type RawApplianceInput = Record<keyof ApplianceRunningCostInput, string>;
 
@@ -25,6 +28,7 @@ const defaultRawInput: RawApplianceInput = {
 
 export function ApplianceRunningCostCalculator() {
   const [rawInput, setRawInput] = useState(defaultRawInput);
+  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>("USD");
   const [copyStatus, setCopyStatus] = useState("");
 
   const parsedInput = useMemo<ApplianceRunningCostInput>(() => ({
@@ -62,9 +66,9 @@ export function ApplianceRunningCostCalculator() {
 
     const summary = [
       "Watt & Wall appliance running cost estimate",
-      `${formatDecimal(result.monthlyEnergyKilowattHours)} kWh and ${formatUsd(result.monthlyCost)} per month`,
-      `${formatDecimal(result.annualEnergyKilowattHours)} kWh and ${formatUsd(result.annualCost)} per year`,
-      `Based on ${rawInput.wattage} W, ${rawInput.hoursPerActiveDay} hours per active day, ${rawInput.activeDaysPerMonth} active days per month, and ${formatUsdRate(parsedInput.pricePerKilowattHour)}/kWh.`,
+      `${formatDecimal(result.monthlyEnergyKilowattHours)} kWh and ${formatCurrency(result.monthlyCost, currency)} per month`,
+      `${formatDecimal(result.annualEnergyKilowattHours)} kWh and ${formatCurrency(result.annualCost, currency)} per year`,
+      `Based on ${rawInput.wattage} W, ${rawInput.hoursPerActiveDay} hours per active day, ${rawInput.activeDaysPerMonth} active days per month, and ${formatCurrencyRate(parsedInput.pricePerKilowattHour, currency)}/kWh.`,
     ].join("\n");
 
     try {
@@ -76,7 +80,7 @@ export function ApplianceRunningCostCalculator() {
   }
 
   const liveSummary = result
-    ? `Updated estimate: ${formatUsd(result.monthlyCost)} per month and ${formatUsd(result.annualCost)} per year.`
+    ? `Updated estimate: ${formatCurrency(result.monthlyCost, currency)} per month and ${formatCurrency(result.annualCost, currency)} per year.`
     : `Result unavailable. ${errors.length} ${errors.length === 1 ? "field needs" : "fields need"} attention.`;
 
   return (
@@ -85,7 +89,7 @@ export function ApplianceRunningCostCalculator() {
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your appliance</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="appliance-input-title">Estimate one appliance&apos;s running cost</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter a period for decimals; values stay in this browser.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter a period for decimals and your local rate; values stay in this browser.</p>
         </div>
 
         <fieldset className="mt-7 grid gap-5 sm:grid-cols-2">
@@ -127,15 +131,22 @@ export function ApplianceRunningCostCalculator() {
           />
           <NumericField
             error={errorByField.pricePerKilowattHour}
-            hint="Use the USD per-kWh rate from your bill or tariff."
+            hint="Use the all-in local-currency rate per kWh from your bill or tariff."
             id="appliance-rate"
-            label="Electricity price (USD per kWh)"
+            label="Electricity price (local currency per kWh)"
             min="0"
             name="pricePerKilowattHour"
             onChange={updateField("pricePerKilowattHour")}
             step="any"
             value={rawInput.pricePerKilowattHour}
           />
+          <div>
+            <Label htmlFor="appliance-currency">Currency</Label>
+            <Select className="mt-2" id="appliance-currency" value={currency} onValueChange={(value) => setCurrency(value as (typeof currencyOptions)[number])}>
+              {currencyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </Select>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">Choose the currency used by your local rate.</p>
+          </div>
         </fieldset>
 
         <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
@@ -154,16 +165,16 @@ export function ApplianceRunningCostCalculator() {
           <>
             <div className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-5">
               <p className="text-sm leading-5 text-muted-foreground">Estimated monthly cost</p>
-              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatUsd(result.monthlyCost)}</p>
-              <p className="mt-2 text-xs leading-5 text-muted-foreground">USD, based on {formatDecimal(parsedInput.activeDaysPerMonth)} active days</p>
+              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatCurrency(result.monthlyCost, currency)}</p>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">Example currency format; based on {formatDecimal(parsedInput.activeDaysPerMonth)} active days</p>
             </div>
             <dl className="mt-6 divide-y divide-border text-sm">
-              <ResultRow cost={result.costPerActiveDay} energy={result.energyPerActiveDayKilowattHours} label="Per active day" />
-              <ResultRow cost={result.monthlyCost} energy={result.monthlyEnergyKilowattHours} label="Per month" />
-              <ResultRow cost={result.annualCost} energy={result.annualEnergyKilowattHours} label="Per year" />
+              <ResultRow cost={result.costPerActiveDay} currency={currency} energy={result.energyPerActiveDayKilowattHours} label="Per active day" />
+              <ResultRow cost={result.monthlyCost} currency={currency} energy={result.monthlyEnergyKilowattHours} label="Per month" />
+              <ResultRow cost={result.annualCost} currency={currency} energy={result.annualEnergyKilowattHours} label="Per year" />
             </dl>
             <p className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-4 text-sm leading-6">
-              At this schedule, the appliance uses about <strong>{formatDecimal(result.monthlyEnergyKilowattHours)} kWh</strong> and costs about <strong>{formatUsd(result.monthlyCost)}</strong> per month. Repeating the same schedule for 12 months gives about <strong>{formatUsd(result.annualCost)}</strong> per year.
+              At this schedule, the appliance uses about <strong>{formatDecimal(result.monthlyEnergyKilowattHours)} kWh</strong> and costs about <strong>{formatCurrency(result.monthlyCost, currency)}</strong> per month. Repeating the same schedule for 12 months gives about <strong>{formatCurrency(result.annualCost, currency)}</strong> per year.
             </p>
           </>
         ) : (
@@ -215,12 +226,12 @@ function NumericField({ error, hint, id, label, ...inputProps }: NumericFieldPro
   );
 }
 
-function ResultRow({ cost, energy, label }: { cost: number; energy: number; label: string }) {
+function ResultRow({ cost, currency, energy, label }: { cost: number; currency: string; energy: number; label: string }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-4 first:pt-0 last:pb-0">
       <dt className="text-muted-foreground">{label}</dt>
       <dd className="text-right">
-        <span className="block font-mono font-semibold">{formatUsd(cost)}</span>
+        <span className="block font-mono font-semibold">{formatCurrency(cost, currency)}</span>
         <span className="mt-1 block text-xs text-muted-foreground">{formatDecimal(energy)} kWh</span>
       </dd>
     </div>

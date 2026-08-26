@@ -10,7 +10,7 @@ export const metadata = createPageMetadata({
 export default function MethodologyPage() {
   return (
     <TrustPageShell category="How we calculate" path="/methodology" title="Methodology" description="A plain-language guide to the formulas, sources, assumptions, and review process behind Watt & Wall estimates.">
-      <TrustNote><strong>Last reviewed: August 24, 2026.</strong> This page describes the current prototype. We update it when a calculator’s formula, source context, or data-handling behavior changes.</TrustNote>
+      <TrustNote><strong>Last reviewed: August 24, 2026.</strong> This page describes the current public implementation. We update it when a calculator’s formula, source context, or data-handling behavior changes.</TrustNote>
 
       <TrustSection title="Start with a useful, limited question">
         <p>Each tool is designed for one early-planning question: estimating electricity cost, appliance running cost, paint quantity, or flooring and tile quantity. We keep the scope narrow so the input, formula, result, and limitation can be read together.</p>

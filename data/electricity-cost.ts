@@ -13,7 +13,7 @@ export const electricityCostExample = calculateElectricityCost(electricityCostDe
 export const electricityCostAssumptions = [
   "The entered power stays constant during every active hour.",
   "Each month uses the number of active days you enter; the annual estimate repeats that monthly schedule 12 times.",
-  "The electricity price is a flat USD rate per kWh and does not include separate fixed fees, demand charges, taxes, or time-of-use changes.",
+  "The starting rate is shown as a local-currency example per kWh. Replace it with the all-in rate from your own bill or tariff; fixed fees, demand charges, taxes, tiers, and time-of-use changes are not included.",
   "Standby use, cycling loads, startup surges, and efficiency losses are not added unless they are already reflected in the power value you enter.",
 ] as const;
 
@@ -32,6 +32,6 @@ export const electricityCostFaqs = [
   },
   {
     question: "Does Watt & Wall save these values?",
-    answer: "No. The prototype calculates in your browser and does not upload or store these entries. Copying a result writes only the displayed summary to your clipboard after you select the Copy result button.",
+    answer: "No. The calculator runs in your browser and does not upload or store these entries. Copying a result writes only the displayed summary to your clipboard after you select the Copy result button.",
   },
 ] as const;
