@@ -51,6 +51,21 @@ const calculatorInputs = [
     title: "Flooring and tile",
     description: "Floor length and width, coverage per carton, pack, sheet, or tile unit, plus a waste allowance.",
   },
+  {
+    href: "/calculators/furniture-fit",
+    title: "Furniture fit",
+    description: "Room, furniture, preferred clearance, and tightest delivery-opening measurements in metric or imperial units.",
+  },
+  {
+    href: "/calculators/rug-size",
+    title: "Rug size",
+    description: "Room layout, reference furniture, and an editable rug extension around each side.",
+  },
+  {
+    href: "/calculators/curtain-measurement",
+    title: "Curtain measurement",
+    description: "Window and panel widths, rod extension, fullness, and the intended finished drop.",
+  },
 ] as const;
 
 export const metadata = createPageMetadata({
@@ -112,7 +127,7 @@ export default function HowItWorksPage() {
             <div className="max-w-md">
               <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Before you start</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold tracking-tight sm:text-4xl" id="inputs-title">Bring the detail that changes the result</h2>
-              <p className="mt-5 text-base leading-7 text-muted-foreground">The most useful estimate begins with the value closest to the real situation: a device label or measured average, your bill or tariff, the product&apos;s stated coverage, and the dimensions you measured.</p>
+              <p className="mt-5 text-base leading-7 text-muted-foreground">The most useful estimate begins with the value closest to the real situation: a device label or measured average, your bill or tariff, product coverage, and carefully measured room, furniture, window, or material dimensions.</p>
               <p className="mt-4 text-sm leading-6 text-muted-foreground">All calculator values stay in your browser. Replace the starting values whenever your project has better information.</p>
             </div>
 

@@ -4,8 +4,8 @@ import { calculatorCategories, calculators } from "@/data/calculators";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Home Energy and Renovation Calculators",
-  description: "Browse transparent calculators for electricity costs, appliance running costs, paint quantities, flooring, and tile.",
+  title: "Home Energy, Renovation and Decor Calculators",
+  description: "Browse transparent calculators for energy costs, renovation materials, furniture fit, rug sizing, and curtain measurements.",
   path: "/calculators",
 });
 
@@ -16,7 +16,7 @@ export default function CalculatorsPage() {
         <Container>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Calculator directory</p>
           <h1 className="mt-4 max-w-4xl text-4xl leading-[1.08] font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
-            Plan energy use and renovation materials with clearer numbers.
+            Plan energy, renovation, furniture, and decor with clearer numbers.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
             Choose a focused tool, enter your own local values, and review the formula, assumptions, and units behind the estimate.

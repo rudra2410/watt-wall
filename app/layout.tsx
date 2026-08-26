@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Watt & Wall",
   },
   description:
-    "Practical home energy and renovation calculators with transparent formulas and clear assumptions.",
+    "Practical home energy, renovation, furniture, and decoration calculators with transparent formulas and clear assumptions.",
   applicationName: siteConfig.name,
   referrer: "strict-origin-when-cross-origin",
   formatDetection: { telephone: false },

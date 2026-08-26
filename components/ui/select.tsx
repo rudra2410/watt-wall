@@ -9,7 +9,8 @@ type OptionProps = { children?: ReactNode; value: string; disabled?: boolean; cl
 type SelectProps = Omit<ComponentPropsWithoutRef<"button">, "children" | "onClick" | "onKeyDown"> & { children: ReactNode; name?: string; onValueChange?: (value: string) => void; value?: string };
 
 export function Select({ children, className, disabled, id, name, onValueChange, value = "", ...props }: SelectProps) {
-  const selectId = id ?? useId();
+  const generatedId = useId();
+  const selectId = id ?? generatedId;
   const listboxId = `${selectId}-listbox`;
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);

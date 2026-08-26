@@ -1,6 +1,6 @@
-export type CalculatorCategory = "Energy" | "Renovation";
+export type CalculatorCategory = "Energy" | "Renovation" | "Furniture & Decor";
 
-export type CalculatorIconName = "bolt" | "plug" | "paint" | "tile";
+export type CalculatorIconName = "bolt" | "plug" | "paint" | "tile" | "furniture" | "rug" | "curtain";
 
 export type CalculatorDefinition = {
   slug: string;
@@ -30,6 +30,12 @@ export const calculatorCategories = [
     title: "Plan renovation materials",
     description: "Estimate paint, flooring, and tile quantities from your measurements before you buy materials.",
     icon: "paint",
+  },
+  {
+    name: "Furniture & Decor",
+    title: "Plan furniture and finishing details",
+    description: "Check furniture fit, estimate a balanced rug size, and plan curtain rods and ready-made panels from your own measurements.",
+    icon: "furniture",
   },
 ] as const satisfies readonly CalculatorCategoryDefinition[];
 
@@ -65,5 +71,29 @@ export const calculators = [
     category: "Renovation",
     description: "Estimate adjusted floor area and the packs or tiles needed after your chosen waste allowance.",
     icon: "tile",
+  },
+  {
+    slug: "furniture-fit",
+    href: "/calculators/furniture-fit",
+    name: "Furniture Fit Calculator",
+    category: "Furniture & Decor",
+    description: "Check a furniture footprint, requested clearance, and a preliminary delivery opening before you order.",
+    icon: "furniture",
+  },
+  {
+    slug: "rug-size",
+    href: "/calculators/rug-size",
+    name: "Rug Size Calculator",
+    category: "Furniture & Decor",
+    description: "Estimate minimum rug dimensions around a sofa, dining table, or bed and compare them with the room.",
+    icon: "rug",
+  },
+  {
+    slug: "curtain-measurement",
+    href: "/calculators/curtain-measurement",
+    name: "Curtain Measurement Calculator",
+    category: "Furniture & Decor",
+    description: "Estimate rod width, combined fabric width, finished drop, and whole ready-made curtain panels.",
+    icon: "curtain",
   },
 ] as const satisfies readonly CalculatorDefinition[];

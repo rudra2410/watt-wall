@@ -9,7 +9,7 @@ export const metadata = createPageMetadata({
 
 export default function AboutPage() {
   return (
-    <TrustPageShell category="About the site" path="/about" title="About Watt & Wall" description="Practical home energy and renovation tools for people who want to understand a number before making a decision.">
+    <TrustPageShell category="About the site" path="/about" title="About Watt & Wall" description="Practical home energy, renovation, furniture, and decoration tools for people who want to understand a number before making a decision.">
       <TrustNote><strong>Created by Rudra Sutariya.</strong> Watt & Wall is an independent educational website and does not present itself as a utility, manufacturer, contractor, government service, or professional adviser.</TrustNote>
 
       <TrustSection title="About the creator">

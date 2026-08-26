@@ -9,8 +9,8 @@ import { createPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const metadata = createPageMetadata({
-  title: "Home Energy and Renovation Guides",
-  description: "Practical guides for understanding electricity costs, appliance energy use, home energy audits, paint, flooring, and EnergyGuide labels.",
+  title: "Home Energy, Renovation and Decor Guides",
+  description: "Source-backed guides for energy costs, renovation measurements, furniture fit, rug sizing, and curtain planning.",
   path: "/guides",
 });
 
@@ -30,7 +30,7 @@ export default function GuidesPage() {
           <div className="mt-10 max-w-2xl">
             <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Watt & Wall guides</p>
             <h1 className="mt-3 text-4xl leading-[1.08] font-semibold tracking-[-0.035em] text-balance sm:text-5xl">Clear answers for better home planning.</h1>
-            <p className="mt-5 text-lg leading-8 text-muted-foreground">Simple, source-backed explanations for the numbers behind energy and renovation decisions.</p>
+            <p className="mt-5 text-lg leading-8 text-muted-foreground">Simple, source-backed explanations for the numbers behind energy, renovation, furniture, and decoration decisions.</p>
           </div>
         </Container>
       </section>

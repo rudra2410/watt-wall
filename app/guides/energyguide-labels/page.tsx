@@ -1,4 +1,5 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,7 +10,7 @@ export const metadata = createPageMetadata({
 
 export default function EnergyGuideLabelsPage() {
   return (
-    <TrustPageShell category="Buying guide" path="/guides/energyguide-labels" title="How to read an EnergyGuide label" description="Use the yellow EnergyGuide label as a comparison tool, then adjust the estimate for your home, habits, and local electricity price.">
+    <><ArticleJsonLd title="How to Read an EnergyGuide Label" description="Learn what an EnergyGuide label shows, how to compare similar appliances, and why the displayed annual cost may differ from your bill." path="/guides/energyguide-labels" /><TrustPageShell category="Buying guide" path="/guides/energyguide-labels" title="How to read an EnergyGuide label" description="Use the yellow EnergyGuide label as a comparison tool, then adjust the estimate for your home, habits, and local electricity price.">
       <TrustNote><strong>Compare like with like.</strong> An EnergyGuide estimate uses standardized assumptions. It helps compare similar models, but it is not a promise of what your household will pay.</TrustNote>
 
       <TrustSection title="What the label tells you">
@@ -30,6 +31,6 @@ export default function EnergyGuideLabelsPage() {
       <TrustSection title="Compare, then calculate">
         <p>Use the label to shortlist efficient models, then enter the most relevant wattage or annual energy figure in the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink>. Keep the label’s assumptions beside your result so the comparison remains fair.</p>
       </TrustSection>
-    </TrustPageShell>
+    </TrustPageShell></>
   );
 }

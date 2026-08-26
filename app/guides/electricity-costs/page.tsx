@@ -1,4 +1,5 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,7 +10,7 @@ export const metadata = createPageMetadata({
 
 export default function ElectricityCostsGuide() {
   return (
-    <TrustPageShell category="Planning guide" path="/guides/electricity-costs" title="Understanding electricity costs" description="A practical guide to turning appliance power, usage time, and your local rate into a clear planning estimate.">
+    <><ArticleJsonLd title="Understanding Electricity Costs" description="Learn how watts, kilowatt-hours, usage time, and local electricity prices combine to estimate a home's energy cost." path="/guides/electricity-costs" /><TrustPageShell category="Planning guide" path="/guides/electricity-costs" title="Understanding electricity costs" description="A practical guide to turning appliance power, usage time, and your local rate into a clear planning estimate.">
       <TrustNote><strong>Use your local rate whenever possible.</strong> Electricity prices vary by location and may include delivery charges, taxes, and fees. A calculator estimate is useful for planning, not a replacement for your utility bill.</TrustNote>
 
       <TrustSection title="Watts, kilowatts, and kilowatt-hours">
@@ -35,6 +36,6 @@ export default function ElectricityCostsGuide() {
       <TrustSection title="Continue with a calculator">
         <p>Use the <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> for a recurring usage estimate, or review the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink> for a single appliance schedule. Keep the input values and assumptions with the result so you can revisit them when your rate or routine changes.</p>
       </TrustSection>
-    </TrustPageShell>
+    </TrustPageShell></>
   );
 }

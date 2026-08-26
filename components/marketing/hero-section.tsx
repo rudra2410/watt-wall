@@ -39,7 +39,7 @@ export function HeroSection() {
             Plan home projects with clearer numbers.
           </h1>
           <p className="mt-6 max-w-[40rem] text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-8">
-            Estimate energy costs and renovation materials using your own local values, transparent formulas, and plain-language assumptions.
+            Estimate energy costs, renovation materials, furniture fit, rug sizes, and curtains using local values, transparent formulas, and plain-language assumptions.
           </p>
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <Link className={cn(buttonVariants(), "group sm:min-w-44")} href="/calculators">

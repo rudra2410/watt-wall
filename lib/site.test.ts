@@ -25,6 +25,9 @@ describe("siteConfig", () => {
       "/guides/paint-and-flooring-measurements",
       "/guides/home-energy-audit",
       "/guides/energyguide-labels",
+      "/guides/measuring-rooms-and-furniture",
+      "/guides/choosing-rug-size",
+      "/guides/measuring-curtains",
     ]);
   });
 

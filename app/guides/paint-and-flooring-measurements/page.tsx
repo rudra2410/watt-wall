@@ -1,4 +1,5 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,7 +10,7 @@ export const metadata = createPageMetadata({
 
 export default function PaintAndFlooringGuide() {
   return (
-    <TrustPageShell category="Renovation guide" path="/guides/paint-and-flooring-measurements" title="Measuring paint and flooring projects" description="Better measurements make better material estimates. Use this room-by-room checklist before buying paint, tile, or flooring.">
+    <><ArticleJsonLd title="Measuring Paint and Flooring Projects" description="Measure walls, floors, openings, product coverage, and waste before estimating paint, flooring, or tile materials." path="/guides/paint-and-flooring-measurements" /><TrustPageShell category="Renovation guide" path="/guides/paint-and-flooring-measurements" title="Measuring paint and flooring projects" description="Better measurements make better material estimates. Use this room-by-room checklist before buying paint, tile, or flooring.">
       <TrustNote><strong>Measure twice before ordering.</strong> Surface condition, layout, product coverage, pattern, cuts, and installation method can change the final quantity. Treat the calculator result as a planning starting point.</TrustNote>
 
       <TrustSection title="Paint: measure the surfaces to be coated">
@@ -35,6 +36,6 @@ export default function PaintAndFlooringGuide() {
       <TrustSection title="Choose the right calculator">
         <p>Use the <TrustLink href="/calculators/paint-quantity">Paint Quantity Calculator</TrustLink> for wall dimensions, openings, coats, coverage, and waste. For tile or flooring materials, use the <TrustLink href="/calculators/flooring-tile">Flooring and Tile Calculator</TrustLink>. Confirm the result against the product label, installation instructions, and a professional’s advice for complex spaces.</p>
       </TrustSection>
-    </TrustPageShell>
+    </TrustPageShell></>
   );
 }
