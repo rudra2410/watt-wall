@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Geist_Mono, Outfit } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { adsenseConfig, adsenseScriptSrc, siteConfig } from "@/lib/site";
+import { adsenseConfig, adsenseScriptSrc, analyticsConfig, siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <SiteFooter />
       </body>
+      <GoogleAnalytics gaId={analyticsConfig.measurementId} />
     </html>
   );
 }

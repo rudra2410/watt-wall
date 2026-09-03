@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { electricityCostDefaults } from "@/data/electricity-cost";
+import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import {
   calculateElectricityCost,
   validateElectricityCostInput,
@@ -68,6 +69,7 @@ export function ElectricityCostCalculator() {
   function handleReset() {
     setRawInput(defaultRawInput);
     setCopyStatus("Defaults restored.");
+    trackCalculatorReset("electricity-cost");
   }
 
   async function handleCopy() {
@@ -84,6 +86,7 @@ export function ElectricityCostCalculator() {
     try {
       await navigator.clipboard.writeText(summary);
       setCopyStatus("Result copied to your clipboard.");
+      trackCalculatorCopy("electricity-cost");
     } catch {
       setCopyStatus("Copy was unavailable. You can select the visible result values instead.");
     }

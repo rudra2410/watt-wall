@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { adsenseConfig, adsenseScriptSrc, footerNavigation, primaryNavigation, siteConfig } from "./site";
+import { adsenseConfig, adsenseScriptSrc, analyticsConfig, footerNavigation, primaryNavigation, siteConfig } from "./site";
 
 describe("siteConfig", () => {
   it("uses the approved Watt & Wall brand and domain", () => {
@@ -52,5 +52,12 @@ describe("adsenseConfig", () => {
     expect(adsenseConfig.publisherId).toMatch(/^ca-pub-\d{16}$/);
     expect(adsenseScriptSrc).toBe(`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseConfig.publisherId}`);
     expect(adsTxt).toBe(`google.com, ${adsenseConfig.publisherId.replace("ca-", "")}, DIRECT, f08c47fec0942fa0`);
+  });
+});
+
+describe("analyticsConfig", () => {
+  it("uses the Watt & Wall GA4 measurement id", () => {
+    expect(analyticsConfig.measurementId).toBe("G-79MBBEXME0");
+    expect(analyticsConfig.measurementId).toMatch(/^G-[A-Z0-9]+$/);
   });
 });
