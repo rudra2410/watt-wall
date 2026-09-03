@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { flooringTileDefaults } from "@/data/flooring-tile";
+import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import {
   calculateFlooringTile,
   validateFlooringTileInput,
@@ -55,6 +56,7 @@ export function FlooringTileCalculator() {
   function handleReset() {
     setRawInput(defaultRawInput);
     setCopyStatus("Defaults restored.");
+    trackCalculatorReset("flooring-tile");
   }
 
   async function handleCopy() {
@@ -70,6 +72,7 @@ export function FlooringTileCalculator() {
     try {
       await navigator.clipboard.writeText(summary);
       setCopyStatus("Result copied to your clipboard.");
+      trackCalculatorCopy("flooring-tile");
     } catch {
       setCopyStatus("Copy was unavailable. You can select the visible result values instead.");
     }

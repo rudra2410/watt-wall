@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { applianceRunningCostDefaults } from "@/data/appliance-running-cost";
+import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import {
   calculateApplianceRunningCost,
   validateApplianceRunningCostInput,
@@ -59,6 +60,7 @@ export function ApplianceRunningCostCalculator() {
   function handleReset() {
     setRawInput(defaultRawInput);
     setCopyStatus("Defaults restored.");
+    trackCalculatorReset("appliance-running-cost");
   }
 
   async function handleCopy() {
@@ -74,6 +76,7 @@ export function ApplianceRunningCostCalculator() {
     try {
       await navigator.clipboard.writeText(summary);
       setCopyStatus("Result copied to your clipboard.");
+      trackCalculatorCopy("appliance-running-cost");
     } catch {
       setCopyStatus("Copy was unavailable. You can select the visible result values instead.");
     }
