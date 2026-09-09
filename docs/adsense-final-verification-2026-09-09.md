@@ -6,7 +6,7 @@ The approved checkpoint work is implemented in the Next 16.3.2 static-export app
 
 - `pnpm run typecheck` — passed.
 - `pnpm run lint` — passed.
-- `pnpm run test` — passed: 8 files, 48 tests.
+- `pnpm run test` — passed: 9 files, 51 tests (including the analytics merge).
 - `pnpm run build` — passed: 41 prerendered routes.
 - `out/index.html`, `out/sitemap.xml`, `out/robots.txt`, `out/ads.txt`, and `out/404.html` are present.
 - Sitemap contains 34 canonical page URLs, including the eight new guide routes.
@@ -14,6 +14,7 @@ The approved checkpoint work is implemented in the Next 16.3.2 static-export app
 - Calculators emit `WebApplication` JSON-LD; the site emits `Organization` and `WebSite` JSON-LD.
 - All seven calculators restore and write their client-side inputs through URL parameters; energy calculators also remember the last-used electricity rate in `localStorage`.
 - `git diff --check` reports no whitespace errors.
+- PR #6 preview deployment is live at `https://watt-wall-m1k9zblq9-rudra2410s-projects.vercel.app`; the fridge guide rendered with its title, formula, table, sources and Article metadata. A calculator smoke test wrote URL parameters and returned the expected `$12.00/month` result for 1,000 W × 2 hours × 30 days at `$0.20/kWh`. The appliance inventory smoke test returned `$4.80/month` for a 400 W refrigerator at 50% duty plus a 100 W load, and the copy button placed the breakdown on the clipboard.
 
 ## Content and sources
 
@@ -29,4 +30,4 @@ The Codex in-app browser blocked both the local preview URL (`ERR_BLOCKED_BY_CLI
 
 ## Handoff
 
-Commit `83d9068` has been pushed to `ui/select-and-layout-refinements`. The production hostname still serves the previous deployment, so the branch must be merged or otherwise promoted through the repository's production deployment flow. After it is live, submit the sitemap in Search Console, confirm the deployed `ads.txt`, run the normal-browser click-through and Lighthouse checks, and request a new AdSense review.
+Commits `83d9068`, `968916e`, and `2e4562d` have been pushed to `ui/select-and-layout-refinements`, and PR #6 is open. The preview deployment is verified, while the production hostname still serves the previous deployment. Merge or otherwise promote PR #6 through the repository's production deployment flow. After it is live, submit the sitemap in Search Console, confirm the deployed `ads.txt`, run the normal-browser click-through and Lighthouse checks, and request a new AdSense review.
