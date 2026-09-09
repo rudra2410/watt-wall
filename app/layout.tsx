@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { Geist_Mono, Outfit } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
@@ -66,7 +66,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <SiteFooter />
       </body>
-      <GoogleAnalytics gaId={analyticsConfig.measurementId} />
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.measurementId}`}
+        strategy="lazyOnload"
+      />
+      <Script id="google-analytics" strategy="lazyOnload">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${analyticsConfig.measurementId}');`}
+      </Script>
     </html>
   );
 }
