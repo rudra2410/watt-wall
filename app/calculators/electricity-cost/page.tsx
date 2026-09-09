@@ -73,7 +73,7 @@ export default function ElectricityCostPage() {
             <ul className="mt-4 space-y-3 text-sm leading-6">
               <li><a className={sourceLinkClassName} href="https://www.eia.gov/energyexplained/electricity/measuring-electricity.php">U.S. EIA: Measuring electricity</a></li>
               <li><a className={sourceLinkClassName} href="https://www.eia.gov/energyexplained/electricity/prices-and-factors-affecting-prices.php">U.S. EIA: Prices and factors affecting prices</a></li>
-              <li><a className={sourceLinkClassName} href="https://consumer.ftc.gov/node/77485">FTC: Using the EnergyGuide label</a></li>
+              <li><a className={sourceLinkClassName} href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances">FTC: Using the EnergyGuide label</a></li>
             </ul>
             <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed August 22, 2026.</p>
           </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import {
   type FlooringTileInput,
 } from "@/lib/calculators/flooring-tile";
 import { formatDecimal } from "@/lib/calculators/formatting";
+import { readCalculatorParams, replaceCalculatorParams } from "@/lib/calculators/persistence";
 
 type RawFlooringInput = Record<keyof FlooringTileInput, string>;
 
@@ -25,8 +26,15 @@ const defaultRawInput: RawFlooringInput = {
 };
 
 export function FlooringTileCalculator() {
-  const [rawInput, setRawInput] = useState(defaultRawInput);
+  const [rawInput, setRawInput] = useState<RawFlooringInput>(() => {
+    const params = readCalculatorParams();
+    return Object.fromEntries(Object.keys(defaultRawInput).map((key) => [key, params?.get(key) ?? defaultRawInput[key as keyof RawFlooringInput]])) as RawFlooringInput;
+  });
   const [copyStatus, setCopyStatus] = useState("");
+
+  useEffect(() => {
+    replaceCalculatorParams(new URLSearchParams(rawInput));
+  }, [rawInput]);
 
   const parsedInput = useMemo<FlooringTileInput>(() => ({
     floorLengthFeet: parseNumber(rawInput.floorLengthFeet),

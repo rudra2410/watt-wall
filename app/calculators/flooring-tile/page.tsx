@@ -70,7 +70,7 @@ export default function FlooringTilePage() {
           <section className="rounded-xl bg-card p-5 shadow-sm sm:p-6" aria-labelledby="flooring-sources-title">
             <h2 className="text-xl leading-7 font-semibold" id="flooring-sources-title">Sources and review</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6">
-              <li><a className={sourceLinkClassName} href="https://www.homedepot.com/c/ah/how-to-lay-out-tile/9ba683603be9fa5395fab9035335ddf">Home Depot: Measure tile area and waste</a></li>
+              <li><a className={sourceLinkClassName} href="https://www.daltile.com/how-to/faqs">Daltile: Tile FAQ</a></li>
               <li><a className={sourceLinkClassName} href="https://www.lowes.com/pdf/project-planner.pdf">Lowe&apos;s: Flooring project planner</a></li>
               <li><a className={sourceLinkClassName} href="https://www.lowes.com/n/how-to/install-luxury-vinyl-tile-flooring">Lowe&apos;s: Carton coverage and extras</a></li>
               <li><a className={sourceLinkClassName} href="https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf">Mullican: Straight and diagonal waste guidance</a></li>

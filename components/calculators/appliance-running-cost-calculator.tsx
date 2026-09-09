@@ -1,246 +1,121 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
-
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
-import { applianceRunningCostDefaults } from "@/data/appliance-running-cost";
+import { appliancePresets, appliancePresetSource } from "@/data/appliance-presets";
+import { electricityRateReference } from "@/data/energy-reference";
+import { calculateApplianceInventory, validateApplianceRunningCostInput, type ApplianceRunningCostInput } from "@/lib/calculators/appliance-running-cost";
 import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
-import {
-  calculateApplianceRunningCost,
-  validateApplianceRunningCostInput,
-  type ApplianceRunningCostFieldError,
-  type ApplianceRunningCostInput,
-} from "@/lib/calculators/appliance-running-cost";
 import { formatCurrency, formatCurrencyRate, formatDecimal } from "@/lib/calculators/formatting";
+import { readCalculatorParams, readStoredRate, replaceCalculatorParams, storeRate } from "@/lib/calculators/persistence";
 
-const currencyOptions = ["USD", "CAD", "GBP", "EUR", "INR", "AUD"] as const;
-
-type RawApplianceInput = Record<keyof ApplianceRunningCostInput, string>;
-
-const defaultRawInput: RawApplianceInput = {
-  wattage: String(applianceRunningCostDefaults.wattage),
-  hoursPerActiveDay: String(applianceRunningCostDefaults.hoursPerActiveDay),
-  activeDaysPerMonth: String(applianceRunningCostDefaults.activeDaysPerMonth),
-  pricePerKilowattHour: String(applianceRunningCostDefaults.pricePerKilowattHour),
-};
+const currencies = ["USD", "EUR", "GBP", "INR"] as const;
+type Row = { id: number; name: string; preset: string; wattage: string; hoursPerActiveDay: string; activeDaysPerMonth: string; dutyCyclePercent: string };
+type NumericKey = "wattage" | "hoursPerActiveDay" | "activeDaysPerMonth" | "dutyCyclePercent";
+const firstRow: Row = { id: 1, name: "Space heater", preset: "heater", wattage: "1500", hoursPerActiveDay: "3", activeDaysPerMonth: "30", dutyCyclePercent: "100" };
+const fieldDefinitions: { key: NumericKey; label: string; hint: string; max?: string; step: string }[] = [
+  { key: "wattage", label: "Power (W)", hint: "Use electrical input power, not heating or cooking output.", step: "any" },
+  { key: "hoursPerActiveDay", label: "Hours per day", hint: "Time covered by your power reading, up to 24 hours.", max: "24", step: "any" },
+  { key: "activeDaysPerMonth", label: "Days per month", hint: "A whole number from 1 to 31.", max: "31", step: "1" },
+  { key: "dutyCyclePercent", label: "Duty cycle (%)", hint: "Leave at 100 for an average reading or preset. For on-cycle watts, enter the percentage of scheduled time running.", max: "100", step: "any" },
+];
+const parse = (value: string) => value.trim() === "" ? Number.NaN : Number(value);
 
 export function ApplianceRunningCostCalculator() {
-  const [rawInput, setRawInput] = useState(defaultRawInput);
-  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>("USD");
-  const [copyStatus, setCopyStatus] = useState("");
+  const [rows, setRows] = useState<Row[]>(() => { const serialized = readCalculatorParams()?.get("rows"); if (serialized) { try { const parsed = JSON.parse(serialized) as Row[]; if (Array.isArray(parsed) && parsed.length > 0) return parsed.map((row, index) => ({ ...row, id: index + 1 })); } catch { /* Keep defaults for malformed links. */ } } return [{ ...firstRow }]; });
+  const nextId = useRef(2);
+  const [rate, setRate] = useState(() => readCalculatorParams()?.get("rate") ?? readStoredRate(String(electricityRateReference.rate)));
+  const [currency, setCurrency] = useState<(typeof currencies)[number]>(() => { const next = readCalculatorParams()?.get("currency"); return currencies.includes(next as (typeof currencies)[number]) ? next as (typeof currencies)[number] : "USD"; });
+  const [status, setStatus] = useState("");
 
-  const parsedInput = useMemo<ApplianceRunningCostInput>(() => ({
-    wattage: parseNumber(rawInput.wattage),
-    hoursPerActiveDay: parseNumber(rawInput.hoursPerActiveDay),
-    activeDaysPerMonth: parseNumber(rawInput.activeDaysPerMonth),
-    pricePerKilowattHour: parseNumber(rawInput.pricePerKilowattHour),
-  }), [rawInput]);
-
-  const errors = useMemo(() => validateApplianceRunningCostInput(parsedInput), [parsedInput]);
-  const errorByField = useMemo(
-    () => Object.fromEntries(errors.map((error) => [error.field, error])) as Partial<Record<keyof ApplianceRunningCostInput, ApplianceRunningCostFieldError>>,
-    [errors],
-  );
-  const result = errors.length === 0 ? calculateApplianceRunningCost(parsedInput) : null;
-
-  function updateField(field: keyof RawApplianceInput) {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-      setRawInput((current) => ({ ...current, [field]: event.target.value }));
-      setCopyStatus("");
-    };
+  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ rows: JSON.stringify(rows), rate, currency })); storeRate(rate); }, [rows, rate, currency]);
+  const parsed: ApplianceRunningCostInput[] = rows.map((row) => ({ wattage: parse(row.wattage), hoursPerActiveDay: parse(row.hoursPerActiveDay), activeDaysPerMonth: parse(row.activeDaysPerMonth), dutyCyclePercent: parse(row.dutyCyclePercent), pricePerKilowattHour: parse(rate) }));
+  const errors = parsed.map(validateApplianceRunningCostInput);
+  const rateError = errors[0]?.find((error) => error.field === "pricePerKilowattHour")?.message;
+  let result: ReturnType<typeof calculateApplianceInventory> | null = null;
+  let calculationError = "";
+  if (errors.every((group) => group.length === 0)) {
+    try { result = calculateApplianceInventory(parsed); }
+    catch { calculationError = "These values are too large. Check your inputs."; }
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function updateRow(id: number, change: Partial<Row>) {
+    setRows((current) => current.map((row) => row.id === id ? { ...row, ...change } : row));
+    setStatus("");
   }
-
-  function handleReset() {
-    setRawInput(defaultRawInput);
-    setCopyStatus("Defaults restored.");
-    trackCalculatorReset("appliance-running-cost");
+  function choosePreset(id: number, value: string) {
+    const preset = appliancePresets.find((item) => item.id === value);
+    updateRow(id, preset ? { preset: value, name: preset.name, wattage: String(preset.watts), dutyCyclePercent: "100" } : { preset: "" });
   }
-
-  async function handleCopy() {
+  function addRow() {
+    const id = nextId.current++;
+    setRows((current) => [...current, { ...firstRow, id, name: "New appliance", preset: "", wattage: "", hoursPerActiveDay: "1" }]);
+    setStatus("Appliance added. Enter its wattage or choose a preset.");
+    requestAnimationFrame(() => document.getElementById(`appliance-${id}-preset`)?.focus());
+  }
+  function removeRow(id: number, index: number) {
+    const remaining = rows.filter((row) => row.id !== id);
+    setRows(remaining);
+    setStatus("Appliance removed. The total has been updated.");
+    const focusId = remaining[Math.min(index, remaining.length - 1)]?.id;
+    requestAnimationFrame(() => document.getElementById(`appliance-${focusId}-preset`)?.focus());
+  }
+  async function copyResult() {
     if (!result) return;
-
-    const summary = [
-      "Watt & Wall appliance running cost estimate",
-      `${formatDecimal(result.monthlyEnergyKilowattHours)} kWh and ${formatCurrency(result.monthlyCost, currency)} per month`,
-      `${formatDecimal(result.annualEnergyKilowattHours)} kWh and ${formatCurrency(result.annualCost, currency)} per year`,
-      `Based on ${rawInput.wattage} W, ${rawInput.hoursPerActiveDay} hours per active day, ${rawInput.activeDaysPerMonth} active days per month, and ${formatCurrencyRate(parsedInput.pricePerKilowattHour, currency)}/kWh.`,
-    ].join("\n");
-
+    const lines = rows.map((row, index) => `${row.name.trim() || `Appliance ${index + 1}`}: ${row.wattage} W, ${row.hoursPerActiveDay} h/day, ${row.activeDaysPerMonth} days/month, ${row.dutyCyclePercent}% duty; ${formatDecimal(result!.appliances[index].monthlyEnergyKilowattHours)} kWh/month; ${formatCurrency(result!.appliances[index].monthlyCost, currency)}/month`);
     try {
-      await navigator.clipboard.writeText(summary);
-      setCopyStatus("Result copied to your clipboard.");
+      await navigator.clipboard.writeText(["Watt & Wall appliance inventory (planning estimate)", ...lines, `Rate: ${formatCurrencyRate(parse(rate), currency)}/kWh`, `Total: ${formatDecimal(result.monthlyEnergyKilowattHours)} kWh/month; ${formatCurrency(result.monthlyCost, currency)}/month; ${formatCurrency(result.annualCost, currency)}/year if this month repeats 12 times.`, "Excludes fixed fees and unlisted loads. Presets are rough references; verify your own appliance."].join("\n"));
+      setStatus("Result copied to your clipboard.");
       trackCalculatorCopy("appliance-running-cost");
-    } catch {
-      setCopyStatus("Copy was unavailable. You can select the visible result values instead.");
-    }
+    } catch { setStatus("Copy was unavailable. Select the result text to copy it manually."); }
   }
-
-  const liveSummary = result
-    ? `Updated estimate: ${formatCurrency(result.monthlyCost, currency)} per month and ${formatCurrency(result.annualCost, currency)} per year.`
-    : `Result unavailable. ${errors.length} ${errors.length === 1 ? "field needs" : "fields need"} attention.`;
 
   return (
-    <section aria-labelledby="appliance-input-title" className="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(21rem,0.9fr)] xl:items-start xl:gap-8">
-      <form className="rounded-2xl bg-card p-5 text-card-foreground shadow-sm sm:p-7 lg:p-8" noValidate onSubmit={handleSubmit}>
-        <div>
-          <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your appliance</p>
-          <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="appliance-input-title">Estimate one appliance&apos;s running cost</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter a period for decimals and your local rate; values stay in this browser.</p>
-        </div>
-
-        <fieldset className="mt-7 grid gap-5 sm:grid-cols-2">
-          <legend className="sr-only">Appliance running cost inputs</legend>
-          <NumericField
-            error={errorByField.wattage}
-            hint="Use watts from the label or a measured average."
-            id="appliance-wattage"
-            label="Appliance wattage (W)"
-            min="0"
-            name="wattage"
-            onChange={updateField("wattage")}
-            step="any"
-            value={rawInput.wattage}
-          />
-          <NumericField
-            error={errorByField.hoursPerActiveDay}
-            hint="Maximum 24 hours. Decimals are allowed."
-            id="appliance-hours"
-            label="Hours per active day"
-            max="24"
-            min="0"
-            name="hoursPerActiveDay"
-            onChange={updateField("hoursPerActiveDay")}
-            step="any"
-            value={rawInput.hoursPerActiveDay}
-          />
-          <NumericField
-            error={errorByField.activeDaysPerMonth}
-            hint="Enter a whole number from 1 to 31."
-            id="appliance-days"
-            label="Active days per month"
-            max="31"
-            min="1"
-            name="activeDaysPerMonth"
-            onChange={updateField("activeDaysPerMonth")}
-            step="1"
-            value={rawInput.activeDaysPerMonth}
-          />
-          <NumericField
-            error={errorByField.pricePerKilowattHour}
-            hint="Use the all-in local-currency rate per kWh from your bill or tariff."
-            id="appliance-rate"
-            label="Electricity price (local currency per kWh)"
-            min="0"
-            name="pricePerKilowattHour"
-            onChange={updateField("pricePerKilowattHour")}
-            step="any"
-            value={rawInput.pricePerKilowattHour}
-          />
-          <div>
-            <Label htmlFor="appliance-currency">Currency</Label>
-            <Select className="mt-2" id="appliance-currency" value={currency} onValueChange={(value) => setCurrency(value as (typeof currencyOptions)[number])}>
-              {currencyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-            </Select>
-            <p className="mt-2 text-xs leading-5 text-muted-foreground">Choose the currency used by your local rate.</p>
+    <section aria-labelledby="inventory-title" className="space-y-7">
+      <form noValidate onSubmit={(event) => event.preventDefault()} className="space-y-6">
+        <div className="rounded-2xl bg-card p-5 shadow-sm sm:p-8">
+          <h2 id="inventory-title" className="text-2xl font-semibold tracking-tight">Build your appliance inventory</h2>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">Choose a reference wattage or enter your own, then add the appliances you want to compare. Each row has its own schedule. Values stay in this browser session.</p>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <NumberField id="inventory-rate" label="Electricity price per kWh" hint="Use your variable energy and delivery charges per kWh. Exclude separate fixed fees." value={rate} error={rateError} step="any" onChange={(event) => { setRate(event.target.value); setStatus(""); }} />
+            <div><Label htmlFor="inventory-currency">Currency</Label><Select id="inventory-currency" className="mt-2" value={currency} onValueChange={(value) => { setCurrency(value as typeof currency); setStatus(""); }}>{currencies.map((code) => <option key={code} value={code}>{code}</option>)}</Select><p className="mt-2 text-xs leading-5 text-muted-foreground">Changes the currency label only. Enter a rate in that currency; no exchange conversion occurs.</p></div>
           </div>
-        </fieldset>
-
-        <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
-          <Button className="sm:min-w-32" onClick={handleReset} variant="secondary">Reset</Button>
-          <Button className="sm:min-w-36" disabled={!result} onClick={handleCopy}>Copy result</Button>
+          <p className="mt-4 text-xs leading-5 text-muted-foreground">Starting USD reference: $0.1834/kWh, the US average residential rate for June 2026, per <a className="font-semibold underline" href={electricityRateReference.url}>EIA table 5.6.A</a>. Your tariff can differ.</p>
         </div>
-        <p aria-atomic="true" className="mt-3 min-h-5 text-sm text-muted-foreground" role="status">{copyStatus}</p>
-      </form>
-
-      <section aria-labelledby="appliance-result-title" className="rounded-2xl bg-card-section p-5 shadow-sm sm:p-7 lg:p-8 xl:sticky xl:top-6">
-        <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Live estimate</p>
-        <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="appliance-result-title">Estimated running cost</h2>
-        <output aria-atomic="true" aria-live="polite" className="sr-only">{liveSummary}</output>
-
-        {result ? (
-          <>
-            <div className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-5">
-              <p className="text-sm leading-5 text-muted-foreground">Estimated monthly cost</p>
-              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatCurrency(result.monthlyCost, currency)}</p>
-              <p className="mt-2 text-xs leading-5 text-muted-foreground">Example currency format; based on {formatDecimal(parsedInput.activeDaysPerMonth)} active days</p>
+        {rows.map((row, index) => (
+          <fieldset key={row.id} className="min-w-0 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+            <legend className="px-2 text-lg font-semibold">Appliance {index + 1}</legend>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div><Label htmlFor={`appliance-${row.id}-preset`}>Wattage lookup</Label><select id={`appliance-${row.id}-preset`} className="mt-2 min-h-11 w-full min-w-0 rounded-lg border border-input bg-background px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring" value={row.preset} onChange={(event) => choosePreset(row.id, event.target.value)}><option value="">Custom appliance / measured watts</option>{appliancePresets.map((preset) => <option key={preset.id} value={preset.id}>{preset.name} ({preset.watts} W)</option>)}</select></div>
+              <div><Label htmlFor={`appliance-${row.id}-name`}>Name (optional)</Label><Input className="mt-2" id={`appliance-${row.id}-name`} maxLength={80} value={row.name} onChange={(event) => updateRow(row.id, { name: event.target.value })} /></div>
             </div>
-            <dl className="mt-6 divide-y divide-border text-sm">
-              <ResultRow cost={result.costPerActiveDay} currency={currency} energy={result.energyPerActiveDayKilowattHours} label="Per active day" />
-              <ResultRow cost={result.monthlyCost} currency={currency} energy={result.monthlyEnergyKilowattHours} label="Per month" />
-              <ResultRow cost={result.annualCost} currency={currency} energy={result.annualEnergyKilowattHours} label="Per year" />
-            </dl>
-            <p className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-4 text-sm leading-6">
-              At this schedule, the appliance uses about <strong>{formatDecimal(result.monthlyEnergyKilowattHours)} kWh</strong> and costs about <strong>{formatCurrency(result.monthlyCost, currency)}</strong> per month. Repeating the same schedule for 12 months gives about <strong>{formatCurrency(result.annualCost, currency)}</strong> per year.
-            </p>
-          </>
-        ) : (
-          <div className="mt-6 rounded-lg border border-destructive/40 bg-background/70 p-5">
-            <p className="font-semibold">Check the highlighted fields.</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">The estimate is hidden until every value is valid, so incomplete input cannot produce a misleading result.</p>
+            {row.preset && <p className="mt-3 text-xs leading-5 text-muted-foreground">Rough reference from <a className="font-semibold underline" href={appliancePresetSource.url}>Willmar Municipal Utilities</a>, labelled estimated average watts. It is not your model&apos;s rating. Keep duty at 100% unless you replace the watts with an on-cycle measurement.</p>}
+            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{fieldDefinitions.map((field) => <NumberField key={field.key} id={`appliance-${row.id}-${field.key}`} label={field.label} hint={field.hint} max={field.max} step={field.step} value={row[field.key]} error={errors[index].find((error) => error.field === field.key)?.message} onChange={(event) => updateRow(row.id, { [field.key]: event.target.value, ...(field.key === "wattage" ? { preset: "" } : {}) })} />)}</div>
+            <Button className="mt-5" variant="secondary" disabled={rows.length === 1} aria-label={`Remove appliance ${index + 1}`} onClick={() => removeRow(row.id, index)}>Remove appliance</Button>
+          </fieldset>
+        ))}
+        <div className="flex flex-wrap gap-3"><Button onClick={addRow}>Add appliance</Button><Button variant="secondary" onClick={() => { setRows([{ ...firstRow }]); setRate(String(electricityRateReference.rate)); setCurrency("USD"); setStatus("Default appliance and USD reference rate restored."); trackCalculatorReset("appliance-running-cost"); }}>Reset</Button><Button variant="secondary" disabled={!result} onClick={copyResult}>Copy result</Button></div>
+        <p role="status" aria-atomic="true" className="min-h-5 text-sm">{status}</p>
+      </form>
+      <section aria-labelledby="inventory-results" className="min-w-0 rounded-2xl bg-card-section p-5 shadow-sm sm:p-8">
+        <h2 id="inventory-results" className="text-2xl font-semibold">Combined monthly cost</h2>
+        <output className="sr-only" aria-live="polite" aria-atomic="true">{result ? `Total ${formatCurrency(result.monthlyCost, currency)} per month for ${rows.length} appliances.` : "Result unavailable. Check the highlighted fields."}</output>
+        {result ? <>
+          <p className="mt-4 break-words font-mono text-4xl font-semibold">{formatCurrency(result.monthlyCost, currency)}<span className="font-sans text-base font-normal"> / month</span></p>
+          <div className="mt-6 overflow-x-auto rounded-lg border border-border" role="region" aria-label="Monthly appliance breakdown" tabIndex={0}>
+            <table className="w-full text-left text-sm"><caption className="bg-background p-3 text-left">Appliance breakdown at {formatCurrencyRate(parse(rate), currency)}/kWh</caption><thead className="bg-background"><tr><th scope="col" className="p-3">Appliance</th><th scope="col" className="p-3 text-right">kWh/mo</th><th scope="col" className="p-3 text-right">Cost/mo</th></tr></thead><tbody>{rows.map((row, index) => <tr key={row.id} className="border-t border-border"><th scope="row" className="max-w-48 break-words p-3 font-medium">{row.name.trim() || `Appliance ${index + 1}`}</th><td className="p-3 text-right font-mono">{formatDecimal(result!.appliances[index].monthlyEnergyKilowattHours)}</td><td className="p-3 text-right font-mono">{formatCurrency(result!.appliances[index].monthlyCost, currency)}</td></tr>)}</tbody><tfoot className="border-t border-border bg-background font-semibold"><tr><th scope="row" className="p-3">Total</th><td className="p-3 text-right font-mono">{formatDecimal(result.monthlyEnergyKilowattHours)}</td><td className="p-3 text-right font-mono">{formatCurrency(result.monthlyCost, currency)}</td></tr></tfoot></table>
           </div>
-        )}
-
-        <p className="mt-6 text-xs leading-5 text-muted-foreground">Planning estimate only. Cycling, standby power, fees, and tariff rules can change actual cost.</p>
+          <p className="mt-4 text-sm leading-6">Repeating this month 12 times: <strong>{formatCurrency(result.annualCost, currency)}/year</strong>. Seasonal appliances may need a different schedule each month.</p>
+        </> : <p className="mt-4 rounded-lg border border-destructive/40 p-4">{calculationError || "Complete every row and correct the highlighted fields. The total is hidden until all appliances are valid."}</p>}
+        <p className="mt-4 text-sm leading-6 text-muted-foreground">Monthly kWh per row = watts ÷ 1,000 × hours/day × days/month × duty cycle ÷ 100. Cost = kWh × rate. Totals include only listed loads, with no fixed fees, tax calculation, startup allowance or separate standby consumption.</p>
       </section>
     </section>
   );
 }
 
-type NumericFieldProps = {
-  error?: ApplianceRunningCostFieldError;
-  hint: string;
-  id: string;
-  label: string;
-  max?: string;
-  min: string;
-  name: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  step: string;
-  value: string;
-};
-
-function NumericField({ error, hint, id, label, ...inputProps }: NumericFieldProps) {
-  const hintId = `${id}-hint`;
-  const errorId = `${id}-error`;
-
-  return (
-    <div>
-      <Label htmlFor={id}>{label}</Label>
-      <Input
-        aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
-        aria-invalid={Boolean(error)}
-        className="mt-2"
-        id={id}
-        inputMode="decimal"
-        required
-        type="number"
-        {...inputProps}
-      />
-      <p className="mt-2 text-xs leading-5 text-muted-foreground" id={hintId}>{hint}</p>
-      {error ? <p className="mt-1 text-xs leading-5 font-semibold text-destructive" id={errorId}>{error.message}</p> : null}
-    </div>
-  );
-}
-
-function ResultRow({ cost, currency, energy, label }: { cost: number; currency: string; energy: number; label: string }) {
-  return (
-    <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-4 first:pt-0 last:pb-0">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="text-right">
-        <span className="block font-mono font-semibold">{formatCurrency(cost, currency)}</span>
-        <span className="mt-1 block text-xs text-muted-foreground">{formatDecimal(energy)} kWh</span>
-      </dd>
-    </div>
-  );
-}
-
-function parseNumber(value: string) {
-  return value.trim() === "" ? Number.NaN : Number(value);
+function NumberField({ id, label, hint, error, ...props }: { id: string; label: string; hint: string; error?: string; value: string; max?: string; step: string; onChange: (event: ChangeEvent<HTMLInputElement>) => void }) {
+  return <div className="min-w-0"><Label htmlFor={id}>{label}</Label><Input className="mt-2" id={id} type="number" inputMode="decimal" min="0" required aria-invalid={Boolean(error)} aria-describedby={`${id}-hint${error ? ` ${id}-error` : ""}`} {...props} /><p id={`${id}-hint`} className="mt-2 text-xs leading-5 text-muted-foreground">{hint}</p>{error && <p id={`${id}-error`} className="mt-1 text-xs font-semibold text-destructive">{error}</p>}</div>;
 }

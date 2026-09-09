@@ -35,8 +35,16 @@ export const primaryNavigation = [
 ] as const;
 
 export const guideNavigation = [
-  { label: "Electricity costs", href: "/guides/electricity-costs", description: "Understand watts, kilowatt-hours, usage schedules, and local rates." },
-  { label: "Appliance energy use", href: "/guides/appliance-energy-use", description: "Turn appliance ratings and realistic schedules into a useful estimate." },
+  { label: "Space heater monthly cost", href: "/guides/space-heater-monthly-cost", description: "Estimate heater cost from wattage, schedule and thermostat duty cycle." },
+  { label: "Dehumidifier IEF and cost", href: "/guides/dehumidifier-ief-cost", description: "Understand why an efficiency rating does not replace measured runtime and local rates." },
+  { label: "Electric water heater use", href: "/guides/electric-water-heater-use", description: "Separate element runtime, standby heat loss and measured household consumption." },
+  { label: "Window AC running cost", href: "/guides/window-ac-cost", description: "Use model rated input and compressor cycling to estimate a window unit's cost." },
+  { label: "Standby device cost", href: "/guides/standby-device-cost", description: "Measure continuous loads and calculate annual standby electricity cost." },
+  { label: "Tile waste and spare boxes", href: "/guides/tile-waste-boxes", description: "Keep cutting allowance, repair stock and box rounding separate." },
+  { label: "Fridge cost versus EnergyGuide", href: "/guides/fridge-energyguide-cost", description: "Separate electricity-price differences from consumption changes in a refrigerator estimate." },
+  { label: "Vaulted ceiling paint", href: "/guides/vaulted-ceiling-paint", description: "Measure ceiling slopes and gable walls separately before calculating paint quantities." },
+  { label: "Electricity costs", href: "/guides/electricity-costs", description: "Read your tariff, separate fixed fees, and handle time-of-use or tiered prices." },
+  { label: "Appliance energy use", href: "/guides/appliance-energy-use", description: "Choose between rated watts, meter readings and annual labels without counting duty cycle twice." },
   { label: "Paint and flooring", href: "/guides/paint-and-flooring-measurements", description: "Measure rooms, openings, coverage, and material waste with confidence." },
   { label: "Home energy audit", href: "/guides/home-energy-audit", description: "Spot common energy questions and decide when an assessment can help." },
   { label: "EnergyGuide labels", href: "/guides/energyguide-labels", description: "Compare appliance energy information without confusing estimates for bills." },

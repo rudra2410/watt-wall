@@ -1,41 +1,47 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
+import { electricityRateReference, energySources } from "@/data/energy-reference";
 import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "How to Estimate Appliance Energy Use",
-  description: "A clear guide to reading appliance power information, estimating usage schedules, and checking the limits of running-cost estimates.",
-  path: "/guides/appliance-energy-use",
-});
+const title = "How to measure appliance energy use before estimating cost";
+const description = "A measured 1 kWh per day costs about $5.50 over 30 days at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Start with consumption evidence that matches your appliance.";
+export const metadata = createPageMetadata({ title, description, path: "/guides/appliance-energy-use" });
 
-export default function ApplianceEnergyGuide() {
-  return (
-    <><ArticleJsonLd title="How to Estimate Appliance Energy Use" description="A clear guide to reading appliance power information, estimating usage schedules, and checking the limits of running-cost estimates." path="/guides/appliance-energy-use" /><TrustPageShell category="Planning guide" path="/guides/appliance-energy-use" title="How to estimate appliance energy use" description="Learn which appliance values matter, how to build a realistic usage schedule, and why measured power can be better than a label rating.">
-      <TrustNote><strong>Start with the product label or manual.</strong> A nameplate rating is a useful starting point, but actual draw can change with settings, cycling, temperature, load, and the age or condition of the appliance.</TrustNote>
-
-      <TrustSection title="Find the right power value">
-        <p>Look for watts, kilowatts, voltage and amperage, or a yearly energy figure on the product label, manual, or manufacturer documentation. Do not confuse voltage with power: voltage is electrical pressure, while watts describe power use.</p>
-        <p>The <TrustLink external href="https://www.energy.gov/energysaver/estimating-appliance-and-home-electronic-energy-use">U.S. Department of Energy’s Energy Saver guidance</TrustLink> recommends using the appliance rating and the hours of use to estimate energy consumption, while recognizing that real-world use varies.</p>
-      </TrustSection>
-
-      <TrustSection title="Build a realistic schedule">
-        <p>Record how many hours the appliance is active on a typical day and how many days it runs in a month. For a refrigerator, heat pump, or other cycling appliance, the nameplate maximum may overstate the average because the compressor or heating element switches on and off.</p>
-        <TrustList>
-          <li>Use a representative schedule rather than the longest possible day.</li>
-          <li>Separate active hours from standby or idle time when the values are known.</li>
-          <li>Recheck seasonal appliances in both high-use and low-use months.</li>
-          <li>Use a plug-in energy monitor only when it is rated for the appliance and used safely.</li>
-        </TrustList>
-      </TrustSection>
-
-      <TrustSection title="Understand the estimate">
-        <p>The calculation is simple: power in kW × hours per day × active days × local price per kWh. It answers “what might this schedule cost?” rather than promising an exact bill or a guaranteed saving.</p>
-        <p>ENERGY STAR or a manufacturer’s annual energy figure may use a standardized test cycle. Treat it as a comparison tool, then adjust for your household’s settings, frequency, climate, and tariff.</p>
-      </TrustSection>
-
-      <TrustSection title="Try the appliance calculator">
-        <p>Enter the appliance’s wattage, your realistic usage schedule, and the all-in price from your bill in the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink>. For a broader household view, use the <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> and compare scenarios rather than relying on one default.</p>
-      </TrustSection>
-    </TrustPageShell></>
-  );
+export default function ApplianceEnergyUseGuide() {
+  return <><ArticleJsonLd title={title} description={description} path="/guides/appliance-energy-use" dateModified="2026-09-07" /><TrustPageShell category="Appliance measurement guide" path="/guides/appliance-energy-use" title={title} description={description}>
+    <p className="text-sm">Reviewed September 7, 2026. <TrustLink external href={electricityRateReference.url}>EIA rate reference</TrustLink>. The 1 kWh/day reading is a chosen illustration, not a claim about a typical appliance.</p>
+    <TrustNote>The useful input is electricity consumed over a relevant period. A nameplate, a meter reading and an annual EnergyGuide figure answer different questions. Keep the unit attached to the number before entering it anywhere.</TrustNote>
+    <TrustSection title="Choose the evidence that fits your question">
+      <p>Use a model-specific product document when you need a starting estimate before purchase. Use a compatible energy meter when you want to understand an appliance you already own. Keep annual-label information for a comparison based on the label&apos;s test conditions. None of these sources automatically describes your exact future usage.</p>
+      <div className="overflow-x-auto rounded-xl border border-border"><table className="w-full text-left text-sm"><caption className="p-3 text-left">Match the evidence to the calculation</caption><thead><tr><th scope="col" className="p-3">Evidence</th><th scope="col" className="p-3">What to record</th><th scope="col" className="p-3">Main limitation</th></tr></thead><tbody><tr className="border-t border-border"><th scope="row" className="p-3">Input rating</th><td className="p-3">Electrical watts and operating mode</td><td className="p-3">May be maximum power</td></tr><tr className="border-t border-border"><th scope="row" className="p-3">Energy meter</th><td className="p-3">kWh and elapsed hours</td><td className="p-3">Only represents that period</td></tr><tr className="border-t border-border"><th scope="row" className="p-3">EnergyGuide</th><td className="p-3">Annual kWh and test assumptions</td><td className="p-3">Standardized use</td></tr></tbody></table></div>
+      <p>Photograph the label or keep the document URL with the model number. Record the setting used during measurement. That gives you something concrete to check if a later reading changes. A guessed figure copied without its unit or context is much harder to improve.</p>
+    </TrustSection>
+    <TrustSection title="Read electrical input power carefully">
+      <p>Look for input watts in the manufacturer&apos;s specification. Heating output, cooling capacity and microwave cooking output are different quantities. An adapter&apos;s maximum output also does not establish the average electricity drawn by the device connected to it.</p>
+      <p>The DOE&apos;s appliance-estimation guidance explains why a nameplate can differ from operating consumption: equipment settings and cycling affect the draw. The original page did not resolve during this review; <TrustLink external href={energySources.measurement}>BPI hosts a PDF copy of that DOE guidance</TrustLink>. Its method is useful, but its older price examples are not used here.</p>
+      <p>For a reasonably steady load, input watts and operating hours can support a rough estimate. For a variable load, record more evidence before multiplying its maximum rating by every hour it is plugged in. If the specification is unclear, ask the manufacturer for electrical input data for the mode you intend to use.</p>
+    </TrustSection>
+    <TrustSection title="Turn a meter reading into a daily estimate">
+      <p>A compatible plug-in meter can measure accumulated kWh. Follow its instructions and ratings; it is not suitable for every appliance. Hardwired equipment and electrical panels need a licensed electrician or an appropriate professional monitoring service. This guide does not describe wiring or meter installation.</p>
+      <p>Write down the start and end readings, with their times. Subtract the initial kWh from the final kWh to find energy used during the interval. Include normal operating behavior rather than choosing only an unusually busy or quiet hour. For a cycling device, the monitoring window needs to capture its relevant operating modes.</p>
+      <p className="rounded-xl bg-card p-5 font-mono text-sm">Daily kWh = measured interval kWh ÷ elapsed hours × 24</p>
+      <p>As a chosen example, suppose a compatible meter records 3 kWh over 72 hours. That is 3 ÷ 72 × 24 = 1 kWh per day. Repeating it for 30 days gives 30 kWh. At the dated EIA reference of $0.1834/kWh, 30 × $0.1834 = $5.502, displayed as $5.50. The reading and monitoring interval are illustrative, not a tested refrigerator specification.</p>
+      <p>This extrapolation assumes that the observed pattern repeats. Record unusual conditions such as a heavy laundry day or a change in thermostat setting. If conditions change, label the estimate accordingly instead of treating a short observation as a universal annual figure.</p>
+    </TrustSection>
+    <TrustSection title="Avoid counting duty cycle twice">
+      <p>For a load with known on-cycle power, duty cycle describes running time as a fraction of the scheduled window. An observed half-time load has a 50% duty cycle. In the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink>, use the full scheduled hours and apply that percentage once.</p>
+      <p className="rounded-xl bg-card p-5 font-mono text-sm">Average watts = measured kWh × 1,000 ÷ measured hours</p>
+      <p>The meter example above corresponds to 3 × 1,000 ÷ 72 = about 41.67 average watts. That average already includes the observed off time. Enter it with 24 hours per day, 30 days and 100% duty. Keep more decimal places if you want the closest match to the original reading. Applying another 50% would halve the estimate without new evidence.</p>
+      <p>The calculator&apos;s lookup contains rough utility reference values labelled estimated average watts. It leaves duty at 100% when you select one. To model a compressor&apos;s duty separately, replace that reference with verified on-cycle watts. Multiple loads such as fans and defrost heaters may require separate rows or a total-energy reading.</p>
+    </TrustSection>
+    <TrustSection title="Use annual EnergyGuide figures on their own basis">
+      <p>The <TrustLink external href={energySources.ftc}>FTC explains</TrustLink> that EnergyGuide costs use typical usage and a national energy price; your usage and local rate can differ. When a label lists annual kWh, multiply that figure by your own rate to reprice the label&apos;s electricity estimate. Do not enter annual kWh in a watts field.</p>
+      <p>Dividing annual kWh by 12 produces an average month under the label&apos;s assumptions. It does not predict a particular hot or cold month. Compare similar appliances with compatible test assumptions and keep the label beside the estimate. The <TrustLink href="/guides/energyguide-labels">EnergyGuide reading guide</TrustLink> covers that buying comparison.</p>
+    </TrustSection>
+    <TrustSection title="Build an inventory you can improve">
+      <TrustList><li>Give each appliance or operating mode its own name.</li><li>Record whether its watts are rated, observed on-cycle or averaged over time.</li><li>Keep the dates, hours and relevant settings with the calculation.</li><li>Include standby only once, either in the measured total or as a separate row for the remaining hours.</li></TrustList>
+      <p>Use the <TrustLink href="/guides/electricity-costs">electricity tariff guide</TrustLink> to select the cost input. Use the <TrustLink href="/guides/home-energy-audit">home energy audit checklist</TrustLink> when a whole-house question extends beyond the appliances you can measure. A more complete inventory improves the scope of your estimate; it does not guarantee a lower bill.</p>
+    </TrustSection>
+    <TrustSection title="Sources and calculation limits"><p><TrustLink external href={energySources.eiaUnits}>EIA: measuring electricity</TrustLink> defines the power and energy units. <TrustLink external href={electricityRateReference.url}>EIA table 5.6.A</TrustLink> supplies the June 2026 rate. <TrustLink external href={energySources.measurement}>DOE guidance, PDF copy hosted by BPI</TrustLink>, supports the measurement approach; <TrustLink external href={energySources.ftc}>FTC EnergyGuide guidance</TrustLink> explains label limits.</p><p>The worked readings are explicit scenarios. Calculations exclude fixed fees, separately calculated taxes and changes in future behavior. Keep the original evidence so you can revise the estimate when a better reading becomes available.</p></TrustSection>
+  </TrustPageShell></>;
 }

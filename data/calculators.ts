@@ -53,7 +53,7 @@ export const calculators = [
     href: "/calculators/appliance-running-cost",
     name: "Appliance Running Cost Calculator",
     category: "Energy",
-    description: "See what one appliance could cost to run across active days using its wattage and your electricity price.",
+    description: "Compare several appliances with a wattage lookup, individual duty cycles, and a combined monthly cost table.",
     icon: "plug",
   },
   {

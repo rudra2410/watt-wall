@@ -10,12 +10,12 @@ export const metadata = createPageMetadata({
 
 export default function EnergyGuideLabelsPage() {
   return (
-    <><ArticleJsonLd title="How to Read an EnergyGuide Label" description="Learn what an EnergyGuide label shows, how to compare similar appliances, and why the displayed annual cost may differ from your bill." path="/guides/energyguide-labels" /><TrustPageShell category="Buying guide" path="/guides/energyguide-labels" title="How to read an EnergyGuide label" description="Use the yellow EnergyGuide label as a comparison tool, then adjust the estimate for your home, habits, and local electricity price.">
+    <><ArticleJsonLd title="How to Read an EnergyGuide Label" description="Learn what an EnergyGuide label shows, how to compare similar appliances, and why the displayed annual cost may differ from your bill." path="/guides/energyguide-labels" dateModified="2026-09-07" /><TrustPageShell category="Buying guide" path="/guides/energyguide-labels" title="How to read an EnergyGuide label" description="Use the yellow EnergyGuide label as a comparison tool, then adjust the estimate for your home, habits, and local electricity price.">
       <TrustNote><strong>Compare like with like.</strong> An EnergyGuide estimate uses standardized assumptions. It helps compare similar models, but it is not a promise of what your household will pay.</TrustNote>
 
       <TrustSection title="What the label tells you">
         <p>The Federal Trade Commission says EnergyGuide labels show estimated energy use or annual operating cost and a comparison range for similar appliance models. Look for the label on covered appliances such as refrigerators, clothes washers, dishwashers, water heaters, and room air conditioners.</p>
-        <p>Read the <TrustLink external href="https://consumer.ftc.gov/node/77485">FTC consumer guide to EnergyGuide labels</TrustLink> for the current list and examples of how to compare products.</p>
+        <p>Read the <TrustLink external href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances">FTC consumer guide to EnergyGuide labels</TrustLink> for the current list and examples of how to compare products.</p>
       </TrustSection>
 
       <TrustSection title="Use the number carefully">
@@ -29,7 +29,7 @@ export default function EnergyGuideLabelsPage() {
       </TrustSection>
 
       <TrustSection title="Compare, then calculate">
-        <p>Use the label to shortlist efficient models, then enter the most relevant wattage or annual energy figure in the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink>. Keep the label’s assumptions beside your result so the comparison remains fair.</p>
+        <p>To reprice an annual electricity estimate, multiply the label&apos;s kWh/year by your local price per kWh. Do not enter annual kWh into a wattage field. The <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink> accepts watts and a usage schedule; the <TrustLink href="/guides/appliance-energy-use">appliance measurement guide</TrustLink> explains how to choose that input. Keep the label&apos;s assumptions beside your result so the comparison remains fair.</p>
       </TrustSection>
     </TrustPageShell></>
   );

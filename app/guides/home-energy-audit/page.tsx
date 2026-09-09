@@ -15,7 +15,7 @@ export default function HomeEnergyAuditGuide() {
 
       <TrustSection title="Start with your energy story">
         <p>Collect recent utility bills, note seasonal changes, and list rooms or systems that feel uncomfortable. Record heating and cooling equipment, water heating, insulation you can safely see, and appliances that run for long periods.</p>
-        <p>The <TrustLink external href="https://www.energy.gov/energysaver/why-energy-efficiency-matters">U.S. Department of Energy recommends an energy evaluation</TrustLink> as a first step because it helps identify which improvements may be most useful for a particular home.</p>
+        <p>The <TrustLink external href="https://www.energy.gov/sites/default/files/2021-08/ES-Home%20Energy%20Assessments_080221.pdf">U.S. Department of Energy recommends an energy evaluation</TrustLink> as a first step because it helps identify which improvements may be most useful for a particular home.</p>
       </TrustSection>
 
       <TrustSection title="Walk through common leak points">

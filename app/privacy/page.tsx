@@ -3,14 +3,14 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Privacy Policy",
-  description: "How Watt & Wall handles browser-only calculator inputs, email enquiries, Google Analytics, cookies, consent, and advertising.",
+  description: "The Watt & Wall privacy policy explains calculator inputs, email, advertising cookies, Google as a third-party vendor, and consent choices.",
   path: "/privacy",
 });
 
 export default function PrivacyPage() {
   return (
-    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="A plain-language explanation of calculator inputs, email enquiries, Google Analytics, cookies, consent, and advertising choices.">
-      <TrustNote><strong>Last reviewed: September 3, 2026.</strong> This is product information, not legal advice. It describes the services currently used on Watt & Wall and must be reviewed if those services or the jurisdictions reached by the site change.</TrustNote>
+    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="A plain-language explanation of calculator inputs, email enquiries, Google Analytics, advertising cookies, Google as a third-party vendor, and consent choices.">
+      <TrustNote><strong>Last reviewed: September 9, 2026.</strong> This is product information, not legal advice. Advertising disclosures must match the vendors and CMP configuration active at deployment.</TrustNote>
 
       <TrustSection title="What the website currently does">
         <p>The calculator widgets process the values you enter in your browser for the current estimate. The site has no account, database, calculator submission endpoint, or newsletter. Calculator inputs and calculated results are not uploaded to or stored by Watt & Wall, and they are not sent to Google Analytics.</p>

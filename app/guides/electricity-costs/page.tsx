@@ -1,41 +1,42 @@
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
+import { electricityRateReference, energySources } from "@/data/energy-reference";
 import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Understanding Electricity Costs",
-  description: "Learn how watts, kilowatt-hours, usage time, and local electricity prices combine to estimate a home's energy cost.",
-  path: "/guides/electricity-costs",
-});
+const title = "How to choose an electricity rate from your bill";
+const description = "An extra 100 kWh costs $18.34 at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Your tariff determines the variable cost; fixed charges need separate treatment.";
+export const metadata = createPageMetadata({ title, description, path: "/guides/electricity-costs" });
 
 export default function ElectricityCostsGuide() {
-  return (
-    <><ArticleJsonLd title="Understanding Electricity Costs" description="Learn how watts, kilowatt-hours, usage time, and local electricity prices combine to estimate a home's energy cost." path="/guides/electricity-costs" /><TrustPageShell category="Planning guide" path="/guides/electricity-costs" title="Understanding electricity costs" description="A practical guide to turning appliance power, usage time, and your local rate into a clear planning estimate.">
-      <TrustNote><strong>Use your local rate whenever possible.</strong> Electricity prices vary by location and may include delivery charges, taxes, and fees. A calculator estimate is useful for planning, not a replacement for your utility bill.</TrustNote>
-
-      <TrustSection title="Watts, kilowatts, and kilowatt-hours">
-        <p>Watts (W) describe the rate at which a device uses power. One kilowatt (kW) equals 1,000 watts. A kilowatt-hour (kWh) measures energy used over time: running a 1 kW device for one hour uses 1 kWh.</p>
-        <p>The <TrustLink external href="https://www.eia.gov/energyexplained/electricity/measuring-electricity.php">U.S. Energy Information Administration explains</TrustLink> that a 40-watt bulb used for five hours consumes 0.2 kWh. The same unit is used on most residential electricity bills.</p>
-      </TrustSection>
-
-      <TrustSection title="The basic cost formula">
-        <p>For a simple planning estimate, convert watts to kilowatts, multiply by hours of use, multiply by the number of active days, and then multiply by the price per kWh.</p>
-        <TrustList>
-          <li>Power in kW = watts ÷ 1,000.</li>
-          <li>Energy in kWh = power in kW × hours used.</li>
-          <li>Estimated cost = energy in kWh × your local price per kWh.</li>
-        </TrustList>
-        <p>For irregular schedules, estimate a representative day and enter the number of days that the device actually runs. This keeps the result tied to your routine instead of an unrealistic full-time assumption.</p>
-      </TrustSection>
-
-      <TrustSection title="Why your bill may differ">
-        <p>The rate printed on a bill may not be the same as a headline average. The EIA notes that delivered electricity prices can include generation, transmission, distribution, taxes, and fees, while a utility tariff may apply charges differently.</p>
-        <p>Standby power, thermostatic cycling, changing schedules, seasonal rates, demand charges, and other household loads can also change the final bill. For a closer estimate, use a measured average or the appliance’s energy label and enter the all-in rate from your bill.</p>
-      </TrustSection>
-
-      <TrustSection title="Continue with a calculator">
-        <p>Use the <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> for a recurring usage estimate, or review the <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink> for a single appliance schedule. Keep the input values and assumptions with the result so you can revisit them when your rate or routine changes.</p>
-      </TrustSection>
-    </TrustPageShell></>
-  );
+  return <><ArticleJsonLd title={title} description={description} path="/guides/electricity-costs" dateModified="2026-09-07" /><TrustPageShell category="Electricity bills and tariffs" path="/guides/electricity-costs" title={title} description={description}>
+    <p className="text-sm">Reviewed September 7, 2026. Rate reference: <TrustLink external href={electricityRateReference.url}>EIA table 5.6.A, June 2026</TrustLink>. The 100 kWh above is a chosen comparison quantity, not a typical household load.</p>
+    <TrustNote>Start with the question you want to answer. Estimating the cost of one more appliance requires the charges that change with its usage. Dividing the entire bill by kWh answers a different question: the average cost of the electricity you already bought.</TrustNote>
+    <TrustSection title="Find the rate, billing period and units">
+      <p>Open a recent electricity statement and locate the service dates, usage in kWh and rate-plan name. Keep a copy of the tariff beside it. A payment total can include a previous balance, a credit or another service, so it is a poor starting point for appliance cost.</p>
+      <p>Read each charge&apos;s unit. A line priced per kWh changes with consumption. A daily or monthly service charge usually depends on time connected. A price per kW describes a demand charge and needs a different calculation from energy. Ask the utility to explain any line whose basis is unclear before treating it as a per-kWh price.</p>
+      <p>Record the energy price in dollars per kWh rather than cents. EIA&apos;s June 2026 national residential reference is 18.34 cents, which becomes $0.1834 after dividing by 100. Entering 18.34 into a dollar-rate field would make the answer 100 times too large. Check the decimal point first.</p>
+    </TrustSection>
+    <TrustSection title="Separate variable charges from fixed charges">
+      <p>A bill can split generation and delivery into separate lines. <TrustLink external href={energySources.rates}>PG&amp;E&apos;s rate explanation</TrustLink> shows that electricity rates cover several services, and also describes minimum-bill and time-of-use arrangements. That is one utility&apos;s structure, not a template for every US bill.</p>
+      <p>For a flat-rate appliance estimate, add the applicable per-kWh components once. If the bill already gives a bundled price, do not add its component breakdown again. Leave a separate monthly service fee outside the appliance calculation unless you are deliberately allocating overhead rather than estimating additional usage.</p>
+      <p className="rounded-xl bg-card p-5 font-mono text-sm">Variable energy cost = kWh used × applicable variable price per kWh</p>
+      <p>A whole-bill estimate then adds applicable fixed charges and adjustments, following the actual tariff. Minimum bills, taxes and credits may alter the order of operations. The calculator does not reproduce those rules. If your bill has a minimum charge, reducing a small load may not change the amount payable.</p>
+    </TrustSection>
+    <TrustSection title="A worked comparison using the same energy quantity">
+      <p>Suppose you want to price a chosen 100 kWh of additional monthly use. At the EIA national reference, the arithmetic is 100 × $0.1834 = $18.34. The table repeats that calculation using residential averages from the same EIA release. These are geographic benchmarks, not utility offers or predictions for your home.</p>
+      <div className="overflow-x-auto rounded-xl border border-border"><table className="w-full text-left text-sm"><caption className="p-3 text-left">June 2026 residential averages, EIA table 5.6.A; chosen use of 100 kWh</caption><thead><tr><th className="p-3" scope="col">Reference</th><th className="p-3" scope="col">USD/kWh</th><th className="p-3" scope="col">100 kWh cost</th></tr></thead><tbody><tr className="border-t border-border"><th className="p-3" scope="row">Texas</th><td className="p-3">$0.1594</td><td className="p-3">$15.94</td></tr><tr className="border-t border-border"><th className="p-3" scope="row">United States</th><td className="p-3">$0.1834</td><td className="p-3">$18.34</td></tr><tr className="border-t border-border"><th className="p-3" scope="row">New York</th><td className="p-3">$0.2949</td><td className="p-3">$29.49</td></tr></tbody></table></div>
+      <p>This comparison holds energy constant so you can see the effect of the rate alone. It ignores the household&apos;s plan, taxes charged separately and fixed fees. Replacing the reference with your own applicable variable price makes the calculation more relevant, but the consumption estimate still needs checking.</p>
+    </TrustSection>
+    <TrustSection title="Handle time-of-use and tiered prices separately">
+      <p>With time-of-use billing, the same appliance can be priced differently depending on when it runs. Match its schedule to your plan&apos;s current time bands, including weekends and seasonal changes. Use the tariff for your account rather than copying a neighbor&apos;s peak hours.</p>
+      <p className="rounded-xl bg-card p-5 font-mono text-sm">Time-of-use cost = peak kWh × peak price + off-peak kWh × off-peak price</p>
+      <p>Add other time bands if your plan uses them. Calculate each band independently in the <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> and add the results. The calculator has one rate field, so a single run cannot model several bands. A simple average of the prices only works when the energy split gives that average the correct weighting.</p>
+      <p>Tiered plans depend on the household&apos;s total usage in the billing period. Additional energy may fall within the current tier or cross into another. Price each portion at its applicable tier, then add those amounts. The appliance&apos;s nameplate cannot tell you which tier applies.</p>
+    </TrustSection>
+    <TrustSection title="Keep a calculation record you can revisit">
+      <TrustList><li>Write down the statement dates and the tariff version used.</li><li>Keep the per-kWh components separate from fixed fees and credits.</li><li>Record whether usage is measured or estimated, and whether you split it into time bands.</li><li>Save the result with its assumptions before comparing another scenario.</li></TrustList>
+      <p>If the estimate and bill differ, compare the same dates and scope first. A calculator covering one room will not match a whole-home statement. For the consumption side, use the <TrustLink href="/guides/appliance-energy-use">appliance measurement guide</TrustLink>. For buying comparisons, read <TrustLink href="/guides/energyguide-labels">how EnergyGuide labels work</TrustLink>. The <TrustLink href="/guides/home-energy-audit">home energy audit checklist</TrustLink> helps organize questions that individual appliance estimates leave unanswered.</p>
+    </TrustSection>
+    <TrustSection title="Sources and assumptions"><p><TrustLink external href={electricityRateReference.url}>EIA table 5.6.A</TrustLink> supplies the dated national and state benchmarks. <TrustLink external href={energySources.eiaPrices}>EIA&apos;s explanation of electricity prices</TrustLink> covers regional and time variation. <TrustLink external href={energySources.rates}>PG&amp;E&apos;s explanation of rate structure</TrustLink> provides a utility example of variable, minimum-bill and time-based charges. No current PG&amp;E price is assumed here.</p><p>All arithmetic examples are planning comparisons. They do not promise savings, forecast future rates or replace your tariff. The calculators apply the values you enter; your utility determines how those values relate to the final bill.</p></TrustSection>
+  </TrustPageShell></>;
 }

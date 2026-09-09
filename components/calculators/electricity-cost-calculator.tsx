@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,8 +16,9 @@ import {
   type PowerUnit,
 } from "@/lib/calculators/electricity-cost";
 import { formatCurrency, formatCurrencyRate, formatDecimal } from "@/lib/calculators/formatting";
+import { readCalculatorParams, readStoredRate, replaceCalculatorParams, storeRate } from "@/lib/calculators/persistence";
 
-const currencyOptions = ["USD", "CAD", "GBP", "EUR", "INR", "AUD"] as const;
+const currencyOptions = ["USD", "EUR", "GBP", "INR"] as const;
 
 type RawElectricityInput = {
   power: string;
@@ -36,9 +37,10 @@ const defaultRawInput: RawElectricityInput = {
 };
 
 export function ElectricityCostCalculator() {
-  const [rawInput, setRawInput] = useState(defaultRawInput);
-  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>("USD");
+  const [rawInput, setRawInput] = useState(() => { const params = readCalculatorParams(); return { ...defaultRawInput, power: params?.get("power") ?? defaultRawInput.power, powerUnit: (params?.get("unit") as PowerUnit) || defaultRawInput.powerUnit, hoursPerActiveDay: params?.get("hours") ?? defaultRawInput.hoursPerActiveDay, activeDaysPerMonth: params?.get("days") ?? defaultRawInput.activeDaysPerMonth, pricePerKilowattHour: params?.get("rate") ?? readStoredRate(defaultRawInput.pricePerKilowattHour) }; });
+  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>(() => { const next = readCalculatorParams()?.get("currency"); return currencyOptions.includes(next as (typeof currencyOptions)[number]) ? next as (typeof currencyOptions)[number] : "USD"; });
   const [copyStatus, setCopyStatus] = useState("");
+  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ power: rawInput.power, unit: rawInput.powerUnit, hours: rawInput.hoursPerActiveDay, days: rawInput.activeDaysPerMonth, rate: rawInput.pricePerKilowattHour, currency })); storeRate(rawInput.pricePerKilowattHour); }, [rawInput, currency]);
 
   const parsedInput = useMemo<ElectricityCostInput>(() => ({
     power: parseNumber(rawInput.power),

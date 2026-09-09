@@ -6,6 +6,8 @@ export type ApplianceRunningCostInput = {
   hoursPerActiveDay: number;
   activeDaysPerMonth: number;
   pricePerKilowattHour: number;
+  /** 100 for continuous use or an already averaged power reading. */
+  dutyCyclePercent?: number;
 };
 
 export type ApplianceRunningCostResult = {
@@ -28,6 +30,7 @@ export function validateApplianceRunningCostInput(input: ApplianceRunningCostInp
     () => requirePositive("hoursPerActiveDay", input.hoursPerActiveDay, 24),
     () => requirePositiveWholeNumber("activeDaysPerMonth", input.activeDaysPerMonth, 31),
     () => requireNonNegative("pricePerKilowattHour", input.pricePerKilowattHour),
+    () => requireNonNegative("dutyCyclePercent", input.dutyCyclePercent ?? 100, 100),
   ];
 
   return validations.flatMap((validate) => {
@@ -53,7 +56,7 @@ export function calculateApplianceRunningCost(
     throw new CalculatorValidationError(firstError.field, firstError.message);
   }
 
-  const dailyEnergyKilowattHours = wattsToKilowatts(input.wattage) * input.hoursPerActiveDay;
+  const dailyEnergyKilowattHours = wattsToKilowatts(input.wattage) * input.hoursPerActiveDay * ((input.dutyCyclePercent ?? 100) / 100);
   const monthlyEnergyKilowattHours = dailyEnergyKilowattHours * input.activeDaysPerMonth;
   const annualEnergyKilowattHours = monthlyEnergyKilowattHours * 12;
 
@@ -65,4 +68,16 @@ export function calculateApplianceRunningCost(
     monthlyCost: monthlyEnergyKilowattHours * input.pricePerKilowattHour,
     annualCost: annualEnergyKilowattHours * input.pricePerKilowattHour,
   };
+}
+
+export function calculateApplianceInventory(inputs: readonly ApplianceRunningCostInput[]) {
+  if (inputs.length === 0) throw new CalculatorValidationError("appliances", "Add at least one appliance.");
+  const appliances = inputs.map(calculateApplianceRunningCost);
+  const monthlyEnergyKilowattHours = appliances.reduce((total, item) => total + item.monthlyEnergyKilowattHours, 0);
+  const monthlyCost = appliances.reduce((total, item) => total + item.monthlyCost, 0);
+  const annualCost = monthlyCost * 12;
+  if (![monthlyEnergyKilowattHours, monthlyCost, annualCost].every(Number.isFinite)) {
+    throw new CalculatorValidationError("appliances", "These values are too large to calculate. Check the inputs.");
+  }
+  return { appliances, monthlyEnergyKilowattHours, monthlyCost, annualCost };
 }
