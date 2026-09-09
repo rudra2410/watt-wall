@@ -15,7 +15,7 @@ export function FinalCtaSection() {
 
           <div className="relative grid w-full gap-8 lg:grid-cols-[minmax(0,1fr)_18.5rem] lg:items-center lg:gap-12">
             <div className="max-w-[43rem]">
-              <p className="text-sm leading-5 font-bold tracking-[0.12em] text-primary uppercase">Start your estimate</p>
+              <p className="text-sm leading-5 font-bold tracking-[0.12em] text-card uppercase">Start your estimate</p>
               <h2 id="final-cta-title" className="mt-3 text-[1.75rem] leading-9 font-semibold tracking-[-0.025em] text-balance sm:text-4xl sm:leading-[2.75rem]">
                 Ready to make a clearer estimate?
               </h2>
