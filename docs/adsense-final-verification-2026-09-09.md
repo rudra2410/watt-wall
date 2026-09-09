@@ -29,4 +29,4 @@ The Codex in-app browser blocked both the local preview URL (`ERR_BLOCKED_BY_CLI
 
 ## Handoff
 
-No commit, push, deployment, Search Console submission, or AdSense review request was performed. After reviewing the diff, commit and push the changes, deploy the static `out` result, submit the sitemap in Search Console, confirm the deployed `ads.txt`, and request a new AdSense review.
+Commit `83d9068` has been pushed to `ui/select-and-layout-refinements`. The production hostname still serves the previous deployment, so the branch must be merged or otherwise promoted through the repository's production deployment flow. After it is live, submit the sitemap in Search Console, confirm the deployed `ads.txt`, run the normal-browser click-through and Lighthouse checks, and request a new AdSense review.
