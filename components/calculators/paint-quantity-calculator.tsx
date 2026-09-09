@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import {
   type PaintQuantityInput,
 } from "@/lib/calculators/paint-quantity";
 import { formatDecimal } from "@/lib/calculators/formatting";
+import { readCalculatorParams, replaceCalculatorParams } from "@/lib/calculators/persistence";
 
 type RawPaintInput = Record<keyof PaintQuantityInput, string>;
 
@@ -28,8 +29,15 @@ const defaultRawInput: RawPaintInput = {
 };
 
 export function PaintQuantityCalculator() {
-  const [rawInput, setRawInput] = useState(defaultRawInput);
+  const [rawInput, setRawInput] = useState<RawPaintInput>(() => {
+    const params = readCalculatorParams();
+    return Object.fromEntries(Object.keys(defaultRawInput).map((key) => [key, params?.get(key) ?? defaultRawInput[key as keyof RawPaintInput]])) as RawPaintInput;
+  });
   const [copyStatus, setCopyStatus] = useState("");
+
+  useEffect(() => {
+    replaceCalculatorParams(new URLSearchParams(rawInput));
+  }, [rawInput]);
 
   const parsedInput = useMemo<PaintQuantityInput>(() => ({
     roomLengthFeet: parseNumber(rawInput.roomLengthFeet),

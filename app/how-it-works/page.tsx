@@ -39,7 +39,7 @@ const calculatorInputs = [
   {
     href: "/calculators/appliance-running-cost",
     title: "Appliance running cost",
-    description: "Appliance wattage, a typical schedule, active days each month, and your USD price per kWh.",
+    description: "One row per appliance, reference or measured wattage, a schedule, duty cycle, and a shared electricity rate.",
   },
   {
     href: "/calculators/paint-quantity",

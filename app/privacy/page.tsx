@@ -3,14 +3,14 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Privacy Policy",
-  description: "The current Watt & Wall privacy policy explains calculator inputs, email, cookies, and future advertising disclosures.",
+  description: "The Watt & Wall privacy policy explains calculator inputs, email, advertising cookies, Google as a third-party vendor, and consent choices.",
   path: "/privacy",
 });
 
 export default function PrivacyPage() {
   return (
-    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="A plain-language explanation of calculator inputs, email enquiries, cookies, and the advertising choices Watt & Wall will provide before ads are enabled.">
-      <TrustNote><strong>Last reviewed: August 24, 2026.</strong> This is product information, not legal advice. The notice must be reviewed against the actual vendors and jurisdictions before advertising or analytics are enabled.</TrustNote>
+    <TrustPageShell category="Your information" path="/privacy" title="Privacy Policy" description="A plain-language explanation of calculator inputs, email enquiries, advertising cookies, Google as a third-party vendor, and consent choices.">
+      <TrustNote><strong>Last reviewed: September 9, 2026.</strong> This is product information, not legal advice. Advertising disclosures must match the vendors and CMP configuration active at deployment.</TrustNote>
 
       <TrustSection title="What the website currently does">
         <p>The calculator widgets process the values you enter in your browser for the current estimate. The site currently has no account, database, calculator submission endpoint, analytics product, newsletter, or advertising tag. Calculator inputs are not uploaded to or stored by Watt & Wall.</p>
@@ -21,8 +21,8 @@ export default function PrivacyPage() {
       </TrustSection>
 
       <TrustSection title="Cookies, local storage, and advertising readiness">
-        <p>The current interface does not install an analytics or advertising cookie or intentionally store a display preference. A browser may still make ordinary technical requests needed to load the site, fonts, and static assets.</p>
-        <p>Before Google AdSense or another advertising service is enabled, this page will identify the actual providers, cookie purposes, personalized and non-personalized ad choices, and opt-out controls. For EEA, UK, and Swiss visitors, a Google-certified consent management platform configured for the IAB Transparency and Consent Framework must be in place before personalized ads are served. No placeholder publisher ID or advertising tag is used today.</p>
+        <p>Google may act as a third-party advertising vendor when AdSense is active. Advertising cookies can be used to serve, measure or personalize ads according to the choices and policies shown by Google. The AdSense script and publisher configuration are part of the deployed site, so this notice describes that processing rather than promising that no advertising tag exists.</p>
+        <p>Visitors in the EEA and UK should see the Google-certified consent management message configured for the site before consent-dependent personalized advertising is used. The message provides the available consent, decline and settings choices. Switzerland and other jurisdictions may have additional requirements. This page must be updated if the CMP, vendors or ad settings change.</p>
         <p>See <TrustLink external href="https://support.google.com/adsense/answer/10502938">Google Publisher Policies</TrustLink>, <TrustLink external href="https://support.google.com/adsense/answer/7549925">Google’s AdSense cookie guidance</TrustLink>, and <TrustLink external href="https://support.google.com/adsense/answer/13554116">Google CMP requirements</TrustLink> for the requirements that apply when advertising is configured.</p>
       </TrustSection>
 

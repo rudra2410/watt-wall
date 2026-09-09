@@ -1,0 +1,4 @@
+export function readCalculatorParams(): URLSearchParams | null { return typeof window === "undefined" ? null : new URLSearchParams(window.location.search); }
+export function replaceCalculatorParams(params: URLSearchParams): void { if (typeof window !== "undefined") { const query = params.toString(); window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}`); } }
+export function readStoredRate(fallback: string): string { if (typeof window === "undefined") return fallback; try { const value = window.localStorage.getItem("watt-wall-electricity-rate"); return value && Number.isFinite(Number(value)) && Number(value) >= 0 ? value : fallback; } catch { return fallback; } }
+export function storeRate(value: string): void { if (typeof window !== "undefined") { try { window.localStorage.setItem("watt-wall-electricity-rate", value); } catch { /* Storage may be unavailable. */ } } }

@@ -1,114 +1,26 @@
 import Link from "next/link";
-
 import { ApplianceRunningCostCalculator } from "@/components/calculators/appliance-running-cost-calculator";
 import { CalculatorShell } from "@/components/calculators/calculator-shell";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
-import { applianceRunningCostAssumptions, applianceRunningCostDefaults, applianceRunningCostExample, applianceRunningCostFaqs } from "@/data/appliance-running-cost";
-import { calculators } from "@/data/calculators";
-import { formatDecimal, formatUsd, formatUsdRate } from "@/lib/calculators/formatting";
+import { applianceRunningCostAssumptions, applianceRunningCostExample, applianceRunningCostFaqs } from "@/data/appliance-running-cost";
+import { appliancePresetSource } from "@/data/appliance-presets";
+import { electricityRateReference, energySources } from "@/data/energy-reference";
+import { formatUsd } from "@/lib/calculators/formatting";
 import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Appliance Running Cost Calculator",
-  description: "Use an appliance running cost calculator to estimate monthly and annual energy use from wattage, active time, and a local electricity rate.",
-  path: "/calculators/appliance-running-cost",
-});
-
-const sourceLinkClassName = "rounded-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+export const metadata = createPageMetadata({ title: "Appliance Running Cost Calculator", description: "Compare multiple appliances with 28 reference wattages, individual schedules, duty cycles and a combined monthly electricity cost table.", path: "/calculators/appliance-running-cost" });
+const linkClass = "font-semibold underline underline-offset-4 rounded-sm focus-visible:ring-2 focus-visible:ring-ring";
 
 export default function ApplianceRunningCostPage() {
-  const relatedCalculators = calculators.filter((calculator) => calculator.slug === "electricity-cost" || calculator.slug === "flooring-tile");
-
-  return (
-    <CalculatorShell
-      category="Energy calculator"
-      description="Estimate the monthly and annual electricity cost of one appliance using its wattage, your active-use schedule, and your local electricity price."
-      path="/calculators/appliance-running-cost"
-      title="Appliance Running Cost Calculator"
-    >
-      <ApplianceRunningCostCalculator />
-
-      <article className="mt-14 grid gap-10 rounded-2xl bg-card-section p-5 sm:mt-16 sm:p-8 lg:p-10 xl:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] xl:gap-12">
-        <div className="space-y-12">
-          <section aria-labelledby="appliance-formula-title">
-            <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Transparent calculation</p>
-            <h2 className="mt-3 text-3xl leading-tight font-semibold tracking-tight" id="appliance-formula-title">Running-cost formula</h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">Wattage is power. Multiplying power by active time estimates energy in kilowatthours (kWh), the unit used to calculate this electricity cost.</p>
-            <div className="mt-6 space-y-3 rounded-xl bg-card p-5 font-mono text-sm leading-6 shadow-sm sm:p-7">
-              <p>Power in kW = appliance watts ÷ 1,000</p>
-              <p>Active-day energy = power in kW × active hours</p>
-              <p>Monthly energy = active-day kWh × active days</p>
-              <p>Monthly cost = monthly kWh × USD price per kWh</p>
-              <p>Annual estimate = monthly estimate × 12</p>
-            </div>
-          </section>
-
-          <section aria-labelledby="appliance-example-title">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight" id="appliance-example-title">Worked example</h2>
-            <p className="mt-4 text-base leading-7 text-muted-foreground">For an {formatDecimal(applianceRunningCostDefaults.wattage)} W appliance used {formatDecimal(applianceRunningCostDefaults.hoursPerActiveDay)} hours on {formatDecimal(applianceRunningCostDefaults.activeDaysPerMonth)} days each month at {formatUsdRate(applianceRunningCostDefaults.pricePerKilowattHour)}/kWh:</p>
-            <dl className="mt-6 grid gap-4 sm:grid-cols-3">
-              <ExampleResult label="Active day" value={`${formatDecimal(applianceRunningCostExample.energyPerActiveDayKilowattHours)} kWh · ${formatUsd(applianceRunningCostExample.costPerActiveDay)}`} />
-              <ExampleResult label="Month" value={`${formatDecimal(applianceRunningCostExample.monthlyEnergyKilowattHours)} kWh · ${formatUsd(applianceRunningCostExample.monthlyCost)}`} />
-              <ExampleResult label="Year" value={`${formatDecimal(applianceRunningCostExample.annualEnergyKilowattHours)} kWh · ${formatUsd(applianceRunningCostExample.annualCost)}`} />
-            </dl>
-          </section>
-
-          <section aria-labelledby="appliance-faq-title">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight" id="appliance-faq-title">Appliance cost questions</h2>
-            <FaqAccordion className="mt-6 border-y border-border" items={applianceRunningCostFaqs} />
-          </section>
-        </div>
-
-        <aside className="space-y-5" aria-label="Assumptions, sources, and related calculators">
-          <section className="rounded-xl bg-card p-5 shadow-sm sm:p-6" aria-labelledby="appliance-assumptions-title">
-            <h2 className="text-xl leading-7 font-semibold" id="appliance-assumptions-title">Assumptions and rounding</h2>
-            <ul className="mt-4 list-disc space-y-3 pl-5 text-sm leading-6 text-muted-foreground">
-              {applianceRunningCostAssumptions.map((assumption) => <li key={assumption}>{assumption}</li>)}
-            </ul>
-            <p className="mt-4 border-t border-border pt-4 text-sm leading-6 text-muted-foreground">Calculations keep full numeric precision. Displayed energy and USD values are rounded to at most two decimal places.</p>
-          </section>
-
-          <section className="rounded-xl bg-card p-5 shadow-sm sm:p-6" aria-labelledby="appliance-sources-title">
-            <h2 className="text-xl leading-7 font-semibold" id="appliance-sources-title">Sources and review</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-6">
-              <li><a className={sourceLinkClassName} href="https://www.energy.gov/energysaver/estimating-appliance-and-home-electronic-energy-use">U.S. DOE: Estimating appliance energy use</a></li>
-              <li><a className={sourceLinkClassName} href="https://consumer.ftc.gov/node/77485">FTC: Using the EnergyGuide label</a></li>
-              <li><a className={sourceLinkClassName} href="https://www.energystar.gov/sites/default/files/tools/Standby_Power_Highlights.pdf">ENERGY STAR: Standby power</a></li>
-              <li><a className={sourceLinkClassName} href="https://www.eia.gov/energyexplained/electricity/measuring-electricity.php">U.S. EIA: Measuring electricity</a></li>
-            </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed August 22, 2026.</p>
-          </section>
-
-          <section className="rounded-xl bg-primary/10 p-5 sm:p-6" aria-labelledby="appliance-limit-title">
-            <h2 className="text-xl leading-7 font-semibold" id="appliance-limit-title">One scheduled load, not a bill</h2>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">This simple model assumes constant active wattage. It does not separately model cycling, standby, startup surges, changing modes, seasonal schedules, or the other appliances and charges on a utility bill.</p>
-            <Link className="mt-4 inline-flex min-h-11 items-center rounded-md font-semibold text-primary outline-none hover:text-primary-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background" href="/disclaimer">Read the full estimate disclaimer</Link>
-          </section>
-
-          <nav className="rounded-xl bg-card p-5 shadow-sm sm:p-6" aria-labelledby="appliance-related-title">
-            <h2 className="text-xl leading-7 font-semibold" id="appliance-related-title">Related calculators</h2>
-            <ul className="mt-3 divide-y divide-border">
-              {relatedCalculators.map((calculator) => (
-                <li key={calculator.slug}>
-                  <Link className="flex min-h-14 items-center justify-between gap-3 rounded-md py-3 font-semibold outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href={calculator.href}>
-                    {calculator.name}
-                    <span aria-hidden="true" className="text-primary">›</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
-      </article>
-    </CalculatorShell>
-  );
-}
-
-function ExampleResult({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl bg-card p-5 shadow-sm">
-      <dt className="text-sm text-muted-foreground">{label}</dt>
-      <dd className="mt-2 font-mono text-sm leading-6 font-semibold">{value}</dd>
-    </div>
-  );
+  return <CalculatorShell category="Appliance inventory" description="Choose from 28 reference wattages, add several appliances, and compare their monthly costs. Adjust each schedule and duty cycle while keeping the assumptions visible." path="/calculators/appliance-running-cost" title="Appliance Running Cost Calculator">
+    <ApplianceRunningCostCalculator />
+    <article className="mt-12 max-w-4xl space-y-10 text-base leading-7">
+      <section className="space-y-4"><h2 className="text-3xl font-semibold">Compare the loads you actually use</h2><p>A short-use appliance can draw more watts yet use less monthly energy than a small device that stays on. Build the list around a question: the devices in your home office, the appliances used during a damp month, or the extra loads you are considering. The table lets you compare them on the same rate without treating every device as a continuous load.</p><p>Choose a lookup entry to fill its name and wattage. The hours and days remain yours to set. Add another row for a different appliance or operating mode. You can rename rows to distinguish two similar devices. Remove a row to exclude it from the total; adding an unfinished row hides the total until its values are valid.</p><p>The lookup is a starting point. A generic refrigerator/freezer entry cannot represent every size, age or defrost system. If a model-specific energy label or a compatible meter gives you better evidence, use that instead. Electrical input watts belong in this calculation; microwave cooking output, cooling capacity and heating output do not.</p></section>
+      <section className="space-y-4"><h2 className="text-3xl font-semibold">How duty cycle changes a row</h2><p>Duty cycle is the fraction of the scheduled time during which a load draws the entered on-cycle power. For example, a load observed running for half of a monitoring period has a 50% duty cycle. This simple model assumes no additional off-cycle power. A compressor, fan and defrost heater with different schedules will not be described perfectly by one percentage.</p><div className="rounded-xl bg-card p-5 font-mono text-sm"><p>Monthly kWh = watts ÷ 1,000 × hours/day × days/month × duty % ÷ 100</p><p className="mt-3">Monthly cost = monthly kWh × rate per kWh</p><p className="mt-3">Combined cost = sum of all row costs</p></div><p>Choose one approach. With on-cycle watts, enter the full observation window and the observed duty cycle. With average watts measured across that window, enter the same hours and leave duty at 100%. If you already shortened the hours to count only running time, leave duty at 100% too. Reducing both would undercount consumption.</p><p>The lookup source calls its values estimated average watts and does not establish a measured compressor-on rating. Selecting a preset therefore restores duty to 100%. Replace its wattage with verified on-cycle power before applying a separate cycling adjustment.</p></section>
+      <section className="space-y-4"><h2 className="text-3xl font-semibold">Worked monthly comparison</h2><p>These are chosen planning schedules using the utility lookup&apos;s 1,500 W heater and 100 W laptop references. They are not measured household usage. The heater runs 3 hours daily and the laptop 8 hours daily, each for 30 days at 100% duty.</p><div className="overflow-x-auto rounded-xl border border-border"><table className="w-full text-left text-sm"><caption className="p-3 text-left">At the US average residential rate of $0.1834/kWh for June 2026, per <a href={electricityRateReference.url} className={linkClass}>EIA</a></caption><thead><tr><th scope="col" className="p-3">Appliance</th><th scope="col" className="p-3">kWh/month</th><th scope="col" className="p-3">Cost/month</th></tr></thead><tbody><tr className="border-t border-border"><th scope="row" className="p-3">Heater</th><td className="p-3">135</td><td className="p-3">{formatUsd(applianceRunningCostExample.monthlyCost)}</td></tr><tr className="border-t border-border"><th scope="row" className="p-3">Laptop</th><td className="p-3">24</td><td className="p-3">{formatUsd(24 * electricityRateReference.rate)}</td></tr><tr className="border-t border-border font-semibold"><th scope="row" className="p-3">Total</th><td className="p-3">159</td><td className="p-3">{formatUsd(159 * electricityRateReference.rate)}</td></tr></tbody></table></div><p>The heater calculation is 1.5 × 3 × 30 = 135 kWh. The laptop calculation is 0.1 × 8 × 30 = 24 kWh. Together they use 159 kWh in this scenario, costing {formatUsd(159 * electricityRateReference.rate)}. The total uses unrounded row values, so displayed rounded rows can occasionally differ from the total by a cent.</p><p>Changing an assumption changes the estimate, not the appliance. A different duty cycle does not promise a saving. Seasonal equipment also needs a seasonal schedule; multiplying a busy month by 12 can overstate a year.</p></section>
+      <section className="space-y-4"><h2 className="text-3xl font-semibold">Assumptions and limits</h2><ul className="list-disc space-y-3 pl-6">{applianceRunningCostAssumptions.map((item) => <li key={item}>{item}</li>)}</ul><p>Use the <Link className={linkClass} href="/guides/appliance-energy-use">appliance measurement guide</Link> to choose a wattage basis. For separate peak and off-peak rates, calculate each period independently using the <Link className={linkClass} href="/calculators/electricity-cost">Electricity Cost Calculator</Link>; this inventory shares one rate across every row. The <Link className={linkClass} href="/guides/electricity-costs">tariff guide</Link> explains how to choose that rate.</p></section>
+      <section><h2 className="text-3xl font-semibold">Appliance inventory questions</h2><FaqAccordion className="mt-6 border-y border-border" items={applianceRunningCostFaqs} /></section>
+      <section className="space-y-4"><h2 className="text-3xl font-semibold">Sources and review</h2><ul className="list-disc space-y-2 pl-6"><li><a className={linkClass} href={appliancePresetSource.url}>{appliancePresetSource.title}</a>: all lookup wattages, described by the source as estimated averages.</li><li><a className={linkClass} href={electricityRateReference.url}>EIA table 5.6.A</a>: June 2026 US residential rate.</li><li><a className={linkClass} href={energySources.eiaUnits}>EIA: measuring electricity</a>: power and energy units.</li><li><a className={linkClass} href={energySources.ftc}>FTC: using EnergyGuide labels</a>: standardized estimates and local usage.</li></ul><p className="text-sm">Reviewed September 7, 2026. Read the <Link className={linkClass} href="/disclaimer">estimate disclaimer</Link>. Follow product instructions for measurement equipment and ask a licensed electrician about hardwired loads or electrical safety.</p></section>
+    </article>
+  </CalculatorShell>;
 }

@@ -1,4 +1,4 @@
-import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -10,33 +10,9 @@ export const metadata = createPageMetadata({
 export default function AboutPage() {
   return (
     <TrustPageShell category="About the site" path="/about" title="About Watt & Wall" description="Practical home energy, renovation, furniture, and decoration tools for people who want to understand a number before making a decision.">
-      <TrustNote><strong>Created by Rudra Sutariya.</strong> Watt & Wall is an independent educational website and does not present itself as a utility, manufacturer, contractor, government service, or professional adviser.</TrustNote>
-
-      <TrustSection title="About the creator">
-        <p>My name is Rudra Sutariya, and I built Watt & Wall to make everyday home energy and renovation planning easier to understand. The website is developed with Next.js and React, with a strong focus on clear content, accessible interactions, responsive design, and SEO best practices so useful information can reach the people who need it.</p>
-      </TrustSection>
-
-      <TrustSection title="What we are building">
-        <p>Watt & Wall brings small, useful calculations and their explanations into one calm place. The goal is not to produce the biggest possible answer or hide a formula behind a result. The goal is to help a homeowner check inputs, understand units, compare scenarios, and know when a professional or product document should take over.</p>
-      </TrustSection>
-
-      <TrustSection title="How the site is maintained">
-        <p>The Watt & Wall project team maintains the calculator code, explanatory pages, source notes, and review dates. The team uses typed calculation modules and regression tests for formulas, then checks the rendered pages for keyboard access, responsive layout, and consistent light-theme rendering.</p>
-        <TrustList>
-          <li>Calculator pages explain their scope before asking for values.</li>
-          <li>Sources and assumptions are shown near the result, not hidden in a separate technical document.</li>
-          <li>Claims are kept narrower than the evidence; no savings, accuracy, approval, popularity, or professional-endorsement claim is implied.</li>
-          <li>When a page changes materially, its review date and supporting research should change with it.</li>
-        </TrustList>
-      </TrustSection>
-
-      <TrustSection title="What we do not do">
-        <p>Watt & Wall does not inspect a property, set a utility tariff, select a product, certify an installation, or provide a contractor quote. Calculator values are planning aids. Read the <TrustLink href="/disclaimer">full estimate disclaimer</TrustLink> before relying on a result for a purchase or project.</p>
-      </TrustSection>
-
-      <TrustSection title="Keep reading">
-        <p>For the calculation process, visit <TrustLink href="/methodology">Methodology</TrustLink>. For questions, source corrections, or accessibility feedback, use the <TrustLink href="/contact">Contact page</TrustLink>. The <TrustLink href="/privacy">Privacy policy</TrustLink> explains what the website does and does not collect.</p>
-      </TrustSection>
+      <TrustSection title="Who I am"><p>My name is Rudra Sutariya. I am a frontend developer based in India, and I built Watt & Wall myself. I am not an energy consultant, licensed electrician or trade professional.</p></TrustSection>
+      <TrustSection title="Why I built it"><p>I made this site because many calculator pages hide the formula or bury it among ads. Watt & Wall shows the inputs, arithmetic, assumptions and sources so you can understand a planning number before using it.</p></TrustSection>
+      <TrustSection title="What it is and is not"><p>These tools provide planning estimates for your stated inputs. They are not professional advice, a property inspection, a utility tariff or a contractor quote. Your real bill depends on your tariff and usage. Read the <TrustLink href="/disclaimer">full disclaimer</TrustLink> and contact me through the <TrustLink href="/contact">Contact page</TrustLink> when a source needs correction.</p></TrustSection>
     </TrustPageShell>
   );
 }

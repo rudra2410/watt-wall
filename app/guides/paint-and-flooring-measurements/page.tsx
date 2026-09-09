@@ -20,7 +20,7 @@ export default function PaintAndFlooringGuide() {
 
       <TrustSection title="Flooring and tile: split irregular rooms">
         <p>For a rectangular room, multiply length by width. For an L-shaped room, split it into rectangles, calculate each area, and add them together. Measure alcoves, offsets, closets, and areas that will not receive material separately.</p>
-        <p>The <TrustLink external href="https://www.homedepot.com/c/ah/how-to-lay-out-tile/9ba683603be9fa5395fab9035335ddf">Home Depot tile guide</TrustLink> recommends adding an overage for breakage and cuts; its example uses 10%. The right allowance depends on the material, pattern, room shape, and installer.</p>
+        <p>The <TrustLink external href="https://www.daltile.com/how-to/faqs">Daltile tile FAQ</TrustLink> recommends adding an overage for breakage and cuts; its example uses 10%. The right allowance depends on the material, pattern, room shape, and installer.</p>
       </TrustSection>
 
       <TrustSection title="Use waste as a visible assumption">

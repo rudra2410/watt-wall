@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Container } from "@/components/layout/container";
-import { BreadcrumbJsonLd } from "@/components/seo/structured-data";
+import { BreadcrumbJsonLd, JsonLd } from "@/components/seo/structured-data";
 import { siteConfig } from "@/lib/site";
 
 type CalculatorShellProps = {
@@ -17,6 +17,7 @@ export function CalculatorShell({ category, title, description, path, children }
   return (
     <main className="bg-background" id="main-content">
       <BreadcrumbJsonLd items={[{ name: "Home", url: siteConfig.url }, { name: "Calculators", url: `${siteConfig.url}/calculators` }, { name: title, url: `${siteConfig.url}${path}` }]} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: title, description, url: `${siteConfig.url}${path}`, applicationCategory: "UtilitiesApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }} />
       <section className="bg-card-section">
         <Container className="py-8 sm:py-10 lg:py-12">
           <nav aria-label="Breadcrumb">

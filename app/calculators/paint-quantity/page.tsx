@@ -73,7 +73,7 @@ export default function PaintQuantityPage() {
             <h2 className="text-xl leading-7 font-semibold" id="paint-sources-title">Sources and review</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6">
               <li><a className={sourceLinkClassName} href="https://media.benjaminmoore.com/WebServices/prod/ColorCards2012/transformyourhome/offline/download.pdf">Benjamin Moore: Room and opening estimate</a></li>
-              <li><a className={sourceLinkClassName} href="https://www.behr.com/how-to/interior/determine-how-much-interior-paint-to-buy">Behr: Measuring walls and coverage</a></li>
+              <li><a className={sourceLinkClassName} href="https://s7d9.scene7.com/is/content/behr/5558_tds_uspdf">Behr: Measuring walls and coverage</a></li>
               <li><a className={sourceLinkClassName} href="https://ltx-www.sherwin-williams.com/en-us/color/color-tools/paint-calculator">Sherwin-Williams: Coverage guidance</a></li>
               <li><a className={sourceLinkClassName} href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9">NIST: US gallon-to-litre conversion</a></li>
             </ul>

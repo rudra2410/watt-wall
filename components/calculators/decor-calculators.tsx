@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { calculateCurtainMeasurement, validateCurtainMeasurementInput, type Curt
 import { calculateFurnitureFit, validateFurnitureFitInput } from "@/lib/calculators/furniture-fit";
 import { convertDisplayedLength, formatLength, lengthUnit, toCentimeters, type MeasurementSystem } from "@/lib/calculators/measurements";
 import { calculateRugSize, validateRugSizeInput, type RugLayout } from "@/lib/calculators/rug-size";
+import { readCalculatorParams, replaceCalculatorParams } from "@/lib/calculators/persistence";
 
 type RawValues = Record<string, string>;
 
@@ -95,9 +96,10 @@ const furnitureDefaults = { roomLength: "400", roomWidth: "300", furnitureWidth:
 const furnitureFields = Object.keys(furnitureDefaults) as Array<keyof typeof furnitureDefaults>;
 
 export function FurnitureFitCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>("metric");
-  const [raw, setRaw] = useState(furnitureDefaults);
+  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric");
+  const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(furnitureDefaults).map((key) => [key, params?.get(key) ?? furnitureDefaults[key as keyof typeof furnitureDefaults]])) as typeof furnitureDefaults; });
   const [copyStatus, setCopyStatus] = useState("");
+  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system })); }, [raw, system]);
   const input = useMemo(() => ({ roomLengthCm: toCentimeters(parseNumber(raw.roomLength), system), roomWidthCm: toCentimeters(parseNumber(raw.roomWidth), system), furnitureWidthCm: toCentimeters(parseNumber(raw.furnitureWidth), system), furnitureDepthCm: toCentimeters(parseNumber(raw.furnitureDepth), system), furnitureHeightCm: toCentimeters(parseNumber(raw.furnitureHeight), system), clearanceCm: toCentimeters(parseNumber(raw.clearance), system), openingWidthCm: toCentimeters(parseNumber(raw.openingWidth), system), openingHeightCm: toCentimeters(parseNumber(raw.openingHeight), system) }), [raw, system]);
   const errors = useMemo(() => validateFurnitureFitInput(input), [input]);
   const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>;
@@ -118,7 +120,8 @@ const rugFields = Object.keys(rugDefaults) as Array<keyof typeof rugDefaults>;
 const extensionDefaults: Record<RugLayout, number> = { living: 20, dining: 70, bedroom: 50 };
 
 export function RugSizeCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>("metric"); const [layout, setLayout] = useState<RugLayout>("dining"); const [raw, setRaw] = useState(rugDefaults); const [copyStatus, setCopyStatus] = useState("");
+  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric"); const [layout, setLayout] = useState<RugLayout>(() => { const next = readCalculatorParams()?.get("layout"); return next === "living" || next === "bedroom" ? next : "dining"; }); const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(rugDefaults).map((key) => [key, params?.get(key) ?? rugDefaults[key as keyof typeof rugDefaults]])) as typeof rugDefaults; }); const [copyStatus, setCopyStatus] = useState("");
+  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system, layout })); }, [raw, system, layout]);
   const input = useMemo(() => ({ layout, roomLengthCm: toCentimeters(parseNumber(raw.roomLength), system), roomWidthCm: toCentimeters(parseNumber(raw.roomWidth), system), furnitureLengthCm: toCentimeters(parseNumber(raw.furnitureLength), system), furnitureWidthCm: toCentimeters(parseNumber(raw.furnitureWidth), system), extensionCm: toCentimeters(parseNumber(raw.extension), system) }), [layout, raw, system]);
   const errors = useMemo(() => validateRugSizeInput(input), [input]); const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>; const result = errors.length ? null : calculateRugSize(input);
   const update = (field: keyof typeof raw) => (event: ChangeEvent<HTMLInputElement>) => { setRaw((current) => ({ ...current, [field]: event.target.value })); setCopyStatus(""); };
@@ -136,7 +139,8 @@ const curtainDefaults = { windowWidth: "180", rodExtension: "23", panelWidth: "1
 const curtainFields = Object.keys(curtainDefaults) as Array<keyof typeof curtainDefaults>;
 
 export function CurtainMeasurementCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>("metric"); const [fullness, setFullness] = useState<CurtainFullness>(2); const [raw, setRaw] = useState(curtainDefaults); const [copyStatus, setCopyStatus] = useState("");
+  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric"); const [fullness, setFullness] = useState<CurtainFullness>(() => { const next = Number(readCalculatorParams()?.get("fullness")); return next === 1.5 || next === 2.5 || next === 3 ? next : 2; }); const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(curtainDefaults).map((key) => [key, params?.get(key) ?? curtainDefaults[key as keyof typeof curtainDefaults]])) as typeof curtainDefaults; }); const [copyStatus, setCopyStatus] = useState("");
+  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system, fullness: String(fullness) })); }, [raw, system, fullness]);
   const input = useMemo(() => ({ windowWidthCm: toCentimeters(parseNumber(raw.windowWidth), system), rodExtensionCm: toCentimeters(parseNumber(raw.rodExtension), system), fullness, panelWidthCm: toCentimeters(parseNumber(raw.panelWidth), system), dropLengthCm: toCentimeters(parseNumber(raw.dropLength), system) }), [fullness, raw, system]);
   const errors = useMemo(() => validateCurtainMeasurementInput(input), [input]); const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>; const result = errors.length ? null : calculateCurtainMeasurement(input);
   const update = (field: keyof typeof raw) => (event: ChangeEvent<HTMLInputElement>) => { setRaw((current) => ({ ...current, [field]: event.target.value })); setCopyStatus(""); };
