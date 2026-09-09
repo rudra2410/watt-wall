@@ -97,3 +97,5 @@ export const calculators = [
     icon: "curtain",
   },
 ] as const satisfies readonly CalculatorDefinition[];
+
+export type CalculatorSlug = (typeof calculators)[number]["slug"];

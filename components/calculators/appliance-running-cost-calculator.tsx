@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { appliancePresets, appliancePresetSource } from "@/data/appliance-presets";
 import { electricityRateReference } from "@/data/energy-reference";
 import { calculateApplianceInventory, validateApplianceRunningCostInput, type ApplianceRunningCostInput } from "@/lib/calculators/appliance-running-cost";
+import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import { formatCurrency, formatCurrencyRate, formatDecimal } from "@/lib/calculators/formatting";
 import { readCalculatorParams, readStoredRate, replaceCalculatorParams, storeRate } from "@/lib/calculators/persistence";
 
@@ -68,6 +69,7 @@ export function ApplianceRunningCostCalculator() {
     try {
       await navigator.clipboard.writeText(["Watt & Wall appliance inventory (planning estimate)", ...lines, `Rate: ${formatCurrencyRate(parse(rate), currency)}/kWh`, `Total: ${formatDecimal(result.monthlyEnergyKilowattHours)} kWh/month; ${formatCurrency(result.monthlyCost, currency)}/month; ${formatCurrency(result.annualCost, currency)}/year if this month repeats 12 times.`, "Excludes fixed fees and unlisted loads. Presets are rough references; verify your own appliance."].join("\n"));
       setStatus("Result copied to your clipboard.");
+      trackCalculatorCopy("appliance-running-cost");
     } catch { setStatus("Copy was unavailable. Select the result text to copy it manually."); }
   }
 
@@ -95,7 +97,7 @@ export function ApplianceRunningCostCalculator() {
             <Button className="mt-5" variant="secondary" disabled={rows.length === 1} aria-label={`Remove appliance ${index + 1}`} onClick={() => removeRow(row.id, index)}>Remove appliance</Button>
           </fieldset>
         ))}
-        <div className="flex flex-wrap gap-3"><Button onClick={addRow}>Add appliance</Button><Button variant="secondary" onClick={() => { setRows([{ ...firstRow }]); setRate(String(electricityRateReference.rate)); setCurrency("USD"); setStatus("Default appliance and USD reference rate restored."); }}>Reset</Button><Button variant="secondary" disabled={!result} onClick={copyResult}>Copy result</Button></div>
+        <div className="flex flex-wrap gap-3"><Button onClick={addRow}>Add appliance</Button><Button variant="secondary" onClick={() => { setRows([{ ...firstRow }]); setRate(String(electricityRateReference.rate)); setCurrency("USD"); setStatus("Default appliance and USD reference rate restored."); trackCalculatorReset("appliance-running-cost"); }}>Reset</Button><Button variant="secondary" disabled={!result} onClick={copyResult}>Copy result</Button></div>
         <p role="status" aria-atomic="true" className="min-h-5 text-sm">{status}</p>
       </form>
       <section aria-labelledby="inventory-results" className="min-w-0 rounded-2xl bg-card-section p-5 shadow-sm sm:p-8">

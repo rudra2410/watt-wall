@@ -21,6 +21,10 @@ export const adsenseConfig = {
 
 export const adsenseScriptSrc = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseConfig.publisherId}`;
 
+export const analyticsConfig = {
+  measurementId: "G-79MBBEXME0",
+} as const;
+
 export const primaryNavigation = [
   { label: "Home", href: "/" },
   { label: "Calculators", href: "/calculators" },

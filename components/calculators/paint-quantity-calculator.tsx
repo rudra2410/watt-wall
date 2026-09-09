@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { paintQuantityDefaults } from "@/data/paint-quantity";
+import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import {
   calculatePaintQuantity,
   validatePaintQuantityInput,
@@ -72,6 +73,7 @@ export function PaintQuantityCalculator() {
   function handleReset() {
     setRawInput(defaultRawInput);
     setCopyStatus("Defaults restored.");
+    trackCalculatorReset("paint-quantity");
   }
 
   async function handleCopy() {
@@ -87,6 +89,7 @@ export function PaintQuantityCalculator() {
     try {
       await navigator.clipboard.writeText(summary);
       setCopyStatus("Result copied to your clipboard.");
+      trackCalculatorCopy("paint-quantity");
     } catch {
       setCopyStatus("Copy was unavailable. You can select the visible result values instead.");
     }
