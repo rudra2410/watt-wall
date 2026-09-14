@@ -180,7 +180,7 @@ export function ElectricityCostCalculator() {
 
           <div className="sm:col-span-2">
             <Label htmlFor="electricity-currency">Currency</Label>
-            <Select className="mt-2 max-w-xs" id="electricity-currency" value={currency} onValueChange={(value) => setCurrency(value as (typeof currencyOptions)[number])}>
+            <Select className="mt-2" id="electricity-currency" value={currency} onValueChange={(value) => setCurrency(value as (typeof currencyOptions)[number])}>
               {currencyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
             </Select>
             <p className="mt-2 text-xs leading-5 text-muted-foreground">Choose the currency used by your local rate.</p>
