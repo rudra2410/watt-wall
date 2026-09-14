@@ -8,7 +8,7 @@ const path = "/guides/vaulted-ceiling-paint";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-08" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>Those room dimensions and the two-coat plan are chosen assumptions. The coverage comes from the <TrustLink href="https://s7d9.scene7.com/is/content/behr/5558_tds_uspdf" external>BEHR ULTRA Interior Ceiling Paint technical sheet</TrustLink>, which lists 250–400 square feet per gallon depending on application and surface porosity. This example uses the lower end, excludes application loss and is a planning estimate.</p>
 <TrustSection title="Draw the surfaces before calculating">
 <p>A symmetrical vaulted room has different shapes to measure. The long side walls may be ordinary rectangles. Each end wall may have a triangular section above a rectangle. The ceiling consists of two sloping surfaces meeting at a ridge.</p>

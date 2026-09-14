@@ -8,7 +8,7 @@ const path = "/guides/standby-device-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The 10 W is a worksheet scenario. It is not an average household figure. A device&apos;s standby power depends on model, settings, network features and whether a charger has finished charging.</p>
 <TrustSection title="The always-on formula">
 <p><strong>Annual kWh = watts ÷ 1,000 × hours per day × days per year.</strong></p>
@@ -37,6 +37,8 @@ export default function GuidePage() {
 <TrustSection title="Decide what to measure first">
 <p>Measure the devices that stay connected for the longest time or that show a changing standby display. A one-time watt reading can miss network activity, charging, updates or a periodic wake cycle. Record the mode and observation length so another person can reproduce the comparison.</p>
 <p>Use the same rate and year length when comparing devices. If the monitor reports kWh, use that energy directly and avoid multiplying it by a second guessed wattage. If it reports average watts, state the hours and days that produced the average. Leave safety-critical, security, medical and connectivity equipment in its required mode unless the manufacturer gives a different instruction.</p>
+<p>Create separate rows for active, idle, sleep and off modes when a device moves between them. Add only non-overlapping hours so the daily schedule does not exceed 24. That record makes a combined estimate auditable and shows which mode is responsible for each part of the total.</p>
+<p>Repeat a reading after software or settings change when the device&apos;s background behavior may have changed.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

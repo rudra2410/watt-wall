@@ -8,7 +8,7 @@ const path = "/guides/window-ac-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The 670 W value is from the <TrustLink href="https://www.frigidaire.ca/Owner-Centre/Product-Support/fhww083wbe" external>Frigidaire product support page</TrustLink>, retrieved September 8, 2026. The eight-hour schedule is a chosen scenario. Confirm the wattage and voltage for your model before using it.</p>
 <TrustSection title="Calculate from the rated input">
 <p><strong>Monthly kWh = cooling watts ÷ 1,000 × scheduled hours per day × active days per month × duty cycle ÷ 100.</strong></p>
@@ -36,6 +36,7 @@ export default function GuidePage() {
 <TrustSection title="Keep an observation log">
 <p>Record the model, rated input, thermostat setting, outdoor conditions, filter state and the exact start and end times of a meter observation. Note whether the compressor or fan cycles. These details help explain a difference between the rated-input scenario and a measured kWh result.</p>
 <p>For a comparison, change one input at a time. Hold the rate and billing days constant while testing hours, then hold the schedule constant while testing a different tariff. A window unit can draw a different average during a mild period than during a hot period, so label an extrapolation as a scenario. Follow the product manual and ask a licensed electrician about any outlet, cord or circuit concern.</p>
+<p>Compare observations of equal length where possible. If one period covers eight hours and another covers twelve, divide measured kWh by hours before comparing the average. Keep that measured average separate from the product&apos;s rated input; each describes a different kind of evidence.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

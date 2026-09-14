@@ -8,7 +8,7 @@ const path = "/guides/tile-waste-boxes";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The <TrustLink href="https://www.daltile.com/how-to/faqs" external>Daltile tile FAQ</TrustLink> recommends approximately 10% extra as attic stock for future replacement. That is a repair-spare recommendation. It should not silently be treated as the cutting waste for every layout.</p>
 <TrustSection title="Keep three quantities separate">
 <p>Start with measured coverage area. Add a cutting allowance for the layout and room shape. Then decide whether to keep attic stock from the same batch. A diagonal or herringbone pattern can create different offcuts from a straight grid, so the correct allowance depends on the plan and the tile size.</p>
@@ -37,6 +37,7 @@ export default function GuidePage() {
 <TrustSection title="Review the order before purchase">
 <p>Put the room sketch, tile dimensions, box coverage, pattern direction and allowance decision on one page. Check whether the supplier sells full boxes and whether a return policy applies to unopened material. A box count rounded up for area can still be wrong if the layout creates narrow cuts or a pattern repeat.</p>
 <p>Ask the installer or supplier to review stairs, thresholds, transitions, drains, niches and any diagonal layout. Keep a labeled spare box after installation when storage allows. The calculation helps you explain the quantity decision, while the actual product label and layout determine the order. Do not use an area estimate as installation instructions.</p>
+<p>Recalculate if the selected tile or package changes. Two products with the same nominal tile dimensions can have different pieces per box or stated coverage. Save the final product code and box label with the worksheet so a later repair starts from the material actually installed.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

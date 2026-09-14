@@ -8,7 +8,7 @@ const path = "/guides/space-heater-monthly-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The wattage and schedule above are a worked scenario. The <TrustLink href="https://wmu.willmar.mn.us/energy-programs/energy-calculator/" external>Willmar Municipal Utilities appliance guide</TrustLink> lists 1,500 W for a heater as an estimated average reference value. It is not a guarantee for your model or its thermostat behavior.</p>
 <TrustSection title="The calculation">
 <p>Convert watts to kilowatts, then multiply by hours and days:</p>
@@ -40,6 +40,7 @@ export default function GuidePage() {
 <TrustSection title="Compare the estimate with one bill">
 <p>Choose a bill that covers the same number of days as your schedule. Record the rate shown on the statement, then calculate the heater separately from fixed charges and other household loads. If the bill uses tiers or time-of-use periods, a single average rate is only a comparison input.</p>
 <p>Keep the heater model, selected heat setting and thermostat notes with the calculation. Two heaters can show the same wattage while spending different amounts of time energized in the same room. The duty-cycle field lets you test that uncertainty without presenting a guessed cycle as a measured fact. A plug-in monitor can provide a better observation when it is rated for the load.</p>
+<p>Repeat the comparison only under conditions you can describe. A different room, outdoor temperature, open door or thermostat setting can change energized time. Label each run with its date and duration, and keep the cost calculation separate from any comfort or safety decision.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

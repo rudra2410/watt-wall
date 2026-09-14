@@ -8,7 +8,7 @@ const description = "An extra 100 kWh costs $18.34 at the US average residential
 export const metadata = createPageMetadata({ title, description, path: "/guides/electricity-costs" });
 
 export default function ElectricityCostsGuide() {
-  return <><ArticleJsonLd title={title} description={description} path="/guides/electricity-costs" dateModified="2026-09-07" /><TrustPageShell category="Electricity bills and tariffs" path="/guides/electricity-costs" title={title} description={description}>
+  return <><ArticleJsonLd title={title} description={description} path="/guides/electricity-costs" datePublished="2026-08-25" dateModified="2026-09-07" /><TrustPageShell category="Electricity bills and tariffs" path="/guides/electricity-costs" title={title} description={description}>
     <p className="text-sm">Reviewed September 7, 2026. Rate reference: <TrustLink external href={electricityRateReference.url}>EIA table 5.6.A, June 2026</TrustLink>. The 100 kWh above is a chosen comparison quantity, not a typical household load.</p>
     <TrustNote>Start with the question you want to answer. Estimating the cost of one more appliance requires the charges that change with its usage. Dividing the entire bill by kWh answers a different question: the average cost of the electricity you already bought.</TrustNote>
     <TrustSection title="Find the rate, billing period and units">

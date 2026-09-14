@@ -8,7 +8,7 @@ const path = "/guides/fridge-energyguide-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-08" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The 500 kWh figure is a chosen illustration, not a tested refrigerator or a typical household claim. Replace it with the annual consumption printed on your model&apos;s label. The useful question is whether the difference comes from the price of electricity, the energy used, or both.</p>
 <TrustSection title="Start with the energy figure">
 <p>Find the annual kWh figure on the yellow label and record it alongside the estimated yearly dollar cost. Keep the model number with your notes. A similar-looking refrigerator is not necessarily the same model.</p>

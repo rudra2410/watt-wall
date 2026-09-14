@@ -8,7 +8,7 @@ const path = "/guides/dehumidifier-ief-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The 500 W rating and eight-hour schedule are scenario inputs. They are not a claim about a standard unit. Use the rated input from your model or a measured average. A compressor may cycle while the control remains set to run continuously.</p>
 <TrustSection title="What IEF measures">
 <p><TrustLink href="https://www.energystar.gov/products/dehumidifiers/key_efficiency_criteria" external>ENERGY STAR&apos;s dehumidifier criteria</TrustLink> define Integrated Energy Factor in litres of water removed per kWh, including dehumidification and standby or off modes under representative test conditions. <TrustLink href="https://www.energystar.gov/products/dehumidifier_testing_and_capacity" external>Its testing page</TrustLink> explains that the post-2019 procedure includes off-cycle energy and tests portable units at 65°F.</p>
@@ -37,6 +37,8 @@ export default function GuidePage() {
 <TrustSection title="Make the comparison repeatable">
 <p>Write down the room temperature, humidity target, filter condition, start and end meter readings, and the exact dates. Those notes explain why two observations can differ without changing the arithmetic. A short observation can be useful for a check, while a longer observation captures more compressor cycling.</p>
 <p>Compare like with like. Use the same scheduled hours, rate and number of days when comparing two scenarios. If one unit removes more water, its IEF and its operating schedule both matter; a lower electricity cost alone does not establish better moisture control. Keep the model number with the result so a future replacement is not mistaken for the tested unit.</p>
+<p>Keep the collected-water method consistent too. A connected drain, full-bucket shutoff, changed fan speed or moved unit can alter the observation. Record each change at the time it happens. When comparing products, place the manufacturer&apos;s capacity and IEF beside measured kWh instead of treating electricity use as the only outcome.</p>
+<p>Also record whether doors and windows stayed open, since the observed space and moisture load should remain clear in any comparison.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

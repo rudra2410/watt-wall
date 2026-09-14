@@ -60,7 +60,7 @@ export function BreadcrumbJsonLd({ items }: { items: readonly BreadcrumbItem[] }
   );
 }
 
-export function ArticleJsonLd({ title, description, path, datePublished = "2026-08-24", dateModified = "2026-08-26" }: { title: string; description: string; path: string; datePublished?: string; dateModified?: string }) {
+export function ArticleJsonLd({ title, description, path, datePublished, dateModified }: { title: string; description: string; path: string; datePublished: string; dateModified: string }) {
   return <JsonLd data={{
     "@context": "https://schema.org",
     "@type": "Article",

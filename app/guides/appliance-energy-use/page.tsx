@@ -8,7 +8,7 @@ const description = "A measured 1 kWh per day costs about $5.50 over 30 days at 
 export const metadata = createPageMetadata({ title, description, path: "/guides/appliance-energy-use" });
 
 export default function ApplianceEnergyUseGuide() {
-  return <><ArticleJsonLd title={title} description={description} path="/guides/appliance-energy-use" dateModified="2026-09-07" /><TrustPageShell category="Appliance measurement guide" path="/guides/appliance-energy-use" title={title} description={description}>
+  return <><ArticleJsonLd title={title} description={description} path="/guides/appliance-energy-use" datePublished="2026-08-25" dateModified="2026-09-07" /><TrustPageShell category="Appliance measurement guide" path="/guides/appliance-energy-use" title={title} description={description}>
     <p className="text-sm">Reviewed September 7, 2026. <TrustLink external href={electricityRateReference.url}>EIA rate reference</TrustLink>. The 1 kWh/day reading is a chosen illustration, not a claim about a typical appliance.</p>
     <TrustNote>The useful input is electricity consumed over a relevant period. A nameplate, a meter reading and an annual EnergyGuide figure answer different questions. Keep the unit attached to the number before entering it anywhere.</TrustNote>
     <TrustSection title="Choose the evidence that fits your question">

@@ -8,7 +8,7 @@ const path = "/guides/electric-water-heater-use";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>Check your heater&apos;s nameplate and manual for the actual element rating. The Willmar Municipal Utilities reference table lists 4,500 W for an 80-gallon water heater as an estimated average reference. Product models and controls differ.</p>
 <TrustSection title="The element formula">
 <p><strong>Monthly kWh = watts ÷ 1,000 × heating hours per day × heating days per month.</strong></p>
@@ -37,6 +37,8 @@ export default function GuidePage() {
 <TrustSection title="Turn a bill check into a worksheet">
 <p>Start with the billing period and record the meter dates. Then list showers, baths, laundry, dishwashing, guests and any vacant days beside the observation. This separates a change in hot-water demand from a change in the heater or tariff. Use the same number of days when comparing a meter result with the calculator.</p>
 <p>If the tank shares a circuit with another load, isolate the heater only when your monitoring method can do so safely. Otherwise label the reading as a combined load. Do not remove a panel or alter a circuit to obtain a reading. A licensed electrician or plumber can investigate wiring, controls, temperature problems or leaks.</p>
+<p>Record the model number, tank capacity, element rating, EnergyGuide annual kWh and the date each value was collected. Keep measured energy in a separate column from calculated energy. When the two differ, review the observation period and household demand before assuming the equipment has failed.</p>
+<p>Note any vacation mode or timer schedule as well, because it changes the period represented by the observation.</p>
 </TrustSection>
 </TrustPageShell></>;
 }

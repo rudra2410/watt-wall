@@ -38,7 +38,7 @@ export const trustPoints = [
   },
   {
     title: "Private by default",
-    description: "No account is required. Calculator inputs are processed in your browser and are not uploaded or stored.",
+    description: "No account is required. Calculations stay in your browser; shareable URLs can contain inputs, and the last electricity rate can remain in local storage.",
   },
   {
     title: "Planning aid, not a quote",
@@ -76,7 +76,7 @@ export const homeFaqs = [
   {
     question: "Are my calculator entries saved?",
     answer:
-      "No account is required. Calculator entries are processed in your browser for the current estimate and are not uploaded to or stored by Watt & Wall.",
+      "No account is required, and entries are not sent to Watt & Wall servers. Shareable calculator URLs can contain the visible inputs, and the last electricity rate can be saved in your browser's local storage.",
   },
   {
     question: "Where do the formulas and sources come from?",
