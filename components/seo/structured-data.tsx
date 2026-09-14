@@ -20,7 +20,7 @@ export function SiteStructuredData() {
     "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/icon.svg`,
+    logo: `${siteConfig.url}/watt-wall-logo.webp`,
     email: "wattandwall@gmail.com",
   };
 
