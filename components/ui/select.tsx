@@ -49,7 +49,7 @@ export function Select({ children, className, disabled, id, name, onValueChange,
         aria-controls={listboxId}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className={cn("min-h-11 w-full rounded-lg border border-input bg-background px-3 py-2 pr-10 text-left text-base text-foreground shadow-xs outline-none transition-colors duration-150 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/35 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm", className)}
+        className={cn("relative min-h-11 w-full rounded-lg border border-input bg-background px-3 py-2 pr-10 text-left text-base text-foreground shadow-xs outline-none transition-colors duration-150 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/35 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm", className)}
         disabled={disabled}
         id={selectId}
         type="button"
