@@ -55,7 +55,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-6 flex justify-center text-center text-sm leading-6 text-muted-foreground">
-          <p>&copy; {currentYear} {siteConfig.name}. All rights reserved.</p>
+          <p>&copy; {currentYear} {siteConfig.name}. An independent project by Rudra Sutariya.</p>     
         </div>
       </Container>
     </footer>

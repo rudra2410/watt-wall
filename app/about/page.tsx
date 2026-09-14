@@ -3,7 +3,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "About Watt & Wall",
-  description: "Meet Rudra Sutariya, the creator of Watt & Wall, and learn how this SEO-focused Next.js and React website helps homeowners plan with clearer numbers.",
+  description: "Meet Rudra Sutariya, the frontend developer who built Watt & Wall to show the formula, assumptions, and sources behind every home planning estimate.",
   path: "/about",
 });
 

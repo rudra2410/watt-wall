@@ -1,3 +1,5 @@
+import { electricityRateReference } from "@/data/energy-reference";
+
 export type HeroElectricityExampleInput = {
   powerKilowatts: number;
   hoursPerDay: number;
@@ -24,5 +26,7 @@ export function calculateHeroElectricityExample(
 export const heroElectricityExample = calculateHeroElectricityExample({
   powerKilowatts: 1.5,
   hoursPerDay: 3,
-  pricePerKilowattHour: 0.16,
+  pricePerKilowattHour: electricityRateReference.rate,
 });
+
+
