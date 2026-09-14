@@ -40,18 +40,45 @@ const defaultRawInput: RawElectricityInput = {
 };
 
 export function ElectricityCostCalculator() {
-  const [calculationMode, setCalculationMode] = useState<CalculationMode>(() => readCalculatorParams()?.get("mode") === "known-kwh" ? "known-kwh" : "power-time");
-  const [rawInput, setRawInput] = useState(() => { const params = readCalculatorParams(); return { ...defaultRawInput, power: params?.get("power") ?? defaultRawInput.power, powerUnit: (params?.get("unit") as PowerUnit) || defaultRawInput.powerUnit, hoursPerActiveDay: params?.get("hours") ?? defaultRawInput.hoursPerActiveDay, activeDaysPerMonth: params?.get("days") ?? defaultRawInput.activeDaysPerMonth, pricePerKilowattHour: params?.get("rate") ?? readStoredRate(defaultRawInput.pricePerKilowattHour) }; });
-  const [knownEnergyKilowattHours, setKnownEnergyKilowattHours] = useState(() => readCalculatorParams()?.get("kwh") ?? "410");
-  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>(() => { const next = readCalculatorParams()?.get("currency"); return currencyOptions.includes(next as (typeof currencyOptions)[number]) ? next as (typeof currencyOptions)[number] : "USD"; });
+  const [calculationMode, setCalculationMode] = useState<CalculationMode>("power-time");
+  const [rawInput, setRawInput] = useState<RawElectricityInput>(defaultRawInput);
+  const [knownEnergyKilowattHours, setKnownEnergyKilowattHours] = useState("410");
+  const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>("USD");
   const [copyStatus, setCopyStatus] = useState("");
+  const [hasLoadedBrowserValues, setHasLoadedBrowserValues] = useState(false);
+
   useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const params = readCalculatorParams();
+      const nextPowerUnit = params?.get("unit");
+      const nextCurrency = params?.get("currency");
+
+      setCalculationMode(params?.get("mode") === "known-kwh" ? "known-kwh" : "power-time");
+      setRawInput({
+        ...defaultRawInput,
+        power: params?.get("power") ?? defaultRawInput.power,
+        powerUnit: nextPowerUnit === "kW" ? "kW" : "W",
+        hoursPerActiveDay: params?.get("hours") ?? defaultRawInput.hoursPerActiveDay,
+        activeDaysPerMonth: params?.get("days") ?? defaultRawInput.activeDaysPerMonth,
+        pricePerKilowattHour: params?.get("rate") ?? readStoredRate(defaultRawInput.pricePerKilowattHour),
+      });
+      setKnownEnergyKilowattHours(params?.get("kwh") ?? "410");
+      setCurrency(currencyOptions.includes(nextCurrency as (typeof currencyOptions)[number]) ? nextCurrency as (typeof currencyOptions)[number] : "USD");
+      setHasLoadedBrowserValues(true);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedBrowserValues) return;
+
     const params = calculationMode === "known-kwh"
       ? new URLSearchParams({ mode: calculationMode, kwh: knownEnergyKilowattHours, rate: rawInput.pricePerKilowattHour, currency })
       : new URLSearchParams({ mode: calculationMode, power: rawInput.power, unit: rawInput.powerUnit, hours: rawInput.hoursPerActiveDay, days: rawInput.activeDaysPerMonth, rate: rawInput.pricePerKilowattHour, currency });
     replaceCalculatorParams(params);
     storeRate(rawInput.pricePerKilowattHour);
-  }, [calculationMode, currency, knownEnergyKilowattHours, rawInput]);
+  }, [calculationMode, currency, hasLoadedBrowserValues, knownEnergyKilowattHours, rawInput]);
 
   const parsedInput = useMemo<ElectricityCostInput>(() => ({
     power: parseNumber(rawInput.power),
