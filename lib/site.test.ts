@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { adsenseConfig, adsenseScriptSrc, analyticsConfig, footerNavigation, primaryNavigation, siteConfig } from "./site";
+import { adsenseConfig, adsenseScriptSrc, analyticsConfig, footerNavigation, guideCategories, guideNavigation, primaryNavigation, siteConfig } from "./site";
 
 describe("siteConfig", () => {
   it("uses the approved Watt & Wall brand and domain", () => {
@@ -12,7 +12,7 @@ describe("siteConfig", () => {
   });
 
   it("keeps every approved trust and company route discoverable", () => {
-    expect(footerNavigation.map((group) => group.label)).toEqual(["Trust", "Company", "Guides"]);
+    expect(footerNavigation.map((group) => group.label)).toEqual(["Trust", "Company"]);
     expect(footerNavigation.flatMap((group) => group.links.map((link) => link.href))).toEqual([
       "/how-it-works",
       "/methodology",
@@ -22,23 +22,15 @@ describe("siteConfig", () => {
       "/disclaimer",
       "/about",
       "/contact",
-      "/guides/space-heater-monthly-cost",
-      "/guides/dehumidifier-ief-cost",
-      "/guides/electric-water-heater-use",
-      "/guides/window-ac-cost",
-      "/guides/standby-device-cost",
-      "/guides/tile-waste-boxes",
-      "/guides/fridge-energyguide-cost",
-      "/guides/vaulted-ceiling-paint",
-      "/guides/electricity-costs",
-      "/guides/appliance-energy-use",
-      "/guides/paint-and-flooring-measurements",
-      "/guides/home-energy-audit",
-      "/guides/energyguide-labels",
-      "/guides/measuring-rooms-and-furniture",
-      "/guides/choosing-rug-size",
-      "/guides/measuring-curtains",
     ]);
+  });
+
+  it("keeps every guide assigned to a directory category", () => {
+    expect(guideCategories.map((category) => category.slug)).toEqual(["energy", "renovation", "furniture-decor"]);
+    expect(guideNavigation).toHaveLength(16);
+    expect(new Set(guideNavigation.map((guide) => guide.href)).size).toBe(guideNavigation.length);
+    expect(guideNavigation.every((guide) => String(guide.directoryDescription) !== String(guide.description))).toBe(true);
+    expect(guideNavigation.every((guide) => guideCategories.some((category) => category.name === guide.category))).toBe(true);
   });
 
   it("keeps the complete primary navigation available", () => {

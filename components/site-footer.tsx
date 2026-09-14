@@ -32,11 +32,6 @@ export function SiteFooter() {
           </div>
 
           <FooterNavigation label="Calculators">
-            <li>
-              <Link className={footerLinkClassName} href="/calculators" prefetch={false}>
-                All calculators
-              </Link>
-            </li>
             {calculators.map((calculator) => (
               <li key={calculator.slug}>
                 <Link className={footerLinkClassName} href={calculator.href} prefetch={false}>
@@ -46,7 +41,7 @@ export function SiteFooter() {
             ))}
           </FooterNavigation>
 
-          {footerNavigation.filter((group) => group.label !== "Guides").map((group) => (
+          {footerNavigation.map((group) => (
             <FooterNavigation key={group.label} label={group.label}>
               {group.links.map((link) => (
                 <li key={link.href}>

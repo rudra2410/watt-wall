@@ -4,13 +4,13 @@ import { Container } from "@/components/layout/container";
 import { BreadcrumbJsonLd } from "@/components/seo/structured-data";
 import { Icon } from "@/components/ui/icon";
 import { buttonVariants } from "@/components/ui/button";
-import { guideNavigation, siteConfig } from "@/lib/site";
+import { guideCategories, guideNavigation, siteConfig } from "@/lib/site";
 import { createPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export const metadata = createPageMetadata({
   title: "Home Energy, Renovation and Decor Guides",
-  description: "Source-backed guides for energy costs, renovation measurements, furniture fit, rug sizing, and curtain planning.",
+  description: "Read practical home energy, appliance, renovation, furniture, rug and curtain guides with clear formulas, measurements, assumptions, and source links.",
   path: "/guides",
 });
 
@@ -18,7 +18,7 @@ export default function GuidesPage() {
   return (
     <main className="bg-background" id="main-content">
       <BreadcrumbJsonLd items={[{ name: "Home", url: siteConfig.url }, { name: "Guides", url: `${siteConfig.url}/guides` }]} />
-      <section className="bg-background py-14 sm:py-18 lg:py-22">
+      <section className="bg-background pt-14 pb-10 sm:pt-18 sm:pb-12 lg:pt-22 lg:pb-14">
         <Container>
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -29,36 +29,51 @@ export default function GuidesPage() {
           </nav>
           <div className="mt-10 max-w-2xl">
             <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Watt & Wall guides</p>
-            <h1 className="mt-3 text-4xl leading-[1.08] font-semibold tracking-[-0.035em] text-balance sm:text-5xl">Clear answers for better home planning.</h1>
-            <p className="mt-5 text-lg leading-8 text-muted-foreground">Simple, source-backed explanations for the numbers behind energy, renovation, furniture, and decoration decisions.</p>
+            <h1 className="mt-3 text-4xl leading-[1.08] font-semibold tracking-[-0.035em] text-balance sm:text-5xl">Practical home energy, renovation and decor guides</h1>
+            <p className="mt-5 text-lg leading-8 text-muted-foreground">Choose a focused guide for an energy-cost question, renovation measurement, furniture decision, rug, or curtain project. Each guide states its assumptions and links to its sources.</p>
           </div>
         </Container>
       </section>
 
-      <section className="bg-background py-14 sm:py-18 lg:py-22" aria-labelledby="guide-list-title">
+      <div className="bg-card-section py-16 sm:py-20 lg:py-24">
         <Container>
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Guide library</p>
-              <h2 className="mt-2 text-3xl leading-tight font-semibold tracking-tight" id="guide-list-title">Choose a topic.</h2>
-            </div>
-            <p className="hidden max-w-xs text-right text-sm leading-6 text-muted-foreground sm:block">Read at your own pace, then use a calculator when you are ready.</p>
+          <div className="max-w-2xl">
+            <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Guide library</p>
+            <p className="mt-2 text-3xl leading-tight font-semibold tracking-tight">Choose a topic area</p>
+            <p className="mt-4 text-base leading-7 text-muted-foreground">Start with the decision you need to make. The category descriptions explain which group is most likely to contain the answer.</p>
           </div>
 
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {guideNavigation.map((guide, index) => (
-              <li key={guide.href}>
-                <Link className="group flex h-full min-h-48 flex-col rounded-xl bg-card-section p-6 outline-none transition-colors duration-200 hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none" href={guide.href}>
-                  <span className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">Guide {String(index + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-4 text-xl leading-tight font-semibold tracking-tight group-hover:text-primary">{guide.label}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{guide.description}</p>
-                  <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-primary">Read guide <Icon className="size-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" name="arrow-right" /></span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-12 space-y-14 sm:space-y-16">
+            {guideCategories.map((category) => {
+              const categoryGuides = guideNavigation.filter((guide) => guide.category === category.name);
+              const headingId = `guide-category-${category.slug}`;
+
+              return (
+                <section aria-labelledby={headingId} className="border-t border-border pt-8" key={category.slug}>
+                  <div className="max-w-2xl">
+                    <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">{category.name}</p>
+                    <h2 className="mt-2 text-3xl leading-tight font-semibold tracking-tight sm:text-4xl" id={headingId}>{category.title}</h2>
+                    <p className="mt-4 text-base leading-7 text-muted-foreground">{category.description}</p>
+                  </div>
+
+                  <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {categoryGuides.map((guide) => (
+                      <li key={guide.href}>
+                        <Link className="group flex h-full min-h-48 flex-col rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm outline-none transition-colors duration-200 hover:border-primary/40 hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card-section motion-reduce:transition-none" href={guide.href}>
+                          <span className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">{guide.category} guide</span>
+                          <h3 className="mt-4 text-xl leading-tight font-semibold tracking-tight group-hover:text-primary">{guide.label}</h3>
+                          <p className="mt-3 text-sm leading-6 text-muted-foreground">{guide.directoryDescription}</p>
+                          <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-primary">Read guide <Icon className="size-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" name="arrow-right" /></span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              );
+            })}
+          </div>
         </Container>
-      </section>
+      </div>
 
       <section className="bg-background py-14 sm:py-18" aria-labelledby="guide-cta-title">
         <Container>

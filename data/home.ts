@@ -71,7 +71,7 @@ export const homeFaqs = [
   {
     question: "Which units and currencies do the tools use?",
     answer:
-      "The first release uses clearly labelled US defaults and USD. Every field and result shows its unit or currency, and wider metric and regional defaults are planned for a later release.",
+      "The energy calculators support USD, EUR, GBP, and INR labels, with USD starting values. Currency selection does not convert rates, so enter the per-kWh rate in the selected currency. Measurement tools label metric and imperial inputs where available.",
   },
   {
     question: "Are my calculator entries saved?",

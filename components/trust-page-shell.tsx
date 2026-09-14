@@ -72,6 +72,7 @@ export function TrustLink({ href, children, external = false }: { href: string; 
       target={external ? "_blank" : undefined}
     >
       {children}
+      {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
     </a>
   );
 }

@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { BreadcrumbJsonLd } from "@/components/seo/structured-data";
 import { buttonVariants } from "@/components/ui/button";
 import { TrustLink } from "@/components/trust-page-shell";
+import { calculators } from "@/data/calculators";
 import { createPageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
@@ -30,47 +31,36 @@ const steps = [
   },
 ] as const;
 
-const calculatorInputs = [
+const preparationInputs = [
   {
-    href: "/calculators/electricity-cost",
-    title: "Electricity cost",
-    description: "Device power, active hours, active days each month, and your USD price per kWh.",
+    href: "/guides/electricity-costs",
+    linkLabel: "Read the electricity-cost guide",
+    title: "Bill or tariff",
+    description: "Bring the electricity rate, billing period, and details that separate variable usage charges from fixed fees. Choose the matching currency label and enter the rate in that currency; the calculators do not convert exchange rates.",
   },
   {
-    href: "/calculators/appliance-running-cost",
-    title: "Appliance running cost",
-    description: "One row per appliance, reference or measured wattage, a schedule, duty cycle, and a shared electricity rate.",
+    href: "/guides/energyguide-labels",
+    linkLabel: "Read the EnergyGuide guide",
+    title: "Product label or manual",
+    description: "Look for appliance watts or annual kWh, paint coverage, flooring carton coverage, tile dimensions, and the manufacturer instructions that apply to the product.",
   },
   {
-    href: "/calculators/paint-quantity",
-    title: "Paint quantity",
-    description: "Room length, width, wall height, doors, windows, coats, product coverage, and a waste allowance.",
+    href: "/guides/measuring-rooms-and-furniture",
+    linkLabel: "Read the room-measuring guide",
+    title: "Project measurements",
+    description: "Record room, wall, floor, furniture, opening, and window dimensions. Use one measurement system consistently and note any clearance the project needs.",
   },
   {
-    href: "/calculators/flooring-tile",
-    title: "Flooring and tile",
-    description: "Floor length and width, coverage per carton, pack, sheet, or tile unit, plus a waste allowance.",
-  },
-  {
-    href: "/calculators/furniture-fit",
-    title: "Furniture fit",
-    description: "Room, furniture, preferred clearance, and tightest delivery-opening measurements in metric or imperial units.",
-  },
-  {
-    href: "/calculators/rug-size",
-    title: "Rug size",
-    description: "Room layout, reference furniture, and an editable rug extension around each side.",
-  },
-  {
-    href: "/calculators/curtain-measurement",
-    title: "Curtain measurement",
-    description: "Window and panel widths, rod extension, fullness, and the intended finished drop.",
+    href: "/guides/appliance-energy-use",
+    linkLabel: "Read the appliance-measurement guide",
+    title: "Observed usage",
+    description: "Use the active hours, active days, duty cycle, and seasonal schedule that match how the appliance or project is actually used. A measured value is more useful than a generic starting point.",
   },
 ] as const;
 
 export const metadata = createPageMetadata({
-  title: "How It Works",
-  description: "Learn how to choose a Watt & Wall calculator, enter local values, inspect a transparent result, and use it as an early planning estimate.",
+  title: "How Watt & Wall Calculators Work",
+  description: "Learn how Watt & Wall calculators use local values, clear formulas, stated assumptions, and source notes to produce practical home-planning estimates.",
   path: "/how-it-works",
 });
 
@@ -132,35 +122,52 @@ export default function HowItWorksPage() {
             </div>
 
             <ul className="grid list-none gap-4 p-0 sm:grid-cols-2">
-              {calculatorInputs.map((calculator) => (
-                <li className="rounded-xl bg-card p-5 shadow-sm" key={calculator.href}>
-                  <h3 className="text-lg leading-7 font-semibold"><Link className="rounded-sm outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href={calculator.href}>{calculator.title}</Link></h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{calculator.description}</p>
+              {preparationInputs.map((input) => (
+                <li className="rounded-xl bg-card p-5 shadow-sm" key={input.title}>
+                  <h3 className="text-lg leading-7 font-semibold">{input.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{input.description}</p>
+                  <Link className="mt-4 inline-flex min-h-11 items-center rounded-md font-semibold text-primary outline-none hover:text-primary-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href={input.href}>{input.linkLabel} <span aria-hidden="true" className="ml-2">›</span></Link>
                 </li>
               ))}
             </ul>
           </div>
+
+          <nav aria-label="Available calculators" className="mt-10 border-t border-border pt-7">
+            <p className="font-semibold">Available calculators</p>
+            <ul className="mt-3 flex list-none flex-wrap gap-x-5 gap-y-2 p-0">
+              {calculators.map((calculator) => (
+                <li key={calculator.slug}>
+                  <Link className="inline-flex min-h-11 items-center rounded-md text-sm font-semibold text-primary outline-none hover:text-primary-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card-section" href={calculator.href}>{calculator.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </Container>
       </section>
 
       <section aria-labelledby="read-result-title" className="py-14 sm:py-16 lg:py-20">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="max-w-2xl">
+            <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Reading the result</p>
+            <h2 className="mt-3 text-3xl leading-tight font-semibold tracking-tight sm:text-4xl" id="read-result-title">How to read and use the result</h2>
+          </div>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
             <article className="rounded-2xl bg-card p-6 shadow-sm sm:p-7">
               <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">As you enter values</p>
-              <h2 className="mt-3 text-2xl leading-8 font-semibold tracking-tight" id="read-result-title">The estimate updates only when the inputs are valid</h2>
+              <h3 className="mt-3 text-2xl leading-8 font-semibold tracking-tight">Validate the inputs</h3>
               <p className="mt-4 text-sm leading-6 text-muted-foreground">Each field has a visible label and hint. If a value is incomplete or outside the supported range, the result is withheld until it can be calculated from valid inputs.</p>
             </article>
 
             <article className="rounded-2xl bg-card p-6 shadow-sm sm:p-7">
               <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Before you rely on it</p>
-              <h2 className="mt-3 text-2xl leading-8 font-semibold tracking-tight">Read the formula, units, and assumptions</h2>
+              <h3 className="mt-3 text-2xl leading-8 font-semibold tracking-tight">Read the formula and assumptions</h3>
               <p className="mt-4 text-sm leading-6 text-muted-foreground">Every calculator page shows the formula, a worked example, source notes, rounding information, and assumptions beside the calculator rather than hiding them behind the result.</p>
             </article>
 
             <article className="rounded-2xl bg-primary/10 p-6 sm:p-7">
               <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Planning aid, not a quote</p>
-              <h2 className="mt-3 text-2xl leading-8 font-semibold tracking-tight">Use the result to prepare the next check</h2>
+              <h3 className="mt-3 text-2xl leading-8 font-semibold tracking-tight">Decide what to check next</h3>
               <p className="mt-4 text-sm leading-6 text-muted-foreground">Actual bills can include changing rates, taxes, fees, and tariff rules. Product instructions, surface condition, cuts, installation choices, and container sizes can change material needs.</p>
               <Link className="mt-5 inline-flex min-h-11 items-center rounded-md font-semibold text-primary outline-none hover:text-primary-strong focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-primary/10" href="/disclaimer">Read estimate limitations <span aria-hidden="true" className="ml-2">›</span></Link>
             </article>
@@ -186,7 +193,7 @@ export default function HowItWorksPage() {
               <li><TrustLink external href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9">NIST: U.S. gallon-to-litre conversion</TrustLink></li>
             </ul>
 
-            <p className="mt-7 text-xs leading-5 text-muted-foreground">Last reviewed: August 24, 2026. For the calculator maintenance and source-review policy, read the <Link className="font-semibold text-primary underline decoration-primary/40 underline-offset-4 outline-none hover:text-primary-strong focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href="/methodology">Methodology page</Link>.</p>
+            <p className="mt-7 text-xs leading-5 text-muted-foreground">Last reviewed: September 14, 2026. For the calculator maintenance and source-review policy, read the <Link className="font-semibold text-primary underline decoration-primary/40 underline-offset-4 outline-none hover:text-primary-strong focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href="/methodology">Methodology page</Link>.</p>
           </div>
         </Container>
       </section>

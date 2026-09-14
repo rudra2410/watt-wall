@@ -14,9 +14,9 @@ export function FeaturedCalculatorsSection() {
           titleId="featured-calculators-title"
         />
 
-        <ul className="mt-10 grid list-none gap-5 p-0 md:grid-cols-2 xl:grid-cols-3">
-          {calculators.map((calculator) => (
-            <li className="h-full last:xl:col-start-2" key={calculator.slug}>
+        <ul className="mt-10 grid list-none gap-5 p-0 md:grid-cols-2 xl:grid-cols-4">
+          {calculators.slice(0, 4).map((calculator) => (
+            <li className="h-full" key={calculator.slug}>
               <CalculatorCard calculator={calculator} />
             </li>
           ))}

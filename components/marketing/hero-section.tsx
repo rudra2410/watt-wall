@@ -36,7 +36,7 @@ export function HeroSection() {
             id="home-hero-title"
             className="max-w-[42rem] text-4xl leading-[1.22] font-semibold tracking-[-0.035em] text-balance sm:text-5xl sm:leading-[1.15] lg:text-[3.5rem] lg:leading-[4rem]"
           >
-            Plan home projects with clearer numbers.
+            Free home energy and renovation calculators
           </h1>
           <p className="mt-6 max-w-[40rem] text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-8">
             Estimate energy costs, renovation materials, furniture fit, rug sizes, and curtains using local values, transparent formulas, and plain-language assumptions.

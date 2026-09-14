@@ -7,12 +7,13 @@ import { CalculatorCategoriesSection } from "@/components/marketing/calculator-c
 import { TrustSection } from "@/components/marketing/trust-section";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { FinalCtaSection } from "@/components/marketing/final-cta-section";
+import { GuideHighlightsSection } from "@/components/marketing/guide-highlights-section";
 import { SiteStructuredData } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Home Energy and Renovation Calculators",
-  description: "Plan home energy use and renovation materials with transparent formulas, local inputs, and clear assumptions.",
+  description: "Free energy and renovation calculators for electricity costs, appliance use, paint, flooring, furniture, and decor, with transparent formulas and local inputs.",
   path: "/",
 });
 
@@ -24,6 +25,7 @@ export default function Home() {
       <FeaturedCalculatorsSection />
       <HowItWorksSection />
       <CalculatorCategoriesSection />
+      <GuideHighlightsSection />
       <TrustSection />
       <FaqSection />
       <FinalCtaSection />
