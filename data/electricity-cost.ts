@@ -11,6 +11,7 @@ export const electricityCostDefaults = {
 export const electricityCostExample = calculateElectricityCost(electricityCostDefaults);
 
 export const electricityCostAssumptions = [
+  "Known-energy mode uses the kWh total exactly as entered and does not infer its billing period or source.",
   "The entered power stays constant during every active hour.",
   "Each month uses the number of active days you enter; the annual estimate repeats that monthly schedule 12 times.",
   "The starting rate is shown as a local-currency example per kWh. Replace it with the all-in rate from your own bill or tariff; fixed fees, demand charges, taxes, tiers, and time-of-use changes are not included.",
@@ -18,6 +19,10 @@ export const electricityCostAssumptions = [
 ] as const;
 
 export const electricityCostFaqs = [
+  {
+    question: "How do I calculate cost from a known kWh total?",
+    answer: "Choose Known energy use, enter the kWh total from your bill, meter, or product estimate, and enter the applicable price per kWh. The calculator multiplies those two values. Fixed fees and tariff adjustments remain outside the result.",
+  },
   {
     question: "Where can I find the wattage?",
     answer: "Check the product label, nameplate, manual, manufacturer website, or a plug-in electricity meter. If an appliance cycles on and off, a measured average power value will usually represent real use better than its maximum rating.",
@@ -32,6 +37,6 @@ export const electricityCostFaqs = [
   },
   {
     question: "Does Watt & Wall save these values?",
-    answer: "No. The calculator runs in your browser and does not upload or store these entries. Copying a result writes only the displayed summary to your clipboard after you select the Copy result button.",
+    answer: "The calculation runs in your browser. Inputs appear in the page URL so the estimate can be bookmarked or shared, and the last electricity rate is saved in your browser's local storage. Anyone who receives a shared URL can read the values included in it.",
   },
 ] as const;

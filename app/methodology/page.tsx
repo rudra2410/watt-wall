@@ -13,9 +13,9 @@ const formulaRows = [
   {
     href: "/calculators/electricity-cost",
     name: "Electricity Cost Calculator",
-    method: "Convert watts to kilowatts, then multiply by hours, active days, and the entered rate per kWh.",
+    method: "Multiply known kWh by the entered rate, or convert watts to kilowatts before applying hours, active days, and rate.",
     rounding: "Keep full precision during calculation; round only the displayed energy and cost values.",
-    limitation: "One load, one schedule, and one rate. Fixed fees and tariff tiers are excluded.",
+    limitation: "Uses one energy total or one load and schedule with one rate. Fixed fees and tariff tiers are excluded.",
   },
   {
     href: "/calculators/appliance-running-cost",

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { calculateApplianceRunningCost, validateApplianceRunningCostInput } from "./appliance-running-cost";
-import { calculateElectricityCost, validateElectricityCostInput } from "./electricity-cost";
+import { calculateElectricityCost, calculateKnownEnergyCost, validateElectricityCostInput, validateKnownEnergyCostInput } from "./electricity-cost";
 import { calculateFlooringTile, validateFlooringTileInput } from "./flooring-tile";
 import { formatDecimal, formatUsd, formatUsdRate } from "./formatting";
 import { calculatePaintQuantity, validatePaintQuantityInput } from "./paint-quantity";
@@ -27,6 +27,20 @@ describe("electricity formulas", () => {
       { field: "activeDaysPerMonth", message: "Enter a whole number." },
       { field: "pricePerKilowattHour", message: "Enter zero or a positive value." },
       { field: "powerUnit", message: "Choose watts or kilowatts." },
+    ]);
+  });
+
+  it("calculates cost directly from a known kWh total", () => {
+    expect(calculateKnownEnergyCost({ energyKilowattHours: 410, pricePerKilowattHour: 0.1834 })).toEqual({
+      energyKilowattHours: 410,
+      cost: 75.194,
+    });
+  });
+
+  it("validates known energy and rate values", () => {
+    expect(validateKnownEnergyCostInput({ energyKilowattHours: Number.NaN, pricePerKilowattHour: -1 })).toEqual([
+      { field: "energyKilowattHours", message: "Enter a number." },
+      { field: "pricePerKilowattHour", message: "Enter zero or a positive value." },
     ]);
   });
 

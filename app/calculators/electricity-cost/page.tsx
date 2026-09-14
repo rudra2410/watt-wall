@@ -4,16 +4,23 @@ import { ElectricityCostCalculator } from "@/components/calculators/electricity-
 import { CalculatorShell } from "@/components/calculators/calculator-shell";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { electricityCostAssumptions, electricityCostDefaults, electricityCostExample, electricityCostFaqs } from "@/data/electricity-cost";
+import { electricityRateReference } from "@/data/energy-reference";
 import { calculators } from "@/data/calculators";
+import { calculateKnownEnergyCost } from "@/lib/calculators/electricity-cost";
 import { formatDecimal, formatUsd, formatUsdRate } from "@/lib/calculators/formatting";
 import { createPageMetadata } from "@/lib/seo";
 
 const sourceLinkClassName = "rounded-sm font-semibold text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 export const metadata = createPageMetadata({
-  title: "Electricity Cost Calculator",
-  description: "Use an electricity cost calculator to estimate daily, monthly, and annual kWh and cost from power, active hours, days, and a local rate.",
+  title: "Electricity Cost Calculator: kWh Cost",
+  description: "Calculate electricity cost from known kWh or estimate daily, monthly, and annual energy use from watts, usage time, and your local electricity rate.",
   path: "/calculators/electricity-cost",
+});
+
+const knownKilowattHourExample = calculateKnownEnergyCost({
+  energyKilowattHours: 410,
+  pricePerKilowattHour: electricityRateReference.rate,
 });
 
 export default function ElectricityCostPage() {
@@ -22,9 +29,9 @@ export default function ElectricityCostPage() {
   return (
     <CalculatorShell
       category="Energy calculator"
-      description="Estimate how much electricity a device uses and what that usage could cost over an active day, month, and year using your own schedule and local rate."
+      description="Convert a known kWh total into cost, or estimate daily, monthly, and annual electricity use from device power, usage time, and your local rate."
       path="/calculators/electricity-cost"
-      title="Electricity Cost Calculator"
+      title="Electricity Cost Calculator for kWh and Device Use"
     >
       <ElectricityCostCalculator />
 
@@ -32,19 +39,24 @@ export default function ElectricityCostPage() {
         <div className="space-y-12">
           <section aria-labelledby="electricity-formula-title">
             <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Transparent calculation</p>
-            <h2 className="mt-3 text-3xl leading-tight font-semibold tracking-tight" id="electricity-formula-title">Formula and units</h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">Power describes the rate of electricity use. Energy adds time: one kilowatt used for one hour equals one kilowatthour (kWh).</p>
+            <h2 className="mt-3 text-3xl leading-tight font-semibold tracking-tight" id="electricity-formula-title">kWh cost formula and power formula</h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">If you already know the energy total, multiply kWh by the applicable local rate. If you know device power instead, calculate kWh from power and usage time first.</p>
             <div className="mt-6 space-y-3 rounded-xl bg-card p-5 font-mono text-sm leading-6 shadow-sm sm:p-7">
+              <p>Known-energy cost = kWh × local-currency price per kWh</p>
               <p>Power in kW = watts ÷ 1,000</p>
               <p>Active-day energy = power in kW × hours</p>
               <p>Monthly energy = active-day kWh × active days</p>
-              <p>Cost = energy in kWh × USD price per kWh</p>
+              <p>Cost = energy in kWh × local-currency price per kWh</p>
               <p>Annual estimate = monthly estimate × 12</p>
             </div>
           </section>
 
           <section aria-labelledby="electricity-example-title">
-            <h2 className="text-3xl leading-tight font-semibold tracking-tight" id="electricity-example-title">Worked example</h2>
+            <h2 className="text-3xl leading-tight font-semibold tracking-tight" id="electricity-example-title">Worked examples</h2>
+            <p className="mt-4 text-base leading-7 text-muted-foreground">At the US average residential rate of <a className={sourceLinkClassName} href={electricityRateReference.url}>{formatUsdRate(electricityRateReference.rate)}/kWh for {electricityRateReference.month}</a>, 410 kWh costs {formatUsd(knownKilowattHourExample.cost)}. This is a dated national reference. Your bill or tariff provides the rate for your location and plan.</p>
+            <div className="mt-6 rounded-xl bg-card p-5 font-mono text-sm leading-6 shadow-sm sm:p-7">
+              <p>410 kWh × {formatUsdRate(electricityRateReference.rate)}/kWh = {formatUsd(knownKilowattHourExample.cost)}</p>
+            </div>
             <p className="mt-4 text-base leading-7 text-muted-foreground">For a {formatDecimal(electricityCostDefaults.power)} W device used {formatDecimal(electricityCostDefaults.hoursPerActiveDay)} hours on {formatDecimal(electricityCostDefaults.activeDaysPerMonth)} days each month at {formatUsdRate(electricityCostDefaults.pricePerKilowattHour)}/kWh:</p>
             <dl className="mt-6 grid gap-4 sm:grid-cols-3">
               <ExampleResult label="Active day" value={`${formatDecimal(electricityCostExample.energyPerActiveDayKilowattHours)} kWh · ${formatUsd(electricityCostExample.costPerActiveDay)}`} />
@@ -65,7 +77,7 @@ export default function ElectricityCostPage() {
             <ul className="mt-4 list-disc space-y-3 pl-5 text-sm leading-6 text-muted-foreground">
               {electricityCostAssumptions.map((assumption) => <li key={assumption}>{assumption}</li>)}
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-sm leading-6 text-muted-foreground">Calculations keep full numeric precision. Displayed energy and USD values are rounded to at most two decimal places.</p>
+            <p className="mt-4 border-t border-border pt-4 text-sm leading-6 text-muted-foreground">Calculations keep full numeric precision. Displayed energy and currency values are rounded to at most two decimal places.</p>
           </section>
 
           <section className="rounded-xl bg-card p-5 shadow-sm sm:p-6" aria-labelledby="electricity-sources-title">
@@ -75,7 +87,7 @@ export default function ElectricityCostPage() {
               <li><a className={sourceLinkClassName} href="https://www.eia.gov/energyexplained/electricity/prices-and-factors-affecting-prices.php">U.S. EIA: Prices and factors affecting prices</a></li>
               <li><a className={sourceLinkClassName} href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances">FTC: Using the EnergyGuide label</a></li>
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed August 22, 2026.</p>
+            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed September 14, 2026.</p>
           </section>
 
           <section className="rounded-xl bg-primary/10 p-5 sm:p-6" aria-labelledby="electricity-limit-title">

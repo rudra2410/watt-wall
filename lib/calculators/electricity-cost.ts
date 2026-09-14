@@ -26,6 +26,21 @@ export type ElectricityCostFieldError = {
   message: string;
 };
 
+export type KnownEnergyCostInput = {
+  energyKilowattHours: number;
+  pricePerKilowattHour: number;
+};
+
+export type KnownEnergyCostResult = {
+  energyKilowattHours: number;
+  cost: number;
+};
+
+export type KnownEnergyCostFieldError = {
+  field: keyof KnownEnergyCostInput;
+  message: string;
+};
+
 export function validateElectricityCostInput(input: ElectricityCostInput): ElectricityCostFieldError[] {
   const validations: Array<() => void> = [
     () => requirePositive("power", input.power),
@@ -74,4 +89,40 @@ export function calculateElectricityCost(input: ElectricityCostInput): Electrici
     monthlyCost: monthlyEnergyKilowattHours * input.pricePerKilowattHour,
     annualCost: annualEnergyKilowattHours * input.pricePerKilowattHour,
   };
+}
+
+export function validateKnownEnergyCostInput(input: KnownEnergyCostInput): KnownEnergyCostFieldError[] {
+  const validations: Array<() => void> = [
+    () => requireNonNegative("energyKilowattHours", input.energyKilowattHours),
+    () => requireNonNegative("pricePerKilowattHour", input.pricePerKilowattHour),
+  ];
+
+  return validations.flatMap((validate) => {
+    try {
+      validate();
+      return [];
+    } catch (error) {
+      if (error instanceof CalculatorValidationError) {
+        return [{ field: error.field as keyof KnownEnergyCostInput, message: error.message }];
+      }
+
+      throw error;
+    }
+  });
+}
+
+export function calculateKnownEnergyCost(input: KnownEnergyCostInput): KnownEnergyCostResult {
+  const [firstError] = validateKnownEnergyCostInput(input);
+
+  if (firstError) {
+    throw new CalculatorValidationError(firstError.field, firstError.message);
+  }
+
+  const cost = input.energyKilowattHours * input.pricePerKilowattHour;
+
+  if (!Number.isFinite(cost)) {
+    throw new CalculatorValidationError("energyKilowattHours", "These values are too large to calculate. Check the inputs.");
+  }
+
+  return { energyKilowattHours: input.energyKilowattHours, cost };
 }

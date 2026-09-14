@@ -54,8 +54,8 @@ export const calculators = [
     href: "/calculators/electricity-cost",
     name: "Electricity Cost Calculator",
     category: "Energy",
-    description: "Estimate daily, monthly, and annual energy use and cost from power, time, and your local electricity rate.",
-    directoryDescription: "Use one power value, one usage schedule, and your electricity rate to estimate daily, monthly, and annual energy use and cost.",
+    description: "Convert known kWh into cost or estimate daily, monthly, and annual energy use from power, time, and your local rate.",
+    directoryDescription: "Enter a known kWh total for a direct cost, or use one power value, one usage schedule, and your rate to estimate energy and cost.",
     icon: "bolt",
   },
   {

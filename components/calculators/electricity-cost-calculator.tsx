@@ -10,15 +10,18 @@ import { electricityCostDefaults } from "@/data/electricity-cost";
 import { trackCalculatorCopy, trackCalculatorReset } from "@/lib/analytics";
 import {
   calculateElectricityCost,
+  calculateKnownEnergyCost,
   validateElectricityCostInput,
-  type ElectricityCostFieldError,
+  validateKnownEnergyCostInput,
   type ElectricityCostInput,
+  type KnownEnergyCostInput,
   type PowerUnit,
 } from "@/lib/calculators/electricity-cost";
 import { formatCurrency, formatCurrencyRate, formatDecimal } from "@/lib/calculators/formatting";
 import { readCalculatorParams, readStoredRate, replaceCalculatorParams, storeRate } from "@/lib/calculators/persistence";
 
 const currencyOptions = ["USD", "EUR", "GBP", "INR"] as const;
+type CalculationMode = "power-time" | "known-kwh";
 
 type RawElectricityInput = {
   power: string;
@@ -37,10 +40,18 @@ const defaultRawInput: RawElectricityInput = {
 };
 
 export function ElectricityCostCalculator() {
+  const [calculationMode, setCalculationMode] = useState<CalculationMode>(() => readCalculatorParams()?.get("mode") === "known-kwh" ? "known-kwh" : "power-time");
   const [rawInput, setRawInput] = useState(() => { const params = readCalculatorParams(); return { ...defaultRawInput, power: params?.get("power") ?? defaultRawInput.power, powerUnit: (params?.get("unit") as PowerUnit) || defaultRawInput.powerUnit, hoursPerActiveDay: params?.get("hours") ?? defaultRawInput.hoursPerActiveDay, activeDaysPerMonth: params?.get("days") ?? defaultRawInput.activeDaysPerMonth, pricePerKilowattHour: params?.get("rate") ?? readStoredRate(defaultRawInput.pricePerKilowattHour) }; });
+  const [knownEnergyKilowattHours, setKnownEnergyKilowattHours] = useState(() => readCalculatorParams()?.get("kwh") ?? "410");
   const [currency, setCurrency] = useState<(typeof currencyOptions)[number]>(() => { const next = readCalculatorParams()?.get("currency"); return currencyOptions.includes(next as (typeof currencyOptions)[number]) ? next as (typeof currencyOptions)[number] : "USD"; });
   const [copyStatus, setCopyStatus] = useState("");
-  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ power: rawInput.power, unit: rawInput.powerUnit, hours: rawInput.hoursPerActiveDay, days: rawInput.activeDaysPerMonth, rate: rawInput.pricePerKilowattHour, currency })); storeRate(rawInput.pricePerKilowattHour); }, [rawInput, currency]);
+  useEffect(() => {
+    const params = calculationMode === "known-kwh"
+      ? new URLSearchParams({ mode: calculationMode, kwh: knownEnergyKilowattHours, rate: rawInput.pricePerKilowattHour, currency })
+      : new URLSearchParams({ mode: calculationMode, power: rawInput.power, unit: rawInput.powerUnit, hours: rawInput.hoursPerActiveDay, days: rawInput.activeDaysPerMonth, rate: rawInput.pricePerKilowattHour, currency });
+    replaceCalculatorParams(params);
+    storeRate(rawInput.pricePerKilowattHour);
+  }, [calculationMode, currency, knownEnergyKilowattHours, rawInput]);
 
   const parsedInput = useMemo<ElectricityCostInput>(() => ({
     power: parseNumber(rawInput.power),
@@ -50,12 +61,20 @@ export function ElectricityCostCalculator() {
     pricePerKilowattHour: parseNumber(rawInput.pricePerKilowattHour),
   }), [rawInput]);
 
-  const errors = useMemo(() => validateElectricityCostInput(parsedInput), [parsedInput]);
+  const knownEnergyInput = useMemo<KnownEnergyCostInput>(() => ({
+    energyKilowattHours: parseNumber(knownEnergyKilowattHours),
+    pricePerKilowattHour: parsedInput.pricePerKilowattHour,
+  }), [knownEnergyKilowattHours, parsedInput.pricePerKilowattHour]);
+
+  const powerTimeErrors = useMemo(() => validateElectricityCostInput(parsedInput), [parsedInput]);
+  const knownEnergyErrors = useMemo(() => validateKnownEnergyCostInput(knownEnergyInput), [knownEnergyInput]);
+  const errors = calculationMode === "known-kwh" ? knownEnergyErrors : powerTimeErrors;
   const errorByField = useMemo(
-    () => Object.fromEntries(errors.map((error) => [error.field, error])) as Partial<Record<keyof ElectricityCostInput, ElectricityCostFieldError>>,
+    () => Object.fromEntries(errors.map((error) => [error.field, error])) as Partial<Record<keyof ElectricityCostInput | keyof KnownEnergyCostInput, { message: string }>>,
     [errors],
   );
-  const result = errors.length === 0 ? calculateElectricityCost(parsedInput) : null;
+  const powerTimeResult = calculationMode === "power-time" && errors.length === 0 ? calculateElectricityCost(parsedInput) : null;
+  const knownEnergyResult = calculationMode === "known-kwh" && errors.length === 0 ? calculateKnownEnergyCost(knownEnergyInput) : null;
 
   function updateNumberField(field: Exclude<keyof RawElectricityInput, "powerUnit">) {
     return (event: ChangeEvent<HTMLInputElement>) => {
@@ -70,20 +89,27 @@ export function ElectricityCostCalculator() {
 
   function handleReset() {
     setRawInput(defaultRawInput);
+    setKnownEnergyKilowattHours("410");
+    setCurrency("USD");
     setCopyStatus("Defaults restored.");
     trackCalculatorReset("electricity-cost");
   }
 
   async function handleCopy() {
-    if (!result) return;
+    if (!powerTimeResult && !knownEnergyResult) return;
 
-    const summary = [
-      "Watt & Wall electricity cost estimate",
-      `${formatDecimal(result.energyPerActiveDayKilowattHours)} kWh and ${formatCurrency(result.costPerActiveDay, currency)} per active day`,
-      `${formatDecimal(result.monthlyEnergyKilowattHours)} kWh and ${formatCurrency(result.monthlyCost, currency)} per month`,
-      `${formatDecimal(result.annualEnergyKilowattHours)} kWh and ${formatCurrency(result.annualCost, currency)} per year`,
-      `Based on ${rawInput.power} ${rawInput.powerUnit}, ${rawInput.hoursPerActiveDay} hours per active day, ${rawInput.activeDaysPerMonth} active days per month, and ${formatCurrencyRate(parsedInput.pricePerKilowattHour, currency)}/kWh.`,
-    ].join("\n");
+    const summary = knownEnergyResult
+      ? [
+        "Watt & Wall known kWh cost estimate",
+        `${formatDecimal(knownEnergyResult.energyKilowattHours)} kWh × ${formatCurrencyRate(knownEnergyInput.pricePerKilowattHour, currency)}/kWh = ${formatCurrency(knownEnergyResult.cost, currency)}.`,
+      ].join("\n")
+      : [
+        "Watt & Wall electricity cost estimate",
+        `${formatDecimal(powerTimeResult!.energyPerActiveDayKilowattHours)} kWh and ${formatCurrency(powerTimeResult!.costPerActiveDay, currency)} per active day`,
+        `${formatDecimal(powerTimeResult!.monthlyEnergyKilowattHours)} kWh and ${formatCurrency(powerTimeResult!.monthlyCost, currency)} per month`,
+        `${formatDecimal(powerTimeResult!.annualEnergyKilowattHours)} kWh and ${formatCurrency(powerTimeResult!.annualCost, currency)} per year`,
+        `Based on ${rawInput.power} ${rawInput.powerUnit}, ${rawInput.hoursPerActiveDay} hours per active day, ${rawInput.activeDaysPerMonth} active days per month, and ${formatCurrencyRate(parsedInput.pricePerKilowattHour, currency)}/kWh.`,
+      ].join("\n");
 
     try {
       await navigator.clipboard.writeText(summary);
@@ -94,8 +120,10 @@ export function ElectricityCostCalculator() {
     }
   }
 
-  const liveSummary = result
-    ? `Updated estimate: ${formatCurrency(result.monthlyCost, currency)} per month and ${formatCurrency(result.annualCost, currency)} per year.`
+  const liveSummary = knownEnergyResult
+    ? `Updated estimate: ${formatDecimal(knownEnergyResult.energyKilowattHours)} kilowatt-hours cost ${formatCurrency(knownEnergyResult.cost, currency)}.`
+    : powerTimeResult
+      ? `Updated estimate: ${formatCurrency(powerTimeResult.monthlyCost, currency)} per month and ${formatCurrency(powerTimeResult.annualCost, currency)} per year.`
     : `Result unavailable. ${errors.length} ${errors.length === 1 ? "field needs" : "fields need"} attention.`;
 
   return (
@@ -103,70 +131,110 @@ export function ElectricityCostCalculator() {
       <form className="rounded-2xl bg-card p-5 text-card-foreground shadow-sm sm:p-7 lg:p-8" noValidate onSubmit={handleSubmit}>
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your values</p>
-          <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="calculator-input-title">Estimate electricity use and cost</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter a period for decimals; values stay in this browser.</p>
+          <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="calculator-input-title">Calculate electricity cost</h2>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">Use a known kWh total or estimate energy from power and usage time. All visible fields are required.</p>
         </div>
 
-        <fieldset className="mt-7 grid gap-5 sm:grid-cols-2">
-          <legend className="sr-only">Electricity estimate inputs</legend>
-          <NumericField
-            error={errorByField.power}
-            hint="Use the device label or a measured average."
-            id="electricity-power"
-            label="Power"
-            min="0"
-            name="power"
-            onChange={updateNumberField("power")}
-            step="any"
-            value={rawInput.power}
-          />
+        <div className="mt-7">
+          <Label htmlFor="electricity-calculation-mode">Calculate from</Label>
+          <Select
+            className="mt-2"
+            id="electricity-calculation-mode"
+            name="calculationMode"
+            onValueChange={(value) => {
+              setCalculationMode(value as CalculationMode);
+              setCopyStatus("");
+            }}
+            value={calculationMode}
+          >
+            <option value="power-time">Power and usage time</option>
+            <option value="known-kwh">Known energy use (kWh)</option>
+          </Select>
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">Choose known kWh for a bill, meter reading, or product energy estimate.</p>
+        </div>
 
-          <div>
-            <Label htmlFor="electricity-power-unit">Power unit</Label>
-            <Select
-              className="mt-2"
-              id="electricity-power-unit"
-              name="powerUnit"
-              onValueChange={(nextValue) => {
-                setRawInput((current) => ({ ...current, powerUnit: nextValue as PowerUnit }));
+        {calculationMode === "known-kwh" ? (
+          <fieldset className="mt-5">
+            <legend className="sr-only">Known energy input</legend>
+            <NumericField
+              error={errorByField.energyKilowattHours}
+              hint="Enter the energy total from your bill, meter, or product estimate."
+              id="electricity-known-kwh"
+              label="Energy use (kWh)"
+              min="0"
+              name="energyKilowattHours"
+              onChange={(event) => {
+                setKnownEnergyKilowattHours(event.target.value);
                 setCopyStatus("");
               }}
-              value={rawInput.powerUnit}
-            >
-              <option value="W">Watts (W)</option>
-              <option value="kW">Kilowatts (kW)</option>
-            </Select>
-            <p className="mt-2 text-xs leading-5 text-muted-foreground">1 kW equals 1,000 W.</p>
-          </div>
+              step="any"
+              value={knownEnergyKilowattHours}
+            />
+          </fieldset>
+        ) : (
+          <fieldset className="mt-5 grid gap-5 sm:grid-cols-2">
+            <legend className="sr-only">Power and usage inputs</legend>
+            <NumericField
+              error={errorByField.power}
+              hint="Use the device label or a measured average."
+              id="electricity-power"
+              label="Power"
+              min="0"
+              name="power"
+              onChange={updateNumberField("power")}
+              step="any"
+              value={rawInput.power}
+            />
 
-          <NumericField
-            error={errorByField.hoursPerActiveDay}
-            hint="Maximum 24 hours. Decimals are allowed."
-            id="electricity-hours"
-            label="Hours per active day"
-            max="24"
-            min="0"
-            name="hoursPerActiveDay"
-            onChange={updateNumberField("hoursPerActiveDay")}
-            step="any"
-            value={rawInput.hoursPerActiveDay}
-          />
+            <div>
+              <Label htmlFor="electricity-power-unit">Power unit</Label>
+              <Select
+                className="mt-2"
+                id="electricity-power-unit"
+                name="powerUnit"
+                onValueChange={(nextValue) => {
+                  setRawInput((current) => ({ ...current, powerUnit: nextValue as PowerUnit }));
+                  setCopyStatus("");
+                }}
+                value={rawInput.powerUnit}
+              >
+                <option value="W">Watts (W)</option>
+                <option value="kW">Kilowatts (kW)</option>
+              </Select>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">1 kW equals 1,000 W.</p>
+            </div>
 
-          <NumericField
-            error={errorByField.activeDaysPerMonth}
-            hint="Enter a whole number from 1 to 31."
-            id="electricity-days"
-            label="Active days per month"
-            max="31"
-            min="1"
-            name="activeDaysPerMonth"
-            onChange={updateNumberField("activeDaysPerMonth")}
-            step="1"
-            value={rawInput.activeDaysPerMonth}
-          />
+            <NumericField
+              error={errorByField.hoursPerActiveDay}
+              hint="Maximum 24 hours. Decimals are allowed."
+              id="electricity-hours"
+              label="Hours per active day"
+              max="24"
+              min="0"
+              name="hoursPerActiveDay"
+              onChange={updateNumberField("hoursPerActiveDay")}
+              step="any"
+              value={rawInput.hoursPerActiveDay}
+            />
 
+            <NumericField
+              error={errorByField.activeDaysPerMonth}
+              hint="Enter a whole number from 1 to 31."
+              id="electricity-days"
+              label="Active days per month"
+              max="31"
+              min="1"
+              name="activeDaysPerMonth"
+              onChange={updateNumberField("activeDaysPerMonth")}
+              step="1"
+              value={rawInput.activeDaysPerMonth}
+            />
+          </fieldset>
+        )}
+
+        <fieldset className="mt-5 grid gap-5">
+          <legend className="sr-only">Electricity rate and currency</legend>
           <NumericField
-            className="sm:col-span-2"
             error={errorByField.pricePerKilowattHour}
             hint="Use the all-in local-currency rate per kWh from your bill or tariff."
             id="electricity-rate"
@@ -178,38 +246,49 @@ export function ElectricityCostCalculator() {
             value={rawInput.pricePerKilowattHour}
           />
 
-          <div className="sm:col-span-2">
+          <div>
             <Label htmlFor="electricity-currency">Currency</Label>
             <Select className="mt-2" id="electricity-currency" value={currency} onValueChange={(value) => setCurrency(value as (typeof currencyOptions)[number])}>
               {currencyOptions.map((option) => <option key={option} value={option}>{option}</option>)}
             </Select>
-            <p className="mt-2 text-xs leading-5 text-muted-foreground">Choose the currency used by your local rate.</p>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">Changes the label only. Enter a rate in this currency; no exchange conversion occurs.</p>
           </div>
         </fieldset>
 
         <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
           <Button className="sm:min-w-32" onClick={handleReset} variant="secondary">Reset</Button>
-          <Button className="sm:min-w-36" disabled={!result} onClick={handleCopy}>Copy result</Button>
+          <Button className="sm:min-w-36" disabled={!powerTimeResult && !knownEnergyResult} onClick={handleCopy}>Copy result</Button>
         </div>
         <p aria-live="polite" className="mt-3 min-h-5 text-sm text-muted-foreground">{copyStatus}</p>
       </form>
 
       <section aria-labelledby="electricity-result-title" className="rounded-2xl bg-card-section p-5 shadow-sm sm:p-7 lg:p-8 xl:sticky xl:top-6">
         <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Live estimate</p>
-        <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="electricity-result-title">Estimated energy and cost</h2>
+        <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="electricity-result-title">{calculationMode === "known-kwh" ? "Estimated kWh cost" : "Estimated energy and cost"}</h2>
         <output aria-atomic="true" aria-live="polite" className="sr-only">{liveSummary}</output>
 
-        {result ? (
+        {knownEnergyResult ? (
+          <>
+            <div className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-5">
+              <p className="text-sm leading-5 text-muted-foreground">Cost for {formatDecimal(knownEnergyResult.energyKilowattHours)} kWh</p>
+              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatCurrency(knownEnergyResult.cost, currency)}</p>
+              <p className="mt-2 text-xs leading-5 text-muted-foreground">At {formatCurrencyRate(knownEnergyInput.pricePerKilowattHour, currency)} per kWh</p>
+            </div>
+            <div className="mt-6 rounded-lg bg-background/70 p-5 font-mono text-sm leading-6">
+              {formatDecimal(knownEnergyResult.energyKilowattHours)} kWh × {formatCurrencyRate(knownEnergyInput.pricePerKilowattHour, currency)}/kWh = {formatCurrency(knownEnergyResult.cost, currency)}
+            </div>
+          </>
+        ) : powerTimeResult ? (
           <>
             <div className="mt-6 rounded-lg border border-primary/20 bg-background/70 p-5">
               <p className="text-sm leading-5 text-muted-foreground">Estimated monthly cost</p>
-              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatCurrency(result.monthlyCost, currency)}</p>
+              <p className="mt-1 font-mono text-4xl leading-tight font-semibold tracking-tight">{formatCurrency(powerTimeResult.monthlyCost, currency)}</p>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">Example currency format; based on {formatDecimal(parsedInput.activeDaysPerMonth)} active days</p>
             </div>
             <dl className="mt-6 divide-y divide-border text-sm">
-              <ResultRow cost={result.costPerActiveDay} currency={currency} energy={result.energyPerActiveDayKilowattHours} label="Per active day" />
-              <ResultRow cost={result.monthlyCost} currency={currency} energy={result.monthlyEnergyKilowattHours} label="Per month" />
-              <ResultRow cost={result.annualCost} currency={currency} energy={result.annualEnergyKilowattHours} label="Per year" />
+              <ResultRow cost={powerTimeResult.costPerActiveDay} currency={currency} energy={powerTimeResult.energyPerActiveDayKilowattHours} label="Per active day" />
+              <ResultRow cost={powerTimeResult.monthlyCost} currency={currency} energy={powerTimeResult.monthlyEnergyKilowattHours} label="Per month" />
+              <ResultRow cost={powerTimeResult.annualCost} currency={currency} energy={powerTimeResult.annualEnergyKilowattHours} label="Per year" />
             </dl>
           </>
         ) : (
@@ -219,7 +298,7 @@ export function ElectricityCostCalculator() {
           </div>
         )}
 
-        <p className="mt-6 text-xs leading-5 text-muted-foreground">Planning estimate only. Actual power draw, schedules, fees, and tariff rules can change your bill.</p>
+        <p className="mt-6 text-xs leading-5 text-muted-foreground">Planning estimate only. Fixed fees, taxes, tariff rules, and unlisted electricity use can change your bill.</p>
       </section>
     </section>
   );
@@ -227,7 +306,7 @@ export function ElectricityCostCalculator() {
 
 type NumericFieldProps = {
   className?: string;
-  error?: ElectricityCostFieldError;
+  error?: { message: string };
   hint: string;
   id: string;
   label: string;

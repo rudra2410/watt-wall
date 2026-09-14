@@ -1,11 +1,11 @@
 "use client";
 
-import { Children, cloneElement, isValidElement, useEffect, useId, useRef, useState, type ComponentPropsWithoutRef, type KeyboardEvent, type ReactElement, type ReactNode } from "react";
+import { Children, isValidElement, useEffect, useId, useRef, useState, type ComponentPropsWithoutRef, type KeyboardEvent, type ReactElement, type ReactNode } from "react";
 
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
-type OptionProps = { children?: ReactNode; value: string; disabled?: boolean; className?: string; onClick?: () => void; role?: string; "aria-selected"?: boolean };
+type OptionProps = { children?: ReactNode; value: string; disabled?: boolean; className?: string };
 type SelectProps = Omit<ComponentPropsWithoutRef<"button">, "children" | "onClick" | "onKeyDown"> & { children: ReactNode; name?: string; onValueChange?: (value: string) => void; value?: string };
 
 export function Select({ children, className, disabled, id, name, onValueChange, value = "", ...props }: SelectProps) {
@@ -65,12 +65,19 @@ export function Select({ children, className, disabled, id, name, onValueChange,
           {options.map((option) => {
             const optionValue = option.props.value;
             const isSelected = optionValue === value;
-            return cloneElement(option, {
-              className: cn("flex min-h-10 w-full cursor-pointer items-center rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground", isSelected && "bg-secondary font-semibold text-secondary-foreground", option.props.disabled && "pointer-events-none opacity-50", option.props.className),
-              role: "option",
-              "aria-selected": isSelected,
-              onClick: () => !option.props.disabled && chooseOption(optionValue),
-            });
+            return (
+              <button
+                aria-selected={isSelected}
+                className={cn("flex min-h-10 w-full cursor-pointer items-center rounded-md px-3 py-2 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground", isSelected && "bg-secondary font-semibold text-secondary-foreground", option.props.className)}
+                disabled={option.props.disabled}
+                key={optionValue}
+                onClick={() => chooseOption(optionValue)}
+                role="option"
+                type="button"
+              >
+                {option.props.children}
+              </button>
+            );
           })}
         </div>
       ) : null}
