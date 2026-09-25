@@ -30,6 +30,7 @@ export function TrustPageShell({ category, title, description, path, children }:
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">{category}</p>
           <h1 className="mt-3 text-4xl leading-[1.1] font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">{title}</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{description}</p>
+          {category.toLowerCase().includes("guide") ? <p className="mt-3 text-sm text-muted-foreground">By <Link className="font-semibold text-primary underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-ring" href="/about">Rudra Sutariya</Link>, creator of Watt &amp; Wall</p> : null}
         </header>
 
         <article className="mt-12 max-w-3xl space-y-10 text-base leading-7">

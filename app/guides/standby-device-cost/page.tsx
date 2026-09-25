@@ -1,6 +1,7 @@
 import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
+import { electricityRateReference } from "@/data/energy-reference";
 
 const title = "What always-on standby devices cost per year";
 const description = "A chosen 10 W continuous standby load uses 87.6 kWh in a 365-day year and costs $16.07 at the June 2026 US average rate of $0.1834/kWh, per EIA. The only reliable way to know your home's standby load is to measure or document each device's draw.";
@@ -8,7 +9,8 @@ const path = "/guides/standby-device-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+<p>The annual-cost column applies $0.1834/kWh, the June 2026 US residential average reported in <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. Your own tariff is more relevant for an always-on load.</p>
 <p>The 10 W is a worksheet scenario. It is not an average household figure. A device&apos;s standby power depends on model, settings, network features and whether a charger has finished charging.</p>
 <TrustSection title="The always-on formula">
 <p><strong>Annual kWh = watts ÷ 1,000 × hours per day × days per year.</strong></p>

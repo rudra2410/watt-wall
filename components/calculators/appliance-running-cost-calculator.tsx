@@ -25,13 +25,40 @@ const fieldDefinitions: { key: NumericKey; label: string; hint: string; max?: st
 const parse = (value: string) => value.trim() === "" ? Number.NaN : Number(value);
 
 export function ApplianceRunningCostCalculator() {
-  const [rows, setRows] = useState<Row[]>(() => { const serialized = readCalculatorParams()?.get("rows"); if (serialized) { try { const parsed = JSON.parse(serialized) as Row[]; if (Array.isArray(parsed) && parsed.length > 0) return parsed.map((row, index) => ({ ...row, id: index + 1 })); } catch { /* Keep defaults for malformed links. */ } } return [{ ...firstRow }]; });
+  const [rows, setRows] = useState<Row[]>([{ ...firstRow }]);
   const nextId = useRef(2);
-  const [rate, setRate] = useState(() => readCalculatorParams()?.get("rate") ?? readStoredRate(String(electricityRateReference.rate)));
-  const [currency, setCurrency] = useState<(typeof currencies)[number]>(() => { const next = readCalculatorParams()?.get("currency"); return currencies.includes(next as (typeof currencies)[number]) ? next as (typeof currencies)[number] : "USD"; });
+  const [rate, setRate] = useState(String(electricityRateReference.rate));
+  const [currency, setCurrency] = useState<(typeof currencies)[number]>("USD");
   const [status, setStatus] = useState("");
+  const [hasLoadedBrowserValues, setHasLoadedBrowserValues] = useState(false);
 
-  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ rows: JSON.stringify(rows), rate, currency })); storeRate(rate); }, [rows, rate, currency]);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const params = readCalculatorParams();
+      const serialized = params?.get("rows");
+      if (serialized) {
+        try {
+          const parsed = JSON.parse(serialized) as Row[];
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const restored = parsed.map((row, index) => ({ ...row, id: index + 1 }));
+            setRows(restored);
+            nextId.current = restored.length + 1;
+          }
+        } catch { /* Keep defaults for malformed links. */ }
+      }
+      setRate(params?.get("rate") ?? readStoredRate(String(electricityRateReference.rate)));
+      const nextCurrency = params?.get("currency");
+      setCurrency(currencies.includes(nextCurrency as (typeof currencies)[number]) ? nextCurrency as (typeof currencies)[number] : "USD");
+      setHasLoadedBrowserValues(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedBrowserValues) return;
+    replaceCalculatorParams(new URLSearchParams({ rows: JSON.stringify(rows), rate, currency }));
+    storeRate(rate);
+  }, [rows, rate, currency, hasLoadedBrowserValues]);
   const parsed: ApplianceRunningCostInput[] = rows.map((row) => ({ wattage: parse(row.wattage), hoursPerActiveDay: parse(row.hoursPerActiveDay), activeDaysPerMonth: parse(row.activeDaysPerMonth), dutyCyclePercent: parse(row.dutyCyclePercent), pricePerKilowattHour: parse(rate) }));
   const errors = parsed.map(validateApplianceRunningCostInput);
   const rateError = errors[0]?.find((error) => error.field === "pricePerKilowattHour")?.message;
@@ -78,7 +105,7 @@ export function ApplianceRunningCostCalculator() {
       <form noValidate onSubmit={(event) => event.preventDefault()} className="space-y-6">
         <div className="rounded-2xl bg-card p-5 shadow-sm sm:p-8">
           <h2 id="inventory-title" className="text-2xl font-semibold tracking-tight">Build your appliance inventory</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">Choose a reference wattage or enter your own, then add the appliances you want to compare. Each row has its own schedule. Values stay in this browser session.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">Choose a reference wattage or enter your own, then add the appliances you want to compare. Each row has its own schedule. The values appear in the page URL for sharing; the electricity rate can also remain in this browser&apos;s local storage.</p>
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
             <NumberField id="inventory-rate" label="Electricity price per kWh" hint="Use your variable energy and delivery charges per kWh. Exclude separate fixed fees." value={rate} error={rateError} step="any" onChange={(event) => { setRate(event.target.value); setStatus(""); }} />
             <div><Label htmlFor="inventory-currency">Currency</Label><Select id="inventory-currency" className="mt-2" value={currency} onValueChange={(value) => { setCurrency(value as typeof currency); setStatus(""); }}>{currencies.map((code) => <option key={code} value={code}>{code}</option>)}</Select><p className="mt-2 text-xs leading-5 text-muted-foreground">Changes the currency label only. Enter a rate in that currency; no exchange conversion occurs.</p></div>

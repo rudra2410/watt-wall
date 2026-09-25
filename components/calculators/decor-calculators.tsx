@@ -74,7 +74,7 @@ function ToolLayout({ calculatorSlug, children, copyDisabled, copyStatus, onCopy
       <form className="rounded-2xl bg-card p-5 text-card-foreground shadow-sm sm:p-7 lg:p-8" noValidate onSubmit={(event) => event.preventDefault()}>
         <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your measurements</p>
         <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight">{title}</h2>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Values stay in your browser and results appear only when every input is valid.</p>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Measurements are saved in the page URL so you can bookmark or share an estimate. Results appear only when every input is valid.</p>
         {children}
         <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
           <Button className="sm:min-w-32" onClick={handleReset} variant="secondary">Reset</Button>
@@ -104,10 +104,20 @@ const furnitureDefaults = { roomLength: "400", roomWidth: "300", furnitureWidth:
 const furnitureFields = Object.keys(furnitureDefaults) as Array<keyof typeof furnitureDefaults>;
 
 export function FurnitureFitCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric");
-  const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(furnitureDefaults).map((key) => [key, params?.get(key) ?? furnitureDefaults[key as keyof typeof furnitureDefaults]])) as typeof furnitureDefaults; });
+  const [system, setSystem] = useState<MeasurementSystem>("metric");
+  const [raw, setRaw] = useState(furnitureDefaults);
   const [copyStatus, setCopyStatus] = useState("");
-  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system })); }, [raw, system]);
+  const [hasLoadedBrowserValues, setHasLoadedBrowserValues] = useState(false);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const params = readCalculatorParams();
+      setSystem(params?.get("system") === "imperial" ? "imperial" : "metric");
+      setRaw(Object.fromEntries(furnitureFields.map((key) => [key, params?.get(key) ?? furnitureDefaults[key]])) as typeof furnitureDefaults);
+      setHasLoadedBrowserValues(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+  useEffect(() => { if (hasLoadedBrowserValues) replaceCalculatorParams(new URLSearchParams({ ...raw, system })); }, [raw, system, hasLoadedBrowserValues]);
   const input = useMemo(() => ({ roomLengthCm: toCentimeters(parseNumber(raw.roomLength), system), roomWidthCm: toCentimeters(parseNumber(raw.roomWidth), system), furnitureWidthCm: toCentimeters(parseNumber(raw.furnitureWidth), system), furnitureDepthCm: toCentimeters(parseNumber(raw.furnitureDepth), system), furnitureHeightCm: toCentimeters(parseNumber(raw.furnitureHeight), system), clearanceCm: toCentimeters(parseNumber(raw.clearance), system), openingWidthCm: toCentimeters(parseNumber(raw.openingWidth), system), openingHeightCm: toCentimeters(parseNumber(raw.openingHeight), system) }), [raw, system]);
   const errors = useMemo(() => validateFurnitureFitInput(input), [input]);
   const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>;
@@ -128,8 +138,20 @@ const rugFields = Object.keys(rugDefaults) as Array<keyof typeof rugDefaults>;
 const extensionDefaults: Record<RugLayout, number> = { living: 20, dining: 70, bedroom: 50 };
 
 export function RugSizeCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric"); const [layout, setLayout] = useState<RugLayout>(() => { const next = readCalculatorParams()?.get("layout"); return next === "living" || next === "bedroom" ? next : "dining"; }); const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(rugDefaults).map((key) => [key, params?.get(key) ?? rugDefaults[key as keyof typeof rugDefaults]])) as typeof rugDefaults; }); const [copyStatus, setCopyStatus] = useState("");
-  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system, layout })); }, [raw, system, layout]);
+  const [system, setSystem] = useState<MeasurementSystem>("metric"); const [layout, setLayout] = useState<RugLayout>("dining"); const [raw, setRaw] = useState(rugDefaults); const [copyStatus, setCopyStatus] = useState("");
+  const [hasLoadedBrowserValues, setHasLoadedBrowserValues] = useState(false);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const params = readCalculatorParams();
+      const nextLayout = params?.get("layout");
+      setSystem(params?.get("system") === "imperial" ? "imperial" : "metric");
+      setLayout(nextLayout === "living" || nextLayout === "bedroom" ? nextLayout : "dining");
+      setRaw(Object.fromEntries(rugFields.map((key) => [key, params?.get(key) ?? rugDefaults[key]])) as typeof rugDefaults);
+      setHasLoadedBrowserValues(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+  useEffect(() => { if (hasLoadedBrowserValues) replaceCalculatorParams(new URLSearchParams({ ...raw, system, layout })); }, [raw, system, layout, hasLoadedBrowserValues]);
   const input = useMemo(() => ({ layout, roomLengthCm: toCentimeters(parseNumber(raw.roomLength), system), roomWidthCm: toCentimeters(parseNumber(raw.roomWidth), system), furnitureLengthCm: toCentimeters(parseNumber(raw.furnitureLength), system), furnitureWidthCm: toCentimeters(parseNumber(raw.furnitureWidth), system), extensionCm: toCentimeters(parseNumber(raw.extension), system) }), [layout, raw, system]);
   const errors = useMemo(() => validateRugSizeInput(input), [input]); const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>; const result = errors.length ? null : calculateRugSize(input);
   const update = (field: keyof typeof raw) => (event: ChangeEvent<HTMLInputElement>) => { setRaw((current) => ({ ...current, [field]: event.target.value })); setCopyStatus(""); };
@@ -147,8 +169,20 @@ const curtainDefaults = { windowWidth: "180", rodExtension: "23", panelWidth: "1
 const curtainFields = Object.keys(curtainDefaults) as Array<keyof typeof curtainDefaults>;
 
 export function CurtainMeasurementCalculator() {
-  const [system, setSystem] = useState<MeasurementSystem>(() => (readCalculatorParams()?.get("system") as MeasurementSystem) === "imperial" ? "imperial" : "metric"); const [fullness, setFullness] = useState<CurtainFullness>(() => { const next = Number(readCalculatorParams()?.get("fullness")); return next === 1.5 || next === 2.5 || next === 3 ? next : 2; }); const [raw, setRaw] = useState(() => { const params = readCalculatorParams(); return Object.fromEntries(Object.keys(curtainDefaults).map((key) => [key, params?.get(key) ?? curtainDefaults[key as keyof typeof curtainDefaults]])) as typeof curtainDefaults; }); const [copyStatus, setCopyStatus] = useState("");
-  useEffect(() => { replaceCalculatorParams(new URLSearchParams({ ...raw, system, fullness: String(fullness) })); }, [raw, system, fullness]);
+  const [system, setSystem] = useState<MeasurementSystem>("metric"); const [fullness, setFullness] = useState<CurtainFullness>(2); const [raw, setRaw] = useState(curtainDefaults); const [copyStatus, setCopyStatus] = useState("");
+  const [hasLoadedBrowserValues, setHasLoadedBrowserValues] = useState(false);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const params = readCalculatorParams();
+      const nextFullness = Number(params?.get("fullness"));
+      setSystem(params?.get("system") === "imperial" ? "imperial" : "metric");
+      setFullness(nextFullness === 1.5 || nextFullness === 2.5 || nextFullness === 3 ? nextFullness : 2);
+      setRaw(Object.fromEntries(curtainFields.map((key) => [key, params?.get(key) ?? curtainDefaults[key]])) as typeof curtainDefaults);
+      setHasLoadedBrowserValues(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+  useEffect(() => { if (hasLoadedBrowserValues) replaceCalculatorParams(new URLSearchParams({ ...raw, system, fullness: String(fullness) })); }, [raw, system, fullness, hasLoadedBrowserValues]);
   const input = useMemo(() => ({ windowWidthCm: toCentimeters(parseNumber(raw.windowWidth), system), rodExtensionCm: toCentimeters(parseNumber(raw.rodExtension), system), fullness, panelWidthCm: toCentimeters(parseNumber(raw.panelWidth), system), dropLengthCm: toCentimeters(parseNumber(raw.dropLength), system) }), [fullness, raw, system]);
   const errors = useMemo(() => validateCurtainMeasurementInput(input), [input]); const errorMap = Object.fromEntries(errors.map((error) => [error.field, error.message])) as Record<string, string>; const result = errors.length ? null : calculateCurtainMeasurement(input);
   const update = (field: keyof typeof raw) => (event: ChangeEvent<HTMLInputElement>) => { setRaw((current) => ({ ...current, [field]: event.target.value })); setCopyStatus(""); };

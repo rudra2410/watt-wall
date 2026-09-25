@@ -1,6 +1,7 @@
 import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
+import { electricityRateReference } from "@/data/energy-reference";
 
 const title = "How much does a space heater cost per month?";
 const description = "A chosen 1,500 W heater used 6 hours a day for 30 days uses 270 kWh and costs $49.52 at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Your bill depends on the heater label, schedule and tariff.";
@@ -8,8 +9,9 @@ const path = "/guides/space-heater-monthly-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The wattage and schedule above are a worked scenario. The <TrustLink href="https://wmu.willmar.mn.us/energy-programs/energy-calculator/" external>Willmar Municipal Utilities appliance guide</TrustLink> lists 1,500 W for a heater as an estimated average reference value. It is not a guarantee for your model or its thermostat behavior.</p>
+<p>The $0.1834/kWh example uses the June 2026 US residential average from <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. For winter use, enter the variable rate from the bill covering the same period.</p>
 <TrustSection title="The calculation">
 <p>Convert watts to kilowatts, then multiply by hours and days:</p>
 <p><strong>Monthly kWh = watts ÷ 1,000 × hours per active day × active days per month × duty cycle ÷ 100.</strong></p>

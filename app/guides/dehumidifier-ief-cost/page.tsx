@@ -1,6 +1,7 @@
 import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
+import { electricityRateReference } from "@/data/energy-reference";
 
 const title = "Why a dehumidifier's IEF does not predict your daily cost";
 const description = "A chosen 500 W dehumidifier running 8 hours a day for 30 days uses 120 kWh and costs $22.01 at the June 2026 US average rate of $0.1834/kWh, per EIA. Its IEF is a moisture-removal efficiency measure, so it cannot by itself produce your electricity bill.";
@@ -8,7 +9,8 @@ const path = "/guides/dehumidifier-ief-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+<p>For the dollar figures below, $0.1834/kWh is the June 2026 US residential average from <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. Your damp-season tariff may differ.</p>
 <p>The 500 W rating and eight-hour schedule are scenario inputs. They are not a claim about a standard unit. Use the rated input from your model or a measured average. A compressor may cycle while the control remains set to run continuously.</p>
 <TrustSection title="What IEF measures">
 <p><TrustLink href="https://www.energystar.gov/products/dehumidifiers/key_efficiency_criteria" external>ENERGY STAR&apos;s dehumidifier criteria</TrustLink> define Integrated Energy Factor in litres of water removed per kWh, including dehumidification and standby or off modes under representative test conditions. <TrustLink href="https://www.energystar.gov/products/dehumidifier_testing_and_capacity" external>Its testing page</TrustLink> explains that the post-2019 procedure includes off-cycle energy and tests portable units at 65°F.</p>

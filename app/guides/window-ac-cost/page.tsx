@@ -1,6 +1,7 @@
 import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
+import { electricityRateReference } from "@/data/energy-reference";
 
 const title = "How much does a window air conditioner cost to run?";
 const description = "A specific Frigidaire 8,000 BTU window unit lists 670 W in cooling mode; eight hours a day for 30 days would use 160.8 kWh and cost $29.49 at the June 2026 US average rate of $0.1834/kWh, per EIA. The actual bill changes when the compressor cycles.";
@@ -8,8 +9,9 @@ const path = "/guides/window-ac-cost";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The 670 W value is from the <TrustLink href="https://www.frigidaire.ca/Owner-Centre/Product-Support/fhww083wbe" external>Frigidaire product support page</TrustLink>, retrieved September 8, 2026. The eight-hour schedule is a chosen scenario. Confirm the wattage and voltage for your model before using it.</p>
+<p>The $0.1834/kWh comparison uses the June 2026 US residential average in <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. Enter the variable price from your own summer bill when assessing this unit.</p>
 <TrustSection title="Calculate from the rated input">
 <p><strong>Monthly kWh = cooling watts ÷ 1,000 × scheduled hours per day × active days per month × duty cycle ÷ 100.</strong></p>
 <p>At 100% duty, 670 ÷ 1,000 × 8 × 30 = 160.8 kWh. At $0.1834/kWh, 160.8 × 0.1834 = $29.49072, displayed as $29.49.</p>

@@ -10,7 +10,7 @@ export const metadata = createPageMetadata({ title: "Home Energy Audit Checklist
 
 export default function HomeEnergyAuditGuide() {
   return (
-    <><ArticleJsonLd title="Home Energy Audit Checklist" description={description} path={path} datePublished="2026-08-25" dateModified="2026-09-15" /><TrustPageShell category="Energy guide" path={path} title={title} description="A useful DIY audit creates a record of bills, equipment, comfort problems, and visible leak points. It helps you choose questions and next steps; it does not replace professional testing.">
+    <><ArticleJsonLd title="Home Energy Audit Checklist" description={description} path={path} datePublished="2026-08-25" dateModified="2026-09-25" /><TrustPageShell category="Energy guide" path={path} title={title} description="A useful DIY audit creates a record of bills, equipment, comfort problems, and visible leak points. It helps you choose questions and next steps; it does not replace professional testing.">
       <TrustNote><strong>Begin with evidence you already have.</strong> Gather twelve months of bills when available, record the billing days and fuels, then connect unusual use with weather, occupancy, equipment, and comfort notes.</TrustNote>
 
       <TrustSection title="Define the audit question">
@@ -57,6 +57,14 @@ export default function HomeEnergyAuditGuide() {
 
       <TrustSection title="Rank observations without promising savings">
         <p>Group each observation by safety, comfort, evidence, estimated energy impact, cost to investigate, and who should review it. A draft at one window may be easy to inspect, while combustion backdrafting, damaged wiring, persistent moisture, or inaccessible insulation needs qualified help.</p>
+        <p>This hypothetical triage shows how to turn an observation into a next check instead of calling every symptom an efficiency problem:</p>
+        <div className="overflow-x-auto rounded-lg border border-border" role="region" aria-label="Home audit observation and action examples" tabIndex={0}>
+          <table className="w-full min-w-[43rem] text-left text-sm"><thead><tr><th className="p-3" scope="col">Observation</th><th className="p-3" scope="col">What the evidence supports</th><th className="p-3" scope="col">Next check</th></tr></thead><tbody>
+            <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">900 kWh in 30 days, then 930 kWh in 31 days</th><td className="p-3">Both periods average 30 kWh per day; use has not increased in this comparison.</td><td className="p-3">Compare the tariff, fixed charges and a similar-weather period before attributing the higher total to equipment.</td></tr>
+            <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">An always-on device appears costly</th><td className="p-3">A nameplate alone does not show its actual idle draw or daily schedule.</td><td className="p-3">Measure with a suitable plug-in meter or obtain model-specific usage information before estimating annual cost.</td></tr>
+            <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Moisture mark near wiring</th><td className="p-3">A visual note cannot identify the cause or make the area safe to open.</td><td className="p-3">Keep the issue out of the DIY efficiency list and arrange qualified assessment.</td></tr>
+          </tbody></table>
+        </div>
         <p>Use calculators to test a stated scenario, then compare the result with the scale of the bill. The <TrustLink href="/calculators/electricity-cost">Electricity Cost Calculator</TrustLink> accepts a known kWh total or a single device schedule. The <TrustLink href="/calculators/appliance-running-cost">Appliance Running Cost Calculator</TrustLink> combines several loads and lets you vary duty cycle. Neither calculator measures the home.</p>
       </TrustSection>
 
@@ -71,7 +79,7 @@ export default function HomeEnergyAuditGuide() {
           <li><TrustLink external href="https://www.energy.gov/sites/default/files/2021-08/ES-Home%20Energy%20Assessments_080221.pdf">DOE Consumer Guide to Home Energy Assessments</TrustLink>, for DIY inspection scope, common air-leak locations, and professional diagnostic methods.</li>
           <li><TrustLink external href="https://www.energy.gov/cmei/femp/home-energy-checklist">DOE Home Energy Checklist</TrustLink>, for organizing bill review, equipment maintenance, filters, lighting, and professional audit questions.</li>
         </TrustList>
-        <p>This checklist does not estimate savings or diagnose a building. Follow equipment instructions and use a qualified assessor, contractor, or licensed electrician for work outside a safe visual walkthrough. Content and sources last reviewed September 15, 2026.</p>
+        <p>This checklist does not estimate savings or diagnose a building. Follow equipment instructions and use a qualified assessor, contractor, or licensed electrician for work outside a safe visual walkthrough. Content and sources last reviewed September 25, 2026.</p>
       </TrustSection>
     </TrustPageShell></>
   );

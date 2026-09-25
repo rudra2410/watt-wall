@@ -1,4 +1,4 @@
-import { electricityRateReference } from "@/data/energy-reference";
+import { electricityRateReference } from "../data/energy-reference";
 
 export type HeroElectricityExampleInput = {
   powerKilowatts: number;

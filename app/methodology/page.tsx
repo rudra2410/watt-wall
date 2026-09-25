@@ -75,7 +75,7 @@ export default function MethodologyPage() {
       title="Calculator formulas, assumptions and source methodology"
       description="The calculation rules, rounding choices, source standards, and browser behavior behind every Watt & Wall planning estimate."
     >
-      <TrustNote><strong>Last reviewed: September 14, 2026.</strong> This page reflects the formulas and calculator behavior currently published on Watt & Wall.</TrustNote>
+      <TrustNote><strong>Last reviewed: September 25, 2026.</strong> This page reflects the formulas and calculator behavior currently published on Watt & Wall.</TrustNote>
 
       <TrustSection title="How estimates are calculated">
         <p>Each calculator answers a limited planning question from the values you enter. It validates the required fields before calculating, keeps units consistent inside the formula, and withholds the result when an input is incomplete or outside its supported range.</p>
@@ -132,7 +132,8 @@ export default function MethodologyPage() {
           <li><TrustLink external href="https://www.sherwin-williams.com/en-us/project-center/faqs/paint-faq">Sherwin-Williams: paint FAQ</TrustLink> supports checking paint coverage against the selected product.</li>
           <li><TrustLink external href="https://pdf.lowes.com/project-planner.pdf">Lowe&apos;s: project planner</TrustLink> documents flooring measurements, carton coverage, and material waste.</li>
           <li><TrustLink external href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9">NIST: U.S. gallon conversion</TrustLink> supports the gallon-to-litre conversion factor.</li>
-          <li><TrustLink external href="https://www.ikea.com/in/en/files/pdf/ac/c1/acc1f97f/ikea-measurement-guide.pdf">IKEA: room measurement guide</TrustLink> supports room, opening, furniture, and curtain measurement context.</li>
+          <li><TrustLink external href="https://www.ikea.com/in/en/files/pdf/ac/c1/acc1f97f/ikea-measurement-guide.pdf">IKEA: room measurement guide</TrustLink> supports recording room, opening, and furniture dimensions.</li>
+          <li><TrustLink external href="https://www.ikea.com/us/en/files/pdf/45/80/4580665c/betydlig_racka_hugad_oct_2022.pdf">IKEA: measure your window</TrustLink> illustrates curtain rod extension and 2× or 2.5× fabric fullness.</li>
           <li><TrustLink external href="https://www.ikea.com/ca/en/product-guides/how-to-choose-the-right-rug-size-pub2e7f9fb0/">IKEA: rug sizing by room</TrustLink> provides placement guidance used to frame the editable rug extensions.</li>
         </TrustList>
         <p>A source does not replace your local information. Product coverage, packaged dimensions, tariff terms, and model-specific labels take priority when they are available.</p>

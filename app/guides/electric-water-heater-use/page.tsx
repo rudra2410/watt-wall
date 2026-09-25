@@ -1,6 +1,7 @@
 import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
+import { electricityRateReference } from "@/data/energy-reference";
 
 const title = "How much electricity does an electric water heater use?";
 const description = "A chosen 4,500 W electric element running for 2 hours a day over 30 days uses 270 kWh and costs $49.52 at the June 2026 US residential average of $0.1834/kWh, per EIA. That is an element-runtime scenario, not a prediction of a household bill.";
@@ -8,7 +9,8 @@ const path = "/guides/electric-water-heater-use";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-15" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+<p>The rate in the example, $0.1834/kWh, comes from the June 2026 US residential average in <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. It is a price reference, not a measured hot-water demand.</p>
 <p>Check your heater&apos;s nameplate and manual for the actual element rating. The Willmar Municipal Utilities reference table lists 4,500 W for an 80-gallon water heater as an estimated average reference. Product models and controls differ.</p>
 <TrustSection title="The element formula">
 <p><strong>Monthly kWh = watts ÷ 1,000 × heating hours per day × heating days per month.</strong></p>
