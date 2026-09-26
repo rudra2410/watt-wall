@@ -2,7 +2,7 @@
 
 Scope: every current tracked or newly added repository file that exists in the worktree, excluding generated `.next`, `out`, dependency contents, and Git internals. Public behavior is proven separately by the 34-route production audit. “Reviewed” here means the file was read directly, covered by a focused source search, or validated through its public output and corresponding automated checks. Generated lock and binary files were inspected by role, size, references, and build behavior rather than interpreted as text.
 
-The inventory contains **146 files**. No file is treated as proof of AdSense approval. Dated drafts and planning documents are not public website content.
+The inventory contains **147 files**, including this inventory document. No file is treated as proof of AdSense approval. Dated drafts and planning documents are not public website content.
 
 | File | Review scope | Verdict |
 |---|---|---|
@@ -97,6 +97,7 @@ The inventory contains **146 files**. No file is treated as proof of AdSense app
 | `docs/adsense-checkpoint-1-2026-09-07.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
 | `docs/adsense-checkpoint-2-2026-09-08.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
 | `docs/adsense-checkpoint-3-drafts-2026-09-08.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
+| `docs/codebase-file-audit-2026-09-26.md` | Current file-by-file audit evidence, not shipped at runtime | Self-listed so the inventory covers the complete repository state at publication. |
 | `docs/adsense-final-verification-2026-09-09.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
 | `docs/adsense-low-value-content-route-audit-2026-09-25.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
 | `docs/adsense-readiness-verification-2026-09-26.md` | Research, source or audit evidence, not shipped at runtime | Reviewed for current evidence or retained as dated historical record. |
@@ -160,4 +161,3 @@ The inventory contains **146 files**. No file is treated as proof of AdSense app
 - Historical PRD, implementation-plan and draft files contain earlier prototype language. They do not render on the website; current production facts are in the README and dated audit reports.
 - The starter README was inaccurate and has been replaced. The 404 PNG exceeded the project’s 100 KB image target and has been replaced by a 52,776-byte WebP.
 - Source scans found no public placeholder/lorem copy, fake testimonial, fabricated phone number or unsupported owner qualification.
-
