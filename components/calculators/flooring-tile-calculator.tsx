@@ -96,7 +96,7 @@ export function FlooringTileCalculator() {
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your floor and product</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="flooring-input-title">Estimate flooring or tile quantity</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. The starting example uses feet and square feet; keep room and product coverage in the same unit system.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter room dimensions in feet and product coverage in square feet per unit. Convert metric measurements before entering them; this calculator does not convert metric inputs.</p>
         </div>
 
         <fieldset className="mt-7">
@@ -111,7 +111,7 @@ export function FlooringTileCalculator() {
           <legend className="px-1 text-base font-semibold">Product coverage and waste</legend>
           <div className="mt-4 grid gap-5 sm:grid-cols-2">
             <NumericField error={errorByField.coveragePerUnitSquareFeet} hint="From the carton or product listing." id="flooring-coverage" label="Coverage per unit (sq ft)" min="0" name="coveragePerUnitSquareFeet" onChange={updateField("coveragePerUnitSquareFeet")} step="any" value={rawInput.coveragePerUnitSquareFeet} />
-            <NumericField error={errorByField.wastePercent} hint="Common starting point: 5%–10%." id="flooring-waste" label="Waste allowance (%)" max="100" min="0" name="wastePercent" onChange={updateField("wastePercent")} step="any" value={rawInput.wastePercent} />
+            <NumericField error={errorByField.wastePercent} hint="The 10% default is an editable example. Use the allowance specified for your product and layout." id="flooring-waste" label="Waste allowance (%)" max="100" min="0" name="wastePercent" onChange={updateField("wastePercent")} step="any" value={rawInput.wastePercent} />
           </div>
         </fieldset>
 

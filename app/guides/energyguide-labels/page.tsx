@@ -1,5 +1,6 @@
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { TrustLink, TrustList, TrustNote, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { electricityRateReference } from "@/data/energy-reference";
 import { createPageMetadata } from "@/lib/seo";
 
 const path = "/guides/energyguide-labels";
@@ -10,7 +11,7 @@ export const metadata = createPageMetadata({ title: "How to Read an EnergyGuide 
 
 export default function EnergyGuideLabelsPage() {
   return (
-    <><ArticleJsonLd title="How to Read an EnergyGuide Label" description={description} path={path} datePublished="2026-08-25" dateModified="2026-09-15" /><TrustPageShell category="Buying guide" path={path} title={title} description="Read annual energy use first, compare only similar products, then reprice the estimate with your local utility rate. The yellow label is a comparison tool, not a household bill forecast.">
+    <><ArticleJsonLd title="How to Read an EnergyGuide Label" description={description} path={path} datePublished="2026-08-25" dateModified="2026-09-26" /><TrustPageShell category="Buying guide" path={path} title={title} description="Read annual energy use first, compare only similar products, then reprice the estimate with your local utility rate. The yellow label is a comparison tool, not a household bill forecast.">
       <TrustNote><strong>Start with kWh, not the dollar figure.</strong> Annual kWh describes the label&apos;s energy estimate. The operating-cost figure applies a national energy-price assumption that may differ from your tariff.</TrustNote>
 
       <TrustSection title="What the yellow label answers">
@@ -69,9 +70,9 @@ export default function EnergyGuideLabelsPage() {
       <TrustSection title="Sources">
         <TrustList>
           <li><TrustLink external href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances">FTC: How to use the EnergyGuide label</TrustLink>, for label contents, covered-product examples, comparison use, and the warning that actual cost depends on use and local energy prices.</li>
-          <li><TrustLink external href="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=table_5_06_a">US EIA: Average price of electricity to ultimate customers</TrustLink>, for the June 2026 US residential benchmark of $0.1834/kWh used in the worked example.</li>
+          <li><TrustLink external href={electricityRateReference.url}>US EIA: monthly residential electricity price</TrustLink>, for the June 2026 US residential benchmark of $0.1834/kWh used in the worked example.</li>
         </TrustList>
-        <p>Formula, examples, and sources last reviewed September 15, 2026.</p>
+        <p>Formula, examples, and sources last reviewed September 26, 2026.</p>
       </TrustSection>
     </TrustPageShell></>
   );

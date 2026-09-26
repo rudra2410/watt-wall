@@ -9,7 +9,7 @@ const description = "Measure window width, rod extension, curtain fullness, fini
 export const metadata = createPageMetadata({ title: "How to Measure for Curtains", description, path });
 
 export default function CurtainMeasurementGuide() {
-  return <><ArticleJsonLd title="How to Measure for Curtains" description={description} path={path} datePublished="2026-08-26" dateModified="2026-09-15" /><TrustPageShell category="Window decoration guide" path={path} title={title} description="For a 60-inch window with 6 inches of rod extension on each side, plan a 72-inch rod. At 2× fullness, three 52-inch panels provide at least the required 144 inches of fabric width.">
+  return <><ArticleJsonLd title="How to Measure for Curtains" description={description} path={path} datePublished="2026-08-26" dateModified="2026-09-26" /><TrustPageShell category="Window decoration guide" path={path} title={title} description="For a 60-inch window with 6 inches of rod extension on each side, plan a 72-inch rod. At 2× fullness, three 52-inch panels provide at least the required 144 inches of fabric width.">
     <TrustNote><strong>Choose the hardware position before measuring fabric.</strong> Rod width, mounting height, rings, header style, and the desired hem position all affect the size you order.</TrustNote>
 
     <TrustSection title="Measure the window and available wall">
@@ -62,7 +62,7 @@ export default function CurtainMeasurementGuide() {
         <li>Check how a pair meets at the center and whether an odd panel count suits the opening.</li>
         <li>Measure each window. Two openings that look identical can have different trim or wall clearances.</li>
       </TrustList>
-      <p>The <TrustLink href="/calculators/curtain-measurement">Curtain Measurement Calculator</TrustLink> applies rod extension, fullness, panel width, and whole-panel rounding. It does not select anchors, verify wall structure, or determine safe hardware loads.</p>
+      <p>The <TrustLink href="/calculators/curtain-measurement">Curtain Measurement Calculator</TrustLink> models an outside-mounted rod and applies rod extension, fullness, panel width, and whole-panel rounding. It does not calculate an inside-mounted tension rod, select anchors, verify wall structure, or determine safe hardware loads.</p>
     </TrustSection>
 
     <TrustSection title="Sources and related guides">
@@ -70,7 +70,7 @@ export default function CurtainMeasurementGuide() {
         <li><TrustLink external href="https://www.ikea.com/us/en/files/pdf/c9/ee/c9ee9195/betydlig_racka_hugad_apr2025.pdf">IKEA: How to measure and plan your curtain solution</TrustLink>, for measuring frame width, adding at least 6 inches per side, and planning brackets for its illustrated system.</li>
         <li><TrustLink external href="https://www.ikea.com/us/en/files/pdf/45/80/4580665c/betydlig_racka_hugad_oct_2022.pdf">IKEA: Measure your window</TrustLink>, for the 2× and 2.5× fullness examples and whole-panel calculation.</li>
       </TrustList>
-      <p>Read <TrustLink href="/guides/measuring-rooms-and-furniture">how to measure rooms and furniture</TrustLink> when curtains must clear furniture, doors, or a delivery path. The numbers above are chosen planning examples. Product instructions and actual site conditions control the installation. Content and sources last reviewed September 15, 2026.</p>
+      <p>Read <TrustLink href="/guides/measuring-rooms-and-furniture">how to measure rooms and furniture</TrustLink> when curtains must clear furniture, doors, or a delivery path. The numbers above are chosen planning examples. Product instructions and actual site conditions control the installation. Content and sources last reviewed September 26, 2026.</p>
     </TrustSection>
   </TrustPageShell></>;
 }

@@ -6,7 +6,8 @@ import { electricityRateReference } from "@/data/energy-reference";
 const title = "How much does a window air conditioner cost to run?";
 const description = "A specific Frigidaire 8,000 BTU window unit lists 670 W in cooling mode; eight hours a day for 30 days would use 160.8 kWh and cost $29.49 at the June 2026 US average rate of $0.1834/kWh, per EIA. The actual bill changes when the compressor cycles.";
 const path = "/guides/window-ac-cost";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Estimate a window air conditioner's running cost from model input watts, schedule, compressor cycling, measured energy, and local rate.";
+export const metadata = createPageMetadata({ title: "Window Air Conditioner Running Cost", description: metadataDescription, path });
 
 export default function GuidePage() {
  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-26" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>

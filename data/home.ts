@@ -37,8 +37,8 @@ export const trustPoints = [
     description: "Defaults identify their source, geography, and last-reviewed date. You can replace regional averages with your own local values.",
   },
   {
-    title: "Private by default",
-    description: "No account is required. Calculations stay in your browser; shareable URLs can contain inputs, and the last electricity rate can remain in local storage.",
+    title: "Local calculation with clear privacy limits",
+    description: "No account is required. Arithmetic runs in your browser, but shareable URLs can contain inputs and third-party services may process the page address. Do not enter confidential information.",
   },
   {
     title: "Planning aid, not a quote",
@@ -76,7 +76,7 @@ export const homeFaqs = [
   {
     question: "Are my calculator entries saved?",
     answer:
-      "No account is required, and entries are not sent to Watt & Wall servers. Shareable calculator URLs can contain the visible inputs, and the last electricity rate can be saved in your browser's local storage.",
+      "No account is required, and the calculator does not submit entries to a Watt & Wall application server. Shareable URLs can contain the visible inputs, the last electricity rate can remain in local storage, and analytics or advertising services may process the page address. Do not enter personal or confidential information.",
   },
   {
     question: "Where do the formulas and sources come from?",

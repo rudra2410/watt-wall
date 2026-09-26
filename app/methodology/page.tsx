@@ -75,7 +75,7 @@ export default function MethodologyPage() {
       title="Calculator formulas, assumptions and source methodology"
       description="The calculation rules, rounding choices, source standards, and browser behavior behind every Watt & Wall planning estimate."
     >
-      <TrustNote><strong>Last reviewed: September 25, 2026.</strong> This page reflects the formulas and calculator behavior currently published on Watt & Wall.</TrustNote>
+      <TrustNote><strong>Last reviewed: September 26, 2026.</strong> This page reflects the formulas and calculator behavior currently published on Watt & Wall.</TrustNote>
 
       <TrustSection title="How estimates are calculated">
         <p>Each calculator answers a limited planning question from the values you enter. It validates the required fields before calculating, keeps units consistent inside the formula, and withholds the result when an input is incomplete or outside its supported range.</p>
@@ -120,7 +120,7 @@ export default function MethodologyPage() {
           <li>USD, EUR, GBP, and INR change the displayed currency label. Enter the rate in the selected currency because the calculators do not convert exchange rates.</li>
           <li>Paint and flooring calculations use feet and square feet. Paint volume is also converted from U.S. gallons to litres.</li>
           <li>Furniture, rug, and curtain interfaces accept metric or imperial measurements and convert them to a common internal unit before calculating.</li>
-          <li>Decimal calculations retain their precision until display. Counts for paint gallons, flooring units, tiles, and curtain panels round up because a fraction of a purchase unit is insufficient.</li>
+          <li>Decimal calculations retain their precision until display. The paint calculator preserves its calculated volume and separately rounds the whole-U.S.-gallon purchase suggestion up. Flooring units, tiles, and curtain panels round up because a fraction of a purchase unit is insufficient.</li>
         </TrustList>
       </TrustSection>
 

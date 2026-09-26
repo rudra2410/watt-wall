@@ -35,7 +35,7 @@ export const calculatorCategories = [
     name: "Renovation",
     title: "Plan renovation materials",
     description: "Estimate paint, flooring, and tile quantities from your measurements before you buy materials.",
-    directoryDescription: "Use Paint Quantity for coated wall and ceiling area. Choose Flooring and Tile when material waste and rounding up to whole packs or tiles affect what you need to buy.",
+    directoryDescription: "Use Paint Quantity for rectangular-room wall area. Choose Flooring and Tile when material waste and rounding up to whole packs or tiles affect what you need to buy.",
     icon: "paint",
   },
   {
@@ -73,7 +73,7 @@ export const calculators = [
     name: "Paint Quantity Calculator",
     category: "Renovation",
     description: "Turn room dimensions, openings, coats, coverage, and waste into an estimated paint quantity.",
-    directoryDescription: "Calculate paint from wall and ceiling dimensions after subtracting openings, then account for coats, product coverage, and waste.",
+    directoryDescription: "Calculate wall paint from rectangular room dimensions after subtracting openings, then account for coats, product coverage, and waste.",
     icon: "paint",
   },
   {

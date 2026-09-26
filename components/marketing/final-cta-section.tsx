@@ -22,7 +22,7 @@ export function FinalCtaSection() {
               <p className="mt-4 max-w-2xl text-base leading-[1.625] text-card/75">
                 Choose a calculator, enter the values you know, and review the formula and assumptions behind the result.
               </p>
-              <p className="mt-5 text-sm leading-6 text-card/70">No account required. Your values stay in your browser.</p>
+              <p className="mt-5 text-sm leading-6 text-card/70">No account required. Arithmetic runs in your browser, and shared URLs can include your inputs. Do not enter confidential information.</p>
             </div>
 
             <div className="w-full rounded-xl bg-card/10 p-4 sm:p-5">

@@ -1,9 +1,9 @@
-// Retrieved 2026-09-07. EIA table 5.6.A: US total, residential, June 2026.
+// Rechecked 2026-09-26 through EIA API v2: US total, residential, June 2026.
 export const electricityRateReference = {
   rate: 0.1834,
   month: "June 2026",
-  url: "https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=table_5_06_a",
-  reviewed: "2026-09-07",
+  url: "https://api.eia.gov/v2/electricity/retail-sales/data/?api_key=DEMO_KEY&frequency=monthly&data[0]=price&facets[sectorid][]=RES&facets[stateid][]=US&facets[stateid][]=TX&facets[stateid][]=NY&start=2026-06&end=2026-06",
+  reviewed: "2026-09-26",
 } as const;
 
 export const energySources = {

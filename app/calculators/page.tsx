@@ -25,7 +25,7 @@ const calculatorComparison = {
     result: "Per-appliance and combined monthly cost",
   },
   "paint-quantity": {
-    bestFor: "Planning paint for walls and ceilings",
+    bestFor: "Planning wall paint for a rectangular room",
     inputs: "Room dimensions, openings, coats, coverage, waste",
     result: "Estimated paint volume after adjustments",
   },
@@ -122,7 +122,9 @@ export default function CalculatorsPage() {
 
                   return (
                     <tr key={calculator.slug}>
-                      <th className="px-5 py-4 font-semibold text-foreground" scope="row">{calculator.name}</th>
+                      <th className="px-5 py-4 font-semibold text-foreground" scope="row">
+                        <Link className="rounded-sm text-primary underline decoration-primary/35 underline-offset-4 outline-none hover:decoration-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card" href={calculator.href}>{calculator.name}</Link>
+                      </th>
                       <td className="px-5 py-4">{comparison.bestFor}</td>
                       <td className="px-5 py-4">{comparison.inputs}</td>
                       <td className="px-5 py-4">{comparison.result}</td>

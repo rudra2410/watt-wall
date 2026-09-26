@@ -263,7 +263,7 @@ export function ElectricityCostCalculator() {
           <legend className="sr-only">Electricity rate and currency</legend>
           <NumericField
             error={errorByField.pricePerKilowattHour}
-            hint="Use the all-in local-currency rate per kWh from your bill or tariff."
+            hint="Use the applicable variable price per kWh from your bill or tariff. Do not include fixed monthly fees."
             id="electricity-rate"
             label="Electricity price (local currency per kWh)"
             min="0"

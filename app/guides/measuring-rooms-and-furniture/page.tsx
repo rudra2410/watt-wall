@@ -78,7 +78,7 @@ export default function FurnitureMeasurementGuide() {
         <li><TrustLink external href="https://www.ikea.com/in/en/files/pdf/ac/c1/acc1f97f/ikea-measurement-guide.pdf">IKEA: Guidelines to measure your room</TrustLink>, for drawing wall dimensions, ceiling height, doors, windows, and fixed room features.</li>
         <li><TrustLink external href="https://www.ikea.com/us/en/customer-service/terms-conditions/delivery-terms-and-conditions-pub7aa7b291/">IKEA US delivery terms</TrustLink>, for checking the safe path through rooms, hallways, staircases, and elevators.</li>
       </TrustList>
-      <p>The formulas and table above are preliminary rectangular checks. The seller or delivery team should confirm difficult routes. Content and sources last reviewed September 14, 2026.</p>
+      <p>The formulas and table above are preliminary rectangular checks. The seller or delivery team should confirm difficult routes. Content and sources last reviewed September 15, 2026.</p>
     </TrustSection>
   </TrustPageShell></>;
 }

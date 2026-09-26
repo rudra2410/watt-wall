@@ -32,7 +32,7 @@ export default function CurtainMeasurementPage() {
         <section className="rounded-xl bg-card p-5 shadow-sm">
           <h2 className="text-xl font-semibold">Source and review</h2>
           <a className={`${sourceClass} mt-4 inline-flex`} href="https://www.ikea.com/us/en/files/pdf/45/80/4580665c/betydlig_racka_hugad_oct_2022.pdf">IKEA: Measure your window</a>
-          <p className="mt-4 text-sm leading-6 text-muted-foreground">IKEA illustrates at least 6 in of rod extension on each side and 2× or 2.5× fullness. The calculator&apos;s 23 cm / 9 in extension is an editable planning example, not IKEA&apos;s specified minimum. The 1.5× and 3× choices are editable scenarios; check them against your chosen product. Source checked September 25, 2026.</p>
+          <p className="mt-4 text-sm leading-6 text-muted-foreground">IKEA illustrates at least 6 in of rod extension on each side and 2× or 2.5× fullness. The calculator&apos;s 23 cm / 9 in extension is an editable planning example, not IKEA&apos;s specified minimum. The 1.5× and 3× choices are editable scenarios; check them against your chosen product. Source checked September 26, 2026.</p>
         </section>
         <section className="rounded-xl bg-primary/10 p-5">
           <h2 className="text-xl font-semibold">Check the product</h2>

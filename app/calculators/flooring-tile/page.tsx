@@ -75,7 +75,7 @@ export default function FlooringTilePage() {
               <li><a className={sourceLinkClassName} href="https://www.lowes.com/n/how-to/install-luxury-vinyl-tile-flooring">Lowe&apos;s: Carton coverage and extras</a></li>
               <li><a className={sourceLinkClassName} href="https://pdf.lowes.com/productdocuments/3f70b1c9-8ab7-4125-a2e7-9a3d080d2861/08130541.pdf">Mullican: Straight and diagonal waste guidance</a></li>
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed August 24, 2026.</p>
+            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed September 26, 2026.</p>
           </section>
 
           <section className="rounded-xl bg-primary/10 p-5 sm:p-6" aria-labelledby="flooring-limit-title">

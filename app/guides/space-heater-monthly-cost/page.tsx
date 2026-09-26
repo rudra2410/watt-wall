@@ -6,7 +6,8 @@ import { electricityRateReference } from "@/data/energy-reference";
 const title = "How much does a space heater cost per month?";
 const description = "A chosen 1,500 W heater used 6 hours a day for 30 days uses 270 kWh and costs $49.52 at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Your bill depends on the heater label, schedule and tariff.";
 const path = "/guides/space-heater-monthly-cost";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Estimate monthly space-heater energy and cost from rated watts, active days, runtime, duty cycle, and your local electricity rate.";
+export const metadata = createPageMetadata({ title: "Space Heater Monthly Electricity Cost", description: metadataDescription, path });
 
 export default function GuidePage() {
  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>

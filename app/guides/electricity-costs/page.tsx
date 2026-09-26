@@ -5,7 +5,8 @@ import { createPageMetadata } from "@/lib/seo";
 
 const title = "How to choose an electricity rate from your bill";
 const description = "An extra 100 kWh costs $18.34 at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Your tariff determines the variable cost; fixed charges need separate treatment.";
-export const metadata = createPageMetadata({ title, description, path: "/guides/electricity-costs" });
+const metadataDescription = "Choose an applicable variable electricity price from a bill or tariff, separate fixed charges, and handle time-of-use or tiered rates.";
+export const metadata = createPageMetadata({ title: "Choose an Electricity Rate From Your Bill", description: metadataDescription, path: "/guides/electricity-costs" });
 
 export default function ElectricityCostsGuide() {
   return <><ArticleJsonLd title={title} description={description} path="/guides/electricity-costs" datePublished="2026-08-25" dateModified="2026-09-07" /><TrustPageShell category="Electricity bills and tariffs" path="/guides/electricity-costs" title={title} description={description}>

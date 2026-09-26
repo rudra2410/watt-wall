@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { HeroSection } from "@/components/marketing/hero-section";
-import { FeaturedCalculatorsSection } from "@/components/marketing/featured-calculators-section";
 import { HowItWorksSection } from "@/components/marketing/how-it-works-section";
 import { CalculatorCategoriesSection } from "@/components/marketing/calculator-categories-section";
 import { TrustSection } from "@/components/marketing/trust-section";
@@ -22,7 +21,6 @@ export default function Home() {
     <main id="main-content">
       <SiteStructuredData />
       <HeroSection />
-      <FeaturedCalculatorsSection />
       <HowItWorksSection />
       <CalculatorCategoriesSection />
       <GuideHighlightsSection />

@@ -5,7 +5,8 @@ import { createPageMetadata } from "@/lib/seo";
 const title = "How much paint does a room with a vaulted ceiling need?";
 const description = "In a worked 12-by-16-foot room with a centered 4-foot ceiling rise, the sloped ceiling needs about 1.85 US gallons for two coats at BEHR's listed 250-square-foot-per-gallon coverage. Walls require a separate calculation.";
 const path = "/guides/vaulted-ceiling-paint";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Calculate sloped ceiling and triangular gable areas separately before applying paint coats, product coverage, and whole-container rounding.";
+export const metadata = createPageMetadata({ title: "Vaulted Ceiling Paint Calculation", description: metadataDescription, path });
 
 export default function GuidePage() {
  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>

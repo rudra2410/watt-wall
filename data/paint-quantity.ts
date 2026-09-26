@@ -16,7 +16,7 @@ export const paintQuantityExample = calculatePaintQuantity(paintQuantityDefaults
 export const paintQuantityAssumptions = [
   "The room is rectangular with two walls of each entered length and one consistent wall height.",
   "Each door subtracts 20 sq ft and each window subtracts 15 sq ft from the gross wall area.",
-  "Coverage is entered per coat in square feet per U.S. gallon in the current example. Check the selected product label or technical sheet and replace the value with the unit system used in your market.",
+  "Coverage must be entered per coat in square feet per U.S. gallon. Check the selected product label or technical sheet and convert its coverage before entering it when the product uses another unit system.",
   "The waste allowance is applied after coats and coverage. The whole-gallon suggestion rounds up only after that visible allowance.",
 ] as const;
 
@@ -27,7 +27,7 @@ export const paintQuantityFaqs = [
   },
   {
     question: "What coverage number should I enter?",
-    answer: "Use the coverage shown on your chosen paint label or technical data sheet, converting units when needed. Product, surface texture, porosity, application method, and color change can all affect practical coverage.",
+    answer: "Use the coverage shown on your chosen paint label or technical data sheet, expressed in square feet per U.S. gallon. Convert coverage stated in another unit system before entering it. Product, surface texture, porosity, application method, and color change can all affect practical coverage.",
   },
   {
     question: "Why is the whole-gallon result rounded up?",

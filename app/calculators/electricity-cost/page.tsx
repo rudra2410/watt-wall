@@ -87,7 +87,7 @@ export default function ElectricityCostPage() {
               <li><a className={sourceLinkClassName} href="https://www.eia.gov/energyexplained/electricity/prices-and-factors-affecting-prices.php">U.S. EIA: Prices and factors affecting prices</a></li>
               <li><a className={sourceLinkClassName} href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances">FTC: Using the EnergyGuide label</a></li>
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed September 14, 2026.</p>
+            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed September 26, 2026.</p>
           </section>
 
           <section className="rounded-xl bg-primary/10 p-5 sm:p-6" aria-labelledby="electricity-limit-title">

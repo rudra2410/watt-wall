@@ -77,7 +77,7 @@ export default function PaintQuantityPage() {
               <li><a className={sourceLinkClassName} href="https://ltx-www.sherwin-williams.com/en-us/color/color-tools/paint-calculator">Sherwin-Williams: Coverage guidance</a></li>
               <li><a className={sourceLinkClassName} href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9">NIST: US gallon-to-litre conversion</a></li>
             </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed August 22, 2026.</p>
+            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">Formula and source context last reviewed September 26, 2026.</p>
           </section>
 
           <section className="rounded-xl bg-primary/10 p-5 sm:p-6" aria-labelledby="paint-limit-title">

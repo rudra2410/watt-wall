@@ -14,7 +14,7 @@ export const electricityCostAssumptions = [
   "Known-energy mode uses the kWh total exactly as entered and does not infer its billing period or source.",
   "The entered power stays constant during every active hour.",
   "Each month uses the number of active days you enter; the annual estimate repeats that monthly schedule 12 times.",
-  "The starting rate is shown as a local-currency example per kWh. Replace it with the all-in rate from your own bill or tariff; fixed fees, demand charges, taxes, tiers, and time-of-use changes are not included.",
+  "The starting rate is shown as a local-currency example per kWh. Replace it with the applicable variable price per kWh from your own bill or tariff. Fixed monthly fees, demand charges, taxes, tiers, and time-of-use changes are not included.",
   "Standby use, cycling loads, startup surges, and efficiency losses are not added unless they are already reflected in the power value you enter.",
 ] as const;
 
@@ -37,6 +37,6 @@ export const electricityCostFaqs = [
   },
   {
     question: "Does Watt & Wall save these values?",
-    answer: "The calculation runs in your browser. Inputs appear in the page URL so the estimate can be bookmarked or shared, and the last electricity rate is saved in your browser's local storage. Anyone who receives a shared URL can read the values included in it.",
+    answer: "The arithmetic runs in your browser and is not submitted to a Watt & Wall application server. Inputs appear in the page URL so the estimate can be bookmarked or shared, and the last electricity rate is saved in local storage. Anyone with the URL can read its values, and analytics or advertising services may process the page address. Do not enter confidential information.",
   },
 ] as const;

@@ -6,7 +6,8 @@ import { electricityRateReference } from "@/data/energy-reference";
 const title = "What always-on standby devices cost per year";
 const description = "A chosen 10 W continuous standby load uses 87.6 kWh in a 365-day year and costs $16.07 at the June 2026 US average rate of $0.1834/kWh, per EIA. The only reliable way to know your home's standby load is to measure or document each device's draw.";
 const path = "/guides/standby-device-cost";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Calculate annual energy and cost for a documented always-on load, and build a device list without treating every plugged-in product as waste.";
+export const metadata = createPageMetadata({ title: "Standby Device Electricity Cost", description: metadataDescription, path });
 
 export default function GuidePage() {
  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>

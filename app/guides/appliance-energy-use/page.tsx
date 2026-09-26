@@ -5,7 +5,8 @@ import { createPageMetadata } from "@/lib/seo";
 
 const title = "How to measure appliance energy use before estimating cost";
 const description = "A measured 1 kWh per day costs about $5.50 over 30 days at the US average residential rate of $0.1834/kWh for June 2026, per EIA. Start with consumption evidence that matches your appliance.";
-export const metadata = createPageMetadata({ title, description, path: "/guides/appliance-energy-use" });
+const metadataDescription = "Measure appliance energy use with nameplate watts, meter kWh, average watts, or EnergyGuide data without counting duty cycle twice.";
+export const metadata = createPageMetadata({ title: "Measure Appliance Energy Use", description: metadataDescription, path: "/guides/appliance-energy-use" });
 
 export default function ApplianceEnergyUseGuide() {
   return <><ArticleJsonLd title={title} description={description} path="/guides/appliance-energy-use" datePublished="2026-08-25" dateModified="2026-09-07" /><TrustPageShell category="Appliance measurement guide" path="/guides/appliance-energy-use" title={title} description={description}>

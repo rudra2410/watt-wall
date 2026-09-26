@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "Independent home energy, renovation, furniture, and decoration planning calculators with transparent formulas, local inputs, and clear assumptions.",
   footerDescription:
-    "Plan smarter with Watt & Wall—practical calculators that turn energy costs and renovation measurements into clear, transparent estimates you can understand and use with confidence.",
+    "Free calculators and guides for home energy costs, renovation materials, furniture fit, rugs, and curtains. Each tool explains its formula, assumptions, and sources.",
   contactEmail: "wattandwall@gmail.com",
 } as const;
 
@@ -79,7 +79,7 @@ export const guideNavigation = [
   { label: "Window AC running cost", href: "/guides/window-ac-cost", category: "Energy", description: "Use model rated input and compressor cycling to estimate a window unit's cost.", directoryDescription: "Estimate a window air conditioner's cost from rated input, compressor cycling, schedule, and your local electricity price." },
   { label: "Standby device cost", href: "/guides/standby-device-cost", category: "Energy", description: "Measure continuous loads and calculate annual standby electricity cost.", directoryDescription: "Measure an always-on device in watts and turn that continuous load into monthly and annual electricity cost." },
   { label: "Tile waste and spare boxes", href: "/guides/tile-waste-boxes", category: "Renovation", description: "Keep cutting allowance, repair stock and box rounding separate.", directoryDescription: "Calculate base area, cutting waste, box rounding, and separately planned spare stock before ordering tile." },
-  { label: "Fridge cost versus EnergyGuide", href: "/guides/fridge-energyguide-cost", category: "Energy", description: "Separate electricity-price differences from consumption changes in a refrigerator estimate.", directoryDescription: "Recalculate an EnergyGuide annual cost with your electricity price, then review conditions that can change refrigerator consumption." },
+  { label: "Fridge cost versus EnergyGuide", href: "/guides/fridge-energyguide-cost", category: "Energy", description: "Separate electricity-price differences from consumption changes in a refrigerator estimate.", directoryDescription: "Compare a multi-day refrigerator energy observation with the model's annual EnergyGuide kWh on the same time and price basis." },
   { label: "Vaulted ceiling paint", href: "/guides/vaulted-ceiling-paint", category: "Renovation", description: "Measure ceiling slopes and gable walls separately before calculating paint quantities.", directoryDescription: "Measure sloped ceiling surfaces and triangular gable walls before applying coats, product coverage, and a waste allowance." },
   { label: "Electricity costs", href: "/guides/electricity-costs", category: "Energy", description: "Read your tariff, separate fixed fees, and handle time-of-use or tiered prices.", directoryDescription: "Find a usable electricity rate on your bill and account for fixed, tiered, or time-of-use charges before estimating cost." },
   { label: "Appliance energy use", href: "/guides/appliance-energy-use", category: "Energy", description: "Choose between rated watts, meter readings and annual labels without counting duty cycle twice.", directoryDescription: "Choose between label watts, a plug-in meter, and annual energy labels without applying appliance duty cycle twice." },

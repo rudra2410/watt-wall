@@ -105,7 +105,7 @@ export function PaintQuantityCalculator() {
         <div>
           <p className="text-xs leading-5 font-bold tracking-[0.14em] text-primary uppercase">Your room and paint</p>
           <h2 className="mt-2 text-2xl leading-8 font-semibold tracking-tight" id="paint-input-title">Estimate wall paint quantity</h2>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. The starting example uses feet and U.S. gallons; convert your local measurements and product coverage consistently.</p>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">All fields are required. Enter room dimensions in feet and product coverage in square feet per U.S. gallon. Convert metric measurements before entering them; this calculator does not convert metric inputs.</p>
         </div>
 
         <fieldset className="mt-7">

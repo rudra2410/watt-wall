@@ -129,7 +129,7 @@ export function ApplianceRunningCostCalculator() {
       </form>
       <section aria-labelledby="inventory-results" className="min-w-0 rounded-2xl bg-card-section p-5 shadow-sm sm:p-8">
         <h2 id="inventory-results" className="text-2xl font-semibold">Combined monthly cost</h2>
-        <output className="sr-only" aria-live="polite" aria-atomic="true">{result ? `Total ${formatCurrency(result.monthlyCost, currency)} per month for ${rows.length} appliances.` : "Result unavailable. Check the highlighted fields."}</output>
+        <output className="sr-only" aria-live="polite" aria-atomic="true">{result ? `Total ${formatCurrency(result.monthlyCost, currency)} per month for ${rows.length} ${rows.length === 1 ? "appliance" : "appliances"}.` : "Result unavailable. Check the highlighted fields."}</output>
         {result ? <>
           <p className="mt-4 break-words font-mono text-4xl font-semibold">{formatCurrency(result.monthlyCost, currency)}<span className="font-sans text-base font-normal"> / month</span></p>
           <div className="mt-6 overflow-x-auto rounded-lg border border-border" role="region" aria-label="Monthly appliance breakdown" tabIndex={0}>

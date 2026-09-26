@@ -1,50 +1,63 @@
-import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
 import { ArticleJsonLd } from "@/components/seo/structured-data";
+import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page-shell";
+import { electricityRateReference } from "@/data/energy-reference";
 import { createPageMetadata } from "@/lib/seo";
 
 const title = "Why your fridge can cost more than its EnergyGuide estimate";
-const description = "For a worked example, 500 kWh a year costs $91.70 at the US average residential rate of $0.1834/kWh for June 2026, per EIA. A higher bill can reflect electricity prices, even without higher consumption.";
+const description = "A hypothetical 10 kWh fridge reading over seven days projects to 521.43 kWh a year and $95.63 at $0.1834/kWh; compare it carefully with the model's label.";
 const path = "/guides/fridge-energyguide-cost";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Compare a refrigerator's EnergyGuide annual kWh with a multi-day meter observation using a repeatable worksheet and clearly stated limits.";
+
+export const metadata = createPageMetadata({ title: "Fridge EnergyGuide Cost vs Measured Use", description: metadataDescription, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-09" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
-<p>The 500 kWh figure is a chosen illustration, not a tested refrigerator or a typical household claim. Replace it with the annual consumption printed on your model&apos;s label. The useful question is whether the difference comes from the price of electricity, the energy used, or both.</p>
-<TrustSection title="Start with the energy figure">
-<p>Find the annual kWh figure on the yellow label and record it alongside the estimated yearly dollar cost. Keep the model number with your notes. A similar-looking refrigerator is not necessarily the same model.</p>
-<p>The <TrustLink href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances" external>FTC explains that EnergyGuide operating costs</TrustLink> use typical operation and a national energy-price assumption. Your usage and local rate can differ. The label is a comparison tool, not a quote from your utility.</p>
-<p>Use this formula to update the price assumption:</p>
-<p><strong>Estimated annual electricity cost = label kWh per year × your electricity rate in dollars per kWh.</strong></p>
-<p>Do not multiply annual kWh by hours or days again. Time is already included. Also avoid entering the annual kWh number into a watts field: watts describe power, while kWh describe energy accumulated over time.</p>
-</TrustSection>
-<TrustSection title="Separate a price change from a consumption change">
-<p>Consider an explicitly hypothetical label showing 500 kWh per year and an assumed rate of $0.12/kWh. Its calculated annual cost would be $60.00. These are example inputs, not numbers copied from a product label.</p>
-<p>Keeping consumption at 500 kWh and substituting the June 2026 EIA benchmark gives:</p>
-<p><strong>500 × $0.1834 = $91.70 per year.</strong></p>
-<p>The difference is $31.70. Nothing in this calculation says the refrigerator has started using more energy. Only the price changed. If you treated the entire difference as evidence of a faulty appliance, you would be investigating the wrong quantity.</p>
-<p>Now suppose a separate measurement suggested an annualized 600 kWh. This is another scenario assumption, not a field test. At the same benchmark rate, the result becomes $110.04. The additional 100 kWh contributes $18.34, separate from the price difference already identified.</p>
-<p>This order makes the comparison easier to interpret: update the rate while holding consumption constant, then compare consumption while holding the rate constant.</p>
-</TrustSection>
-<TrustSection title="A comparison table you can reuse">
-<p>The following annual consumption values are chosen scenarios. They are not ratings for specific refrigerators. Costs use the <TrustLink href="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=table_5_06_a" external>EIA June 2026 US residential average</TrustLink> of $0.1834/kWh, retrieved September 8, 2026.</p>
-<div className="overflow-x-auto rounded-lg border border-border" role="region" aria-label="Worked example comparison" tabIndex={0}><table className="w-full min-w-80 text-left text-sm"><thead><tr><th scope="col" className="p-3">Assumed annual use</th><th scope="col" className="p-3">Annual electricity cost</th><th scope="col" className="p-3">Annual cost divided by 12</th></tr></thead><tbody><tr className="border-t border-border"><th scope="row" className="p-3 font-medium">400 kWh</th><td className="p-3">$73.36</td><td className="p-3">$6.11</td></tr><tr className="border-t border-border"><th scope="row" className="p-3 font-medium">500 kWh</th><td className="p-3">$91.70</td><td className="p-3">$7.64</td></tr><tr className="border-t border-border"><th scope="row" className="p-3 font-medium">600 kWh</th><td className="p-3">$110.04</td><td className="p-3">$9.17</td></tr><tr className="border-t border-border"><th scope="row" className="p-3 font-medium">700 kWh</th><td className="p-3">$128.38</td><td className="p-3">$10.70</td></tr></tbody></table></div>
-<p>The last column is a budgeting average. It does not predict a particular month&apos;s consumption. Keep annual and monthly comparisons on the same time basis, and round money only after completing the calculation.</p>
-</TrustSection>
-<TrustSection title="Check whether the consumption comparison is fair">
-<p>Before interpreting a meter reading, write down its start and end times. A cumulative reading without its duration cannot tell you daily use. Record the refrigerator&apos;s normal setting and whether anything unusual happened during the observation.</p>
-<p>For example, an assumed 10 kWh over seven complete days works out to 10 ÷ 7 = about 1.43 kWh per day. Extending that exact average across a chosen 365-day year gives about 521.43 kWh. Multiplying the unrounded result by $0.1834 gives $95.63. This is an extrapolation from a hypothetical week, not a prediction that every week will match it.</p>
-<p>A reading taken during an unusual period deserves a note. Comparing a short observation with an annual label is useful for forming questions, but it is not enough by itself to diagnose a fault. Repeat observations under ordinary conditions before drawing a strong conclusion.</p>
-<p>If you use a plug-in monitor, check that its manufacturer permits the appliance and electrical load. Do not improvise adapters or open electrical equipment to obtain a reading. Ask a licensed electrician where an electrical connection needs assessment.</p>
-</TrustSection>
-<TrustSection title="Inspect ordinary operating conditions">
-<p><TrustLink href="https://www.energystar.gov/products/refrigerators" external>ENERGY STAR&apos;s refrigerator guidance</TrustLink> recommends keeping the appliance away from heat sources, allowing air circulation and checking door seals. Compare the installation with your refrigerator&apos;s own manual before changing anything.</p>
-<p>Keep your investigation specific. A door that does not close properly is an observation you can report. A claim that your fridge must be using a fixed percentage more because it is older requires evidence you may not have. This guide assigns no universal energy penalty to age, warm rooms or door openings.</p>
-<p>If food is not staying properly chilled or the appliance behaves abnormally, contact the manufacturer or a qualified appliance technician. A running-cost estimate cannot establish safe operation.</p>
-</TrustSection>
-<TrustSection title="Put the comparison into the calculator">
-<p>Use the <TrustLink href="/calculators/appliance-running-cost">appliance running-cost calculator</TrustLink> when you have watts and an operating schedule. For a measured average, convert cumulative kWh to average watts by multiplying by 1,000 and dividing by elapsed hours. Enter the full daily period and leave duty cycle at 100%, because the average already includes cycling.</p>
-<p>For label-only comparisons, the annual-kWh formula above is simpler. The calculator&apos;s monthly total times twelve assumes repeated monthly inputs; it is not a substitute for the label&apos;s annual basis.</p>
-<p>The estimate excludes fixed account charges, demand charges and a detailed time-of-use breakdown. The EIA rate is a dated benchmark, not your tariff. Use <TrustLink href="/guides/electricity-costs">the electricity-rate guide</TrustLink> to choose your bill input, <TrustLink href="/guides/appliance-energy-use">the measurement guide</TrustLink> to interpret readings, and <TrustLink href="/guides/energyguide-labels">the EnergyGuide guide</TrustLink> when comparing labels while shopping.</p>
-</TrustSection>
-</TrustPageShell></>;
+  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-26" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+    <p>The 10 kWh reading is a calculation example, not a measurement taken from a refrigerator. A short observation cannot prove that an appliance is faulty or predict every season. It gives you a dated figure to compare with the annual label estimate.</p>
+
+    <TrustSection title="Start with two different kinds of evidence">
+      <p>An EnergyGuide label gives a standardized annual energy estimate for a particular model. A meter observation records what happened in your home during a stated period. Keep those values separate until they use the same time basis.</p>
+      <p>Record the label&apos;s annual kWh, model number and estimated operating cost. The <TrustLink href="/guides/energyguide-labels">EnergyGuide buying guide</TrustLink> explains how to read and reprice those fields. This guide begins after that step and asks whether a measured period provides a fair consumption comparison.</p>
+      <p>The <TrustLink href="https://consumer.ftc.gov/articles/how-use-energyguide-label-shop-home-appliances" external>FTC explains that an EnergyGuide operating cost</TrustLink> uses typical operation and a national energy-price assumption. Your local price can change the dollar result even when annual kWh does not change.</p>
+    </TrustSection>
+
+    <TrustSection title="Turn a measured period into a daily average">
+      <p>Write down the start reading, end reading, start time and end time. Subtract the readings to obtain the kWh used during complete elapsed days.</p>
+      <p><strong>Daily average kWh = measured kWh ÷ complete observation days.</strong></p>
+      <p><strong>Projected annual kWh = daily average kWh × 365.</strong></p>
+      <p>For the hypothetical observation, 10 kWh ÷ 7 days = 1.4286 kWh per day. Extending the unrounded average across a chosen 365-day year gives 521.43 kWh. At the June 2026 U.S. residential benchmark of $0.1834/kWh, confirmed in the <TrustLink href={electricityRateReference.url} external>EIA monthly retail-sales data</TrustLink>, the projected annual cost is $95.63.</p>
+      <p>This projection assumes every day resembles that week. It does not say that the refrigerator will use exactly 521.43 kWh over the next year.</p>
+    </TrustSection>
+
+    <TrustSection title="Use a worksheet instead of comparing two dollar labels">
+      <div className="overflow-x-auto rounded-lg border border-border" role="region" aria-label="Refrigerator label and meter comparison worksheet" tabIndex={0}>
+        <table className="w-full min-w-[42rem] text-left text-sm"><thead><tr><th className="p-3" scope="col">Record</th><th className="p-3" scope="col">Hypothetical observation</th><th className="p-3" scope="col">Your refrigerator</th><th className="p-3" scope="col">Why it matters</th></tr></thead><tbody>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Label annual kWh</th><td className="p-3">Not supplied</td><td className="p-3">_____</td><td className="p-3">Provides the standardized annual comparison</td></tr>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Measured energy</th><td className="p-3">10 kWh</td><td className="p-3">_____</td><td className="p-3">Records energy used during the observation</td></tr>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Complete days observed</th><td className="p-3">7 days</td><td className="p-3">_____</td><td className="p-3">Defines the time basis</td></tr>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Daily average</th><td className="p-3">1.4286 kWh/day</td><td className="p-3">_____</td><td className="p-3">Lets you compare periods of different lengths</td></tr>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Projected annual use</th><td className="p-3">521.43 kWh</td><td className="p-3">_____</td><td className="p-3">Matches the label&apos;s annual time basis</td></tr>
+          <tr className="border-t border-border"><th className="p-3 font-medium" scope="row">Electricity rate</th><td className="p-3">$0.1834/kWh</td><td className="p-3">_____</td><td className="p-3">Keeps both cost calculations on one price basis</td></tr>
+        </tbody></table>
+      </div>
+      <p>Do not fill the missing label value with a generic refrigerator number. Use the annual kWh printed for your exact model. If you do not have the label, check the manufacturer or seller before making a label comparison.</p>
+    </TrustSection>
+
+    <TrustSection title="Separate a price difference from a consumption difference">
+      <p>First multiply the label&apos;s annual kWh by your chosen local rate. That updates the price assumption without changing the label&apos;s energy estimate. Then compare the label annual kWh with the projected annual kWh from your observation.</p>
+      <p>If only the repriced dollar amount changes, you have shown a price difference. If the projected annual kWh also differs, you have found a consumption question to investigate. You have not diagnosed the cause. A short observation can be affected by room temperature, door openings, recently added food, defrost cycles, settings or an unusual household schedule.</p>
+      <p>Repeat the observation under ordinary conditions before drawing a strong conclusion. Keep the dates, duration, settings and any unusual events beside each result.</p>
+    </TrustSection>
+
+    <TrustSection title="Check operating conditions without assigning a penalty">
+      <p><TrustLink href="https://www.energystar.gov/products/refrigerators" external>ENERGY STAR refrigerator guidance</TrustLink> recommends keeping the appliance away from heat sources, allowing air circulation and checking door seals. Compare the installation with the refrigerator&apos;s own manual before changing anything.</p>
+      <p>A warm room, damaged seal or blocked clearance can be an observation worth recording. This guide does not assign a universal percentage increase to age, temperature or door openings. If food is not staying properly chilled or the appliance behaves abnormally, contact the manufacturer or a qualified appliance technician.</p>
+      <p>Use a plug-in monitor only when its manufacturer permits the appliance and electrical load. Do not improvise adapters or open electrical equipment. Ask a licensed electrician when an electrical connection needs assessment.</p>
+    </TrustSection>
+
+    <TrustSection title="Use the right calculator input">
+      <p>For a cumulative meter result, energy divided by elapsed hours gives an average kW; multiply by 1,000 for average watts. Enter that average in the <TrustLink href="/calculators/appliance-running-cost">appliance running-cost calculator</TrustLink>, use the complete daily period and keep duty cycle at 100%. The average already includes cycling observed during the measurement.</p>
+      <p>Do not paste annual kWh into a watts field or multiply it by hours again. Use the label&apos;s annual-kWh formula directly when you only need to reprice the label.</p>
+      <p>Read the <TrustLink href="/guides/appliance-energy-use">appliance measurement guide</TrustLink> for meter evidence and the <TrustLink href="/guides/electricity-costs">electricity-rate guide</TrustLink> for tariff inputs. Fixed account charges, demand charges and detailed time-of-use prices remain outside this comparison.</p>
+    </TrustSection>
+  </TrustPageShell></>;
 }

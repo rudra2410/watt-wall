@@ -2,16 +2,18 @@ import { TrustLink, TrustPageShell, TrustSection } from "@/components/trust-page
 import { ArticleJsonLd } from "@/components/seo/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 import { electricityRateReference } from "@/data/energy-reference";
+import { appliancePresetSource } from "@/data/appliance-presets";
 
 const title = "How much electricity does an electric water heater use?";
 const description = "A chosen 4,500 W electric element running for 2 hours a day over 30 days uses 270 kWh and costs $49.52 at the June 2026 US residential average of $0.1834/kWh, per EIA. That is an element-runtime scenario, not a prediction of a household bill.";
 const path = "/guides/electric-water-heater-use";
-export const metadata = createPageMetadata({ title, description, path });
+const metadataDescription = "Estimate electric water-heater use from element power and equivalent runtime, then compare the result with safely obtained monitoring data.";
+export const metadata = createPageMetadata({ title: "Electric Water Heater Electricity Use", description: metadataDescription, path });
 
 export default function GuidePage() {
  return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-26" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The rate in the example, $0.1834/kWh, comes from the June 2026 US residential average in <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. It is a price reference, not a measured hot-water demand.</p>
-<p>Check your heater&apos;s nameplate and manual for the actual element rating. The Willmar Municipal Utilities reference table lists 4,500 W for an 80-gallon water heater as an estimated average reference. Product models and controls differ.</p>
+<p>Check your heater&apos;s nameplate and manual for the actual element rating. The <TrustLink href={appliancePresetSource.url} external>Willmar Municipal Utilities reference table</TrustLink> lists 4,500 W for an 80-gallon water heater as an estimated average reference. It is a rough planning reference, not a specification for your model. Product models and controls differ.</p>
 <TrustSection title="The element formula">
 <p><strong>Monthly kWh = watts ÷ 1,000 × heating hours per day × heating days per month.</strong></p>
 <p><strong>Monthly cost = monthly kWh × electricity rate.</strong></p>
@@ -28,10 +30,10 @@ export default function GuidePage() {
 <p>If your meter shows 18 kWh over seven days, do not also multiply the element rating by a guessed schedule. Use the measured 18 kWh as the primary energy observation, divide by seven for a daily average and record the date range.</p>
 </TrustSection>
 <TrustSection title="A measured example">
-<p>Suppose a plug-in or whole-home meter reading, chosen only as an example, is 18 kWh over seven days. The daily average is 18 ÷ 7 = 2.5714 kWh. Extending that average across 30 chosen days gives 77.1429 kWh. At $0.1834/kWh, the comparison cost is about $14.15. This does not say the next 30 days will have the same hot-water demand.</p>
+<p>Suppose safely obtained circuit, submeter or whole-home monitoring data, chosen only as an example, records 18 kWh over seven days. The daily average is 18 ÷ 7 = 2.5714 kWh. Extending that average across 30 chosen days gives 77.1429 kWh. At $0.1834/kWh, the comparison cost is about $14.15. This does not say the next 30 days will have the same hot-water demand.</p>
 <p>Keep showers, laundry and guests in your notes. A short period with unusual water use is not a stable annual estimate. If you suspect a fault, ask a qualified plumber or electrician to assess it. Do not remove covers or change wiring based on a calculator result.</p>
 </TrustSection>
-<TrustSection title="Rate changes the answer">
+<TrustSection title="Use the estimate within its limits">
 <p>The 270 kWh scenario costs $67.50 at a chosen $0.25/kWh rate. The heater&apos;s energy use remains 270 kWh. A tiered or time-based tariff can make a single average rate unsuitable. Read <TrustLink href="/guides/electricity-costs">the electricity-cost guide</TrustLink> and use the rate from your statement when possible.</p>
 <p>The estimate excludes fixed account fees, demand charges, gas usage, water charges and the cost of replacing equipment. It does not recommend a temperature or promise savings. Use manufacturer instructions for safe settings.</p>
 <p>Use the <TrustLink href="/calculators/appliance-running-cost">appliance running-cost calculator</TrustLink> for supported wattage schedules, then compare with <TrustLink href="/guides/appliance-energy-use">the appliance measurement guide</TrustLink> and <TrustLink href="/guides/energyguide-labels">the EnergyGuide label guide</TrustLink>. These are planning tools, not professional advice.</p>
