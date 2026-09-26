@@ -19,6 +19,7 @@ const currentEditorialPaths = new Set<string>(["/guides/window-ac-cost", "/guide
 const staticPaths = ["/", "/calculators", "/guides", "/how-it-works", "/methodology", "/editorial-policy", "/about", "/contact", "/privacy", "/terms", "/disclaimer", "/guides/electricity-costs", "/guides/appliance-energy-use", "/guides/paint-and-flooring-measurements", "/guides/home-energy-audit", "/guides/energyguide-labels", "/guides/measuring-rooms-and-furniture", "/guides/choosing-rug-size", "/guides/measuring-curtains"] as const;
 
 function getLastModified(path: string) {
+  if (path === "/guides/window-ac-cost") return new Date("2026-09-26T00:00:00.000Z");
   if (currentEditorialPaths.has(path)) return editorialReviewDate;
   if (expandedGuidePaths.has(path)) return guideExpansionDate;
   if (latestRevisedPaths.has(path)) return latestRevisedDate;

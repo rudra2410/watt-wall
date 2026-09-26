@@ -54,7 +54,7 @@ This is an evidence-backed work list before another AdSense review. Google's acc
 | `/guides/space-heater-monthly-cost` | Improve differentiation from AC and water-heater cost pages. Keep heater-specific safety and thermostat checks; remove repeated generic rate/schedule advice when replacing it with a unique decision aid. Direct EIA link added locally. |
 | `/guides/dehumidifier-ief-cost` | Preserve the distinction between IEF and electrical input. Direct EIA link added locally; verify the IEF source and worked figures. |
 | `/guides/electric-water-heater-use` | Preserve the distinction between element runtime and whole-tank demand. Direct EIA link added locally; keep measured examples labelled as hypothetical where applicable. |
-| `/guides/window-ac-cost` | Improve the distinction between rated cooling input, compressor cycle and measured average. “Use a meter” and “Keep an observation log” partly repeat; consider one compact reproducible comparison. Direct EIA link added locally. |
+| `/guides/window-ac-cost` | Consolidated the repeated meter/log sections into a rated-input versus hypothetical measured-average comparison on September 26. Both rows use the same schedule; cycling must not be applied twice. The discontinued manufacturer model is explicitly a documented example. Direct EIA citation retained. |
 | `/guides/standby-device-cost` | Keep its annual 24/7 framing; ensure any device schedule excludes active-use hours. Direct EIA link added locally. |
 | `/guides/tile-waste-boxes` | Keep the box-size and batch-count angle distinct from the flooring calculator; verify supplier guidance if advice changes. |
 | `/how-it-works` | Search Console discovered but had not crawled it as of 21 September. Keep the workflow role distinct from the technical methodology page; ensure guides and tools link to it where relevant. |
@@ -92,3 +92,13 @@ The query strings are recorded so the research can be repeated. Google-owned hel
 5. Check current AdSense account setup tasks separately. Do not mark the “I confirm” checkbox or request another review without the owner's approval. Site-level approval remains Google's decision.
 
 Approval remains Google's decision. This report distinguishes confirmed product defects, Google account status, Search Console observations, and editorial hypotheses.
+
+
+## September 26 follow-up
+
+- Rechecked 35 literal external route links and the shared PG&E reference. See [full source inventory](source-link-check-2026-09-26.md) and [raw HTTP evidence](source-link-check-2026-09-26.json). Two automated 403 responses were readable via web retrieval; they are not treated as confirmed dead links.
+- Removed overlapping window-AC meter/log prose and replaced it with a reproducible comparison. Independent arithmetic: 0.670 × 8 × 30 × 0.1834 = $29.49072; (5.4 / 12) × 8 × 30 × 0.1834 = $19.8072. Hypothetical readings are explicitly not original field measurements.
+- Local responsive check after a requested 375px override reported a 360px document/client width with no horizontal overflow; the 608px table stayed inside its labelled 326px scroll region. One H1 and no captured console errors. This is a DOM geometry check, not a new full visual certification.
+- Fresh Lighthouse score remains unavailable: PageSpeed Insights API returned HTTP 429 quota exhaustion. Earlier scores are not represented as measurements of this release. Full contrast, performance, consent configuration and Google Rich Results retesting remain separate validation gaps.
+- The confirmed AdSense reason remains site-level Low-value content. These editorial and usability defects are observed weaknesses, not a disclosed page-by-page rationale from Google's reviewer. No review request has been submitted.
+- September 26 validation passed: pnpm run lint and pnpm run build (41 static routes). Exported AC HTML retains one H1, canonical, publisher ID, comparison table and September 26 Article date; its sitemap lastmod matches. Earlier 54-test run covers the deployed calculator fixes; this follow-up changes guide content and sitemap only.
