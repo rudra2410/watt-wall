@@ -67,15 +67,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <SiteFooter />
       </body>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.measurementId}`}
-        strategy="lazyOnload"
-      />
-      <Script id="google-analytics" strategy="lazyOnload">
-        {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${analyticsConfig.measurementId}');`}
+      <Script id="google-analytics-loader" strategy="afterInteractive">
+        {`(function(){
+var loaded=false;
+var events=['pointerdown','keydown','scroll'];
+function loadAnalytics(){
+  if(loaded)return;
+  loaded=true;
+  events.forEach(function(eventName){window.removeEventListener(eventName,loadAnalytics);});
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag=gtag;
+  gtag('js',new Date());
+  gtag('config','${analyticsConfig.measurementId}');
+  var script=document.createElement('script');
+  script.async=true;
+  script.src='https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.measurementId}';
+  document.head.appendChild(script);
+}
+events.forEach(function(eventName){window.addEventListener(eventName,loadAnalytics,{once:true,passive:true});});
+window.addEventListener('load',function(){window.setTimeout(loadAnalytics,6000);},{once:true});
+})();`}
       </Script>
     </html>
   );
