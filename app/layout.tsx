@@ -71,15 +71,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {`(function(){
 var loaded=false;
 var events=['pointerdown','keydown','scroll'];
+window.dataLayer=window.dataLayer||[];
+window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};
 function loadAnalytics(){
   if(loaded)return;
   loaded=true;
   events.forEach(function(eventName){window.removeEventListener(eventName,loadAnalytics);});
-  window.dataLayer=window.dataLayer||[];
-  function gtag(){dataLayer.push(arguments);}
-  window.gtag=gtag;
-  gtag('js',new Date());
-  gtag('config','${analyticsConfig.measurementId}');
+  window.gtag('js',new Date());
+  window.gtag('config','${analyticsConfig.measurementId}');
   var script=document.createElement('script');
   script.async=true;
   script.src='https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.measurementId}';
