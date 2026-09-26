@@ -9,13 +9,13 @@ const path = "/guides/electric-water-heater-use";
 export const metadata = createPageMetadata({ title, description, path });
 
 export default function GuidePage() {
- return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-25" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
+ return <><ArticleJsonLd title={title} description={description} path={path} datePublished="2026-09-09" dateModified="2026-09-26" /><TrustPageShell category="Planning guide" title={title} description={description} path={path}>
 <p>The rate in the example, $0.1834/kWh, comes from the June 2026 US residential average in <TrustLink href={electricityRateReference.url} external>EIA table 5.6.A</TrustLink>. It is a price reference, not a measured hot-water demand.</p>
 <p>Check your heater&apos;s nameplate and manual for the actual element rating. The Willmar Municipal Utilities reference table lists 4,500 W for an 80-gallon water heater as an estimated average reference. Product models and controls differ.</p>
 <TrustSection title="The element formula">
 <p><strong>Monthly kWh = watts ÷ 1,000 × heating hours per day × heating days per month.</strong></p>
 <p><strong>Monthly cost = monthly kWh × electricity rate.</strong></p>
-<p>For the scenario, 4,500 ÷ 1,000 × 2 × 30 = 270 kWh. At $0.1834/kWh, 270 × 0.1834 = $49.518, displayed as $49.52.</p>
+<p>For this two-hour daily runtime, 4,500 ÷ 1,000 × 2 × 30 = 270 kWh. Multiplying that energy by $0.1834 gives $49.518, which the calculator rounds to $49.52.</p>
 <p>An electric storage heater may have power available to maintain temperature even when no tap is open. The two hours are a chosen equivalent element-runtime input. They are not a claim that every tank&apos;s element runs for exactly two hours.</p>
 </TrustSection>
 <TrustSection title="Demand and standby are different inputs">
