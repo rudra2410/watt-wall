@@ -45,4 +45,4 @@ Raw GET requests returned 200 for 33 links and 403 for two. The Willmar and Lowe
 
 Additional checks: Frigidaire FHWW083WBE still lists 670 W cooling input and identifies the model as discontinued. The guide now makes that status explicit. IKEA curtain instructions were checked separately and the incorrect source attribution was corrected in the deployed site.
 
-Performance measurement limit: the PageSpeed Insights API returned HTTP 429 (daily quota exceeded). No new Lighthouse score is claimed from that attempt.
+The PageSpeed Insights API returned HTTP 429 (daily quota exceeded). A later direct Lighthouse 12.8.2 run against production succeeded; its result and method are recorded in [the readiness verification](adsense-readiness-verification-2026-09-26.md).
