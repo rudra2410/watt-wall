@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Watt & Wall
 
-## Getting Started
+Watt & Wall is a static Next.js site with free home-energy, renovation, furniture, rug, and curtain calculators. Each tool shows its formula, assumptions, units, and source context. The site also publishes practical guides and trust pages for methodology, editorial review, privacy, and estimate limits.
 
-First, run the development server:
+Production: [https://wattandwall.com](https://wattandwall.com)
+
+## Local development
+
+Requirements: Node.js and pnpm.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm run lint
+pnpm run typecheck
+pnpm test
+pnpm run build
+```
 
-## Learn More
+`pnpm run build` creates the static export in `out/`. The project has no API routes, middleware, server-side runtime, database, authentication, or CMS.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment and indexing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The `main` branch deploys to Cloudflare Pages. The canonical origin is `https://wattandwall.com`. Generated static outputs include `sitemap.xml`, `robots.txt`, metadata images, and route HTML. `public/ads.txt` contains the authorised AdSense publisher record.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Content and calculator changes should keep formulas, examples, source links, review dates, Article/WebApplication structured data, and sitemap dates aligned. Do not present a planning estimate as a quote, measured result, professional recommendation, or guaranteed saving.
 
-## Deploy on Vercel
+## Audit evidence
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `docs/adsense-low-value-content-route-audit-2026-09-25.md`
+- `docs/source-link-check-2026-09-26.md`
+- `docs/adsense-readiness-verification-2026-09-26.md`

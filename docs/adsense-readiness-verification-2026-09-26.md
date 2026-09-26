@@ -32,10 +32,12 @@ The final Best Practices result is reduced by the AdSense/DoubleClick `test_cook
 
 ## Content and source evidence
 
+- The explicit [codebase file audit](codebase-file-audit-2026-09-26.md) inventories all 146 current repository files that existed when the inventory was generated, with their review scope and verdict. Generated build/dependency contents are excluded.
 - Twelve documented research queries cover official AdSense content/readiness/policy guidance, Google Search helpful-content and spam guidance, and clearly labelled community experience reports.
 - All 34 public routes have a content/SEO judgment. Approximate main-content word counts, status, H1 and canonical checks are in `adsense-rejection-audit-2026-09-25.md`.
 - The external-source inventory contains 35 literal route links plus the shared PG&E reference. Thirty-three raw requests returned 200. Willmar and Lowe's returned 403 to the automated client but were readable through web retrieval, so they are recorded as access restrictions rather than confirmed dead links.
 - Unsupported credentials, testimonials, savings promises and page-count or traffic guarantees were not added. The visible guide byline links to the accurate About page.
+- The stale starter README was replaced with the actual static-export, validation and Cloudflare deployment workflow. The 404 illustration was converted from a 365,846-byte PNG to a visually inspected 52,776-byte WebP while retaining its transparent 626 × 626 canvas.
 
 ## Remaining external decisions
 

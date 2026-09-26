@@ -63,7 +63,7 @@ export default function NotFound() {
                 height={626}
                 priority
                 sizes="(min-width: 1024px) 31rem, (min-width: 640px) 25rem, 20rem"
-                src="/men.png"
+                src="/men.webp"
                 width={626}
               />
             </div>
