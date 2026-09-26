@@ -56,12 +56,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
-        {/*
-          * AdSense requires its loader between <head> and </head>. React hoists
-          * this async script into <head>, so every exported page ships the tag
-          * in its HTML instead of waiting for hydration to inject it.
-          */}
-        <script async crossOrigin="anonymous" src={adsenseScriptSrc} />
+        {/* Keep the publisher loader in the exported HTML for AdSense site verification. */}
+        <script
+          async
+          crossOrigin="anonymous"
+          fetchPriority="low"
+          src={adsenseScriptSrc}
+        />
         <SiteHeader />
         {children}
         <SiteFooter />
